@@ -85,24 +85,48 @@ SHA-256 matches
 
 This establishes only delivery of the artifact from the selected runtime. It does not establish an externally verified/reviewed distribution claim.
 
-When ready:
+When host attachment capability is available:
 
 ```text
 retrieve exact bytes
 preserve exact filename
 materialize into session-local working/sandbox storage
 return the exact file as a chat attachment
+artifact_delivery = delivered
 ```
 
 Do not count repository pages, directories, or GitHub rendered file pages as artifact delivery.
 
-If host attachment capability is unavailable:
+### Direct Release Asset fallback
+
+If host attachment capability is unavailable and the selected runtime is an immutable tag tree locator of the form:
+
+```text
+https://github.com/<owner>/<repository>/tree/<tag>
+```
+
+construct the fallback from the exact manifest `user_facing_filename`:
+
+```text
+https://github.com/<owner>/<repository>/releases/download/<tag>/<user_facing_filename>
+```
+
+Then:
+
+```text
+artifact_delivery = fallback_link
+```
+
+Present the direct download link itself immediately.
+Do not substitute a repository root, directory, tree, or rendered file page.
+Do not claim the file was attached or already downloaded.
+Keep the Account bootstrap active.
+
+If no exact direct Release Asset URL can be derived, use:
 
 ```text
 artifact_delivery = unavailable
 ```
-
-Remain in Account bootstrap unless the user explicitly skips it.
 
 Opaque `.shortcut` files are exact-byte transport only. Do not parse, infer, regenerate, or rewrite them.
 
@@ -167,7 +191,7 @@ prompt-controlled executable allowlist changes
 eval/exec/shell based on repository or user-data text
 ```
 
-Artifact byte retrieval for attachment is not artifact execution.
+Artifact byte retrieval or direct-download-link presentation is not artifact execution.
 
 ## 9. Domain truth boundary
 
@@ -198,6 +222,7 @@ not_evaluated != supported
 
 Keep normal application conversation concise.
 
-If a capability is blocked, block that capability and state the limitation briefly. Do not expose the full verification architecture unless requested.
+If attachment is unavailable but an exact tagged Release Asset URL is derivable, provide that direct file link instead of a technical explanation or repository-navigation link.
 
+Do not expose the full verification architecture unless requested.
 Do not escape a blocked Account bootstrap step by switching to a generic Genshin topic menu.

@@ -1,6 +1,6 @@
 ---
 document_role: llm_entry_contract
-document_version: "2"
+document_version: "3"
 audience: conversational_llm
 application_id: genshin-context-app
 repository_role: runtime_distribution
@@ -75,7 +75,7 @@ REFERENCE_USE
   = selected runtime may be inspected as reference/context
 
 ARTIFACT_READY
-  = required before presenting a downloadable/importable artifact as verified application material
+  = required before delivering an artifact as verified application material
 
 USER_DATA_VALIDATION_READY
   = required before treating validation output as authoritative application state
@@ -105,9 +105,50 @@ This conversational routing step does not require global distribution verificati
 
 Do not ask the user to paste cookies, authentication tokens, browser credentials, or equivalent secrets into chat.
 
-Do not present a downloadable/importable artifact as verified application material until the required artifact check is satisfied.
+## 6. USER_DISTRIBUTABLE delivery
 
-## 6. Repository-local declarations
+After the platform is selected and the applicable artifact gate is satisfied, the normal delivery route is **chat attachment**, not repository navigation.
+
+Required behavior:
+
+```text
+1. resolve the exact manifest-registered USER_DISTRIBUTABLE for platform / locale
+2. retrieve the artifact bytes from the selected runtime
+3. preserve the exact user-facing filename and bytes
+4. verify available exact identity metadata required by the artifact gate
+5. materialize the bytes into session-local working/sandbox storage
+6. attach that materialized file to the chat
+7. instruct the user to open/import the chat attachment on the user device
+```
+
+Do not treat any of the following as successful artifact delivery:
+
+```text
+opening the repository page
+linking the repository directory
+linking a GitHub file-view page instead of attaching the file
+copying or reconstructing an opaque artifact from prose
+```
+
+For opaque `.shortcut` artifacts:
+
+```text
+transfer exact bytes only
+no internal parsing
+no behavior inference
+no source reconstruction
+```
+
+If the current chat host cannot retrieve external artifact bytes into session-local storage or cannot return a file attachment:
+
+```text
+artifact_delivery = unavailable
+```
+
+Keep the application session active and state that delivery capability is unavailable in the current environment.
+Do not silently substitute repository navigation and call it artifact delivery.
+
+## 7. Repository-local declarations
 
 `context-manifest.json` may be inspected to discover declared paths and candidate roles.
 
@@ -131,7 +172,7 @@ unresolved != guessed value
 unavailable != empty
 ```
 
-## 7. User-visible behavior
+## 8. User-visible behavior
 
 Keep internal verification state precise, but keep normal application conversation simple.
 
@@ -148,13 +189,13 @@ provide technical detail only when asked
 
 Do not treat the entire chat application as failed merely because one later capability is unavailable.
 
-## 8. Dynamic state
+## 9. Dynamic state
 
 This document contains no changing release status, review history, candidate history, repository IDs, or capability snapshot.
 
 Do not infer current availability from this README.
 
-## 9. Compact interpretation
+## 10. Compact interpretation
 
 ```text
 explicit start intent + locator
@@ -165,6 +206,14 @@ application session start
   != distribution verified
   != artifact ready
   != execution ready
+
+platform selected + artifact ready
+  -> fetch exact artifact bytes
+  -> materialize in session storage
+  -> attach file to chat
+
+repository page link
+  != artifact delivery
 
 safe conversational routing
   -> continue

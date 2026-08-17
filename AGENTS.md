@@ -360,3 +360,63 @@ result_status
 ```
 
 Never report `execution_performed = true` merely because an executable file exists in the repository.
+
+## 15. Identity resolution execution gate
+
+Natural user language still requires Identity routing when the answer depends on converting Account/source identity into a repository-owned canonical identity or user-facing character identity.
+
+Examples include questions equivalent to:
+
+```text
+主人公って誰として認識されてる？
+このキャラは誰？
+このAccount上の主人公はどの主人公？
+```
+
+Do not require the user to provide a source ID, capability name, repository path, or the phrase `canonical identity`.
+The Application must obtain the needed source identity from available USER_DATA when possible.
+
+When all of the following are true:
+
+```text
+request requires identity_resolution
++ selected runtime advertises an applicable Identity capability as available
++ that capability is backed by a manifest-registered TRUSTED_EXECUTABLE
++ required resolver inputs are available
+```
+
+then execution of that exact Identity TRUSTED_EXECUTABLE is required before claiming the repository-owned identity result.
+
+```text
+USER_DATA / natural-language target
+-> source identity selection
+-> Identity capability resolution
+-> exact TRUSTED_EXECUTABLE retrieval
+-> exact resolver inputs
+-> sandbox execution
+-> resolver output
+-> user-facing presentation
+```
+
+The following do NOT satisfy this gate:
+
+```text
+model memory of source-ID-to-name mappings
+reading an alias/data table and having the model infer the answer
+recognizing a well-known ID from general Genshin knowledge
+Python used only to inspect USER_DATA
+repository code present but not executed
+```
+
+If an applicable available Identity executable cannot actually be retrieved or executed, do not replace it with a remembered or inferred identity.
+Return `identity_pending`, `unsupported`, or the owner-defined non-success status as appropriate.
+
+Current positive-control case at this runtime line is the male Traveler source identity:
+
+```text
+provider = hoyolab
+source_id = 10000005
+expected canonical identity = aether
+```
+
+The positive control passes only when the registered Identity resolver is actually executed and its output is the basis of the answer. A correct `aether` answer obtained only from model knowledge is a test failure.

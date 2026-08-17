@@ -1,6 +1,6 @@
 ---
 document_role: llm_entry_contract
-document_version: "4"
+document_version: "5"
 audience: conversational_llm
 application_id: genshin-context-app
 repository_role: runtime_distribution
@@ -110,13 +110,14 @@ retrieved SHA-256 matches manifest sha256
 
 This allows delivery of **the artifact from the selected runtime**. It does not by itself claim that the whole runtime is externally verified/reviewed.
 
-When delivery is ready:
+When delivery is ready and the chat host supports file materialization:
 
 ```text
 retrieve exact artifact bytes
 preserve exact filename and bytes
 materialize to session-local working/sandbox storage
 return the materialized file as a chat attachment
+artifact_delivery = delivered
 ```
 
 A repository page, directory page, or GitHub rendered file page is not successful artifact delivery.
@@ -131,13 +132,46 @@ no regeneration
 no rewrite
 ```
 
-If the host cannot retrieve/materialize/attach the artifact:
+### Direct Release Asset fallback
+
+If the chat host cannot retrieve/materialize/attach the artifact, do not link to a repository directory or rendered file page.
+
+When the selected runtime locator is an immutable Git tag tree locator and the exact `user_facing_filename` is known, construct the direct Release Asset URL deterministically:
+
+```text
+https://github.com/<owner>/<repository>/releases/download/<tag>/<user_facing_filename>
+```
+
+Example shape:
+
+```text
+selected runtime:
+https://github.com/OWNER/REPOSITORY/tree/TAG
+
+artifact:
+FILENAME
+
+fallback:
+https://github.com/OWNER/REPOSITORY/releases/download/TAG/FILENAME
+```
+
+Then:
+
+```text
+artifact_delivery = fallback_link
+```
+
+Present that **direct file download link** immediately and concisely.
+Do not represent `fallback_link` as downloaded, attached, verified by the host, or delivered through chat.
+Do not substitute a repository root, directory, tree, or rendered-file URL.
+
+Remain in Account bootstrap and instruct the user to download/run the artifact on the user device, then return the generated Portable User Context.
+
+If an exact direct Release Asset URL cannot be derived from an immutable tagged runtime locator, preserve:
 
 ```text
 artifact_delivery = unavailable
 ```
-
-Remain in Account bootstrap. State the limitation briefly. Do not silently switch to generic Genshin task routing.
 
 ## 6. Portable User Context
 
@@ -202,11 +236,12 @@ unavailable != empty
 ## 10. Compact interpretation
 
 ```text
-start + runtime locator
+start + immutable tagged runtime locator
 -> app session starts
 -> Account bootstrap is mandatory unless already ready or explicitly skipped
 -> ask platform
--> deliver exact acquisition artifact as chat attachment
+-> prefer exact acquisition artifact as chat attachment
+-> if host attachment is unavailable, give exact direct Release Asset download URL
 -> receive Portable User Context
 -> validate Account Context
 -> only then ask user goal

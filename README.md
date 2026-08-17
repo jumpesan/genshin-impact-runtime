@@ -1,6 +1,6 @@
 ---
 document_role: llm_entry_contract
-document_version: "6"
+document_version: "7"
 audience: conversational_llm
 application_id: genshin-context-app
 repository_role: runtime_distribution
@@ -138,9 +138,52 @@ If the tag/owner/repository cannot be derived exactly from the selected immutabl
 artifact_delivery = unavailable
 ```
 
-## 6. After acquisition
+## 6. Post-download user-device procedure
 
-After the user downloads/imports/runs the acquisition artifact on the user device:
+Do not stop at "download and run". After presenting or attaching the acquisition artifact, immediately give the applicable concrete user-device steps.
+
+### PC / Chromium
+
+After the ZIP is obtained:
+
+```text
+1. Extract genshin_hoyolab_exporter_chrome_1.0.0.zip to a normal folder.
+2. Keep the extracted folder in place while the extension is in use.
+3. Open the browser extension-management page.
+   Chrome: chrome://extensions
+   Microsoft Edge: edge://extensions
+4. Enable Developer mode.
+5. Choose "Load unpacked" / 「パッケージ化されていない拡張機能を読み込む」.
+6. Select the extracted folder that directly contains manifest.json.
+7. In the same browser, open the HoYoLAB Genshin Battle Chronicle:
+   https://act.hoyolab.com/app/community-game-records-sea/index.html
+8. Sign in normally on HoYoLAB if needed. Never paste Cookie/auth token/browser credentials into chat.
+9. Reload the HoYoLAB Battle Chronicle page once.
+10. Open the "Genshin HoYoLAB Exporter" extension popup.
+11. Select 「状態更新」 and confirm the displayed state reports ready = true.
+12. If ready is not true, keep the HoYoLAB Battle Chronicle open, reload it once, then select 「状態更新」 again.
+13. Select 「Portable JSONを保存」.
+14. Wait for a file named like genshin_portable_user_context_<timestamp>.json to download.
+15. Attach that JSON file to this chat.
+```
+
+Do not tell the user to follow instructions inside the ZIP; the frozen ZIP contains the extension runtime files and no user README.
+
+### iPhone / iPad
+
+After the `.shortcut` file is obtained:
+
+```text
+1. Open/import the downloaded .shortcut using the platform-native Shortcuts mechanism on the user device.
+2. Run the imported Shortcut on the user device and follow its user-visible prompts.
+3. Return the generated Portable User Context to this chat.
+```
+
+The `.shortcut` artifact is opaque. Do not invent or describe internal Shortcut actions.
+
+## 7. Portable User Context
+
+After the user completes the applicable acquisition procedure:
 
 ```text
 next_state = PORTABLE_USER_CONTEXT_REQUIRED
@@ -159,7 +202,7 @@ next_state            = USER_GOAL_REQUIRED
 
 Only then ask the user's application goal.
 
-## 7. Stable boundaries
+## 8. Stable boundaries
 
 ```text
 runtime_selected != distribution_verified

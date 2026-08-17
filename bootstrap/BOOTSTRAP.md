@@ -100,14 +100,15 @@ executable_authority
 
 ## 5. USER_DISTRIBUTABLE delivery
 
-When `artifact_delivery_ready = true`:
+When `artifact_delivery_ready = true` and chat file materialization is available:
 
 ```text
 1. retrieve the exact artifact bytes from the exact selected runtime revision
 2. preserve exact filename and bytes
 3. materialize the bytes into session-local working/sandbox storage
 4. return the materialized file as a chat attachment
-5. tell the human user to open/import that attachment on the user device
+5. artifact_delivery = delivered
+6. tell the human user to open/import that attachment on the user device
 ```
 
 These are not successful delivery:
@@ -131,13 +132,41 @@ do not regenerate or rewrite
 
 Artifact byte transport is not repository-code execution.
 
-If the host cannot retrieve/materialize/attach the artifact:
+### Attachment-unavailable fallback
+
+If the chat host cannot retrieve/materialize/attach the artifact, prefer a direct GitHub Release Asset link when it can be derived exactly from the selected immutable tag locator.
+
+For a selected runtime of this shape:
+
+```text
+https://github.com/<owner>/<repository>/tree/<tag>
+```
+
+and exact `user_facing_filename = <filename>`, derive:
+
+```text
+https://github.com/<owner>/<repository>/releases/download/<tag>/<filename>
+```
+
+Then set:
+
+```text
+artifact_delivery = fallback_link
+```
+
+Present the direct file-download URL itself.
+Do not link to a repository folder, tree, root, or rendered file page.
+Do not say the artifact was attached or downloaded.
+
+Keep Account bootstrap active. The user downloads/runs the file on `user_device`, then returns the generated Portable User Context.
+
+If the exact direct Release Asset URL cannot be deterministically derived from the selected immutable tag locator:
 
 ```text
 artifact_delivery = unavailable
 ```
 
-Remain in Account bootstrap. State the limitation briefly. Do not silently fall back to repository navigation and do not route to generic Genshin assistance.
+Remain in Account bootstrap and state the limitation briefly.
 
 ## 6. Portable User Context
 

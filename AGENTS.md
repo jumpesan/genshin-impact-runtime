@@ -198,3 +198,165 @@ show exact direct Release Asset link
 ```
 
 Do not explain internal retrieval limitations unless the exact direct link cannot be formed or the user asks for diagnostics.
+
+## 9. Post-account repository-first task routing
+
+This section applies only after `ACCOUNT_CONTEXT_READY`.
+Do not change or bypass Sections 1-8 in order to satisfy a later task.
+
+For every in-app Genshin task:
+
+```text
+USER_QUERY
+-> APPLICATION_TASK_ROUTING
+-> REQUIRED_CAPABILITIES
+-> REPOSITORY_EVIDENCE_RESOLUTION
+-> TRUSTED_EXECUTION when required and available
+-> STRUCTURED_RESULT
+-> USER_PRESENTATION
+```
+
+Do not answer a repository-owned or deterministic Domain question directly from general model knowledge when the current runtime is expected to own that result.
+
+At minimum classify the request into one or more of:
+
+```text
+account_state
+identity_resolution
+static_game_data
+party_candidate_validation
+recommendation
+exact_damage_or_dps
+reaction_or_runtime_numeric
+unknown_application_task
+```
+
+A request may require multiple capabilities. Preserve the status of each capability independently.
+
+## 10. Capability and evidence resolution
+
+Use the exact selected runtime revision as the Application authority surface.
+
+Before producing a Domain result, resolve required evidence from the runtime roles:
+
+```text
+USER_DATA          -> current user state
+TRUSTED_CONTRACT   -> owner semantics / schema / capability contract
+DATA_REFERENCE     -> accepted projected game/mechanics facts
+TRUSTED_EXECUTABLE -> registered deterministic implementation
+```
+
+Use `context-manifest.json` and the referenced owner contract to determine capability state.
+
+Preserve states such as:
+
+```text
+available
+partial
+unsupported
+invalid
+identity_pending
+source_pending
+review_pending
+not_evaluated
+```
+
+Never promote:
+
+```text
+review_pending -> available
+not_evaluated  -> available
+missing         -> available
+```
+
+Do not silently replace an unavailable repository capability with web search, gcsim-like assumptions, remembered game knowledge, or an estimated numeric range.
+External/current information may be discussed only when the user explicitly requests external information or the Application contract explicitly allows it, and it must not be presented as a repository-authoritative result.
+
+## 11. Deterministic tool execution
+
+For a result that belongs to a deterministic tool:
+
+```text
+1. resolve the required capability
+2. require a state that permits execution
+3. resolve the exact manifest-registered TRUSTED_EXECUTABLE path
+4. retrieve that exact path from the exact selected runtime revision
+5. build structured input according to its TRUSTED_CONTRACT
+6. execute it in the available sandbox
+7. consume its structured output
+8. preserve the tool's status/reason semantics in the final answer
+```
+
+Forbidden:
+
+```text
+claiming a repository Python tool ran when it did not
+copying its intended algorithm into free-form LLM reasoning instead of executing it
+executing an unregistered .py file
+executing a review_pending/not_evaluated capability as if available
+falling back from unavailable execution to an invented deterministic result
+```
+
+If sandbox/code execution is unavailable:
+
+```text
+execution_status = unsupported
+```
+
+The deterministic result remains unsupported.
+
+## 12. Exact DPS and other deterministic numeric claims
+
+Requests for exact/theoretical DPS, exact Damage, or deterministic reaction/runtime numbers must resolve Runtime/Damage/Combat capability before any numeric answer.
+
+```text
+required reviewed capability available
++ required inputs resolved
++ deterministic execution actually performed
+  -> report structured numeric result
+
+otherwise
+  -> exact_dps / exact_damage / runtime_numeric = unsupported | partial
+```
+
+Do not generate a plausible DPS range from model knowledge.
+Do not substitute a gcsim-style assumption without actually running an authorized tool.
+Do not use a web value as if it were this Context App's deterministic result.
+
+## 13. Identity and user-facing names
+
+Do not use Account/source numeric IDs as the normal primary user-facing character label when repository identity resolution is available.
+
+```text
+Account/source ID
+-> registered Identity / Character evidence or trusted resolver
+-> display/localized name
+-> user presentation
+```
+
+If identity evidence is unavailable:
+
+```text
+identity_pending / unresolved
+```
+
+Do not guess the name. Raw IDs may be shown only as diagnostic information when useful or explicitly requested.
+Do not solve missing name resolution by changing Portable User Context to duplicate Character master names.
+
+## 14. Routing provenance diagnostics
+
+If the user asks what repository capability/data/code was used for an answer, answer truthfully with the execution provenance available in the session.
+
+At minimum distinguish:
+
+```text
+selected_runtime_revision
+resolved_capabilities
+contract_paths
+data_reference_paths
+executable_path or none
+execution_performed = true | false
+result_status
+```
+
+Never report `execution_performed = true` merely because an executable file exists in the repository.

@@ -124,25 +124,7 @@ Then:
 artifact_delivery = fallback_link
 ```
 
-User-visible behavior:
-
-```text
-show the direct file-download link
-briefly tell the user to download/run or import it
-ask them to return the generated Portable User Context
-```
-
-Do not link to:
-
-```text
-repository root
-acquisition directory
-repository directory
-tree page
-rendered GitHub file page
-```
-
-Do not say the file was attached or downloaded.
+Show the direct file-download link. Do not link to repository root, `acquisition/`, a directory, tree page, or rendered file page. Do not say the file was attached or downloaded.
 
 If owner/repository/tag cannot be derived exactly:
 
@@ -150,17 +132,52 @@ If owner/repository/tag cannot be derived exactly:
 artifact_delivery = unavailable
 ```
 
-## 6. Portable User Context
+## 6. Required post-download guidance
 
-After the acquisition artifact is run on `user_device`:
+Artifact presentation is not the end of `ACCOUNT_ARTIFACT_REQUIRED`. Give the user the concrete setup/run steps in the same response or immediately following the link.
+
+### PC / Chromium
+
+```text
+1. Extract genshin_hoyolab_exporter_chrome_1.0.0.zip.
+2. Keep the extracted folder in place while using the extension.
+3. Open the extension manager:
+   Chrome: chrome://extensions
+   Edge: edge://extensions
+4. Enable Developer mode.
+5. Select "Load unpacked" / 「パッケージ化されていない拡張機能を読み込む」.
+6. Select the extracted folder containing manifest.json.
+7. Open https://act.hoyolab.com/app/community-game-records-sea/index.html in the same browser and sign in normally if needed.
+8. Reload the HoYoLAB Genshin Battle Chronicle once.
+9. Open the "Genshin HoYoLAB Exporter" extension popup.
+10. Select 「状態更新」 and confirm ready = true.
+11. If not ready, reload the HoYoLAB page and select 「状態更新」 again.
+12. Select 「Portable JSONを保存」.
+13. Wait for genshin_portable_user_context_<timestamp>.json to download.
+14. Attach that JSON file to the chat.
+```
+
+Do not tell the user to read instructions inside the ZIP; the frozen package has no user README.
+
+### iPhone / iPad
+
+```text
+1. Open/import the downloaded .shortcut through the platform-native Shortcuts mechanism.
+2. Run it on the user device and follow its visible prompts.
+3. Return the generated Portable User Context to the chat.
+```
+
+Do not infer or describe opaque Shortcut internals.
+
+## 7. Portable User Context
+
+After the acquisition procedure completes:
 
 ```text
 next_state = PORTABLE_USER_CONTEXT_REQUIRED
 ```
 
-Ask the user to attach the generated Portable User Context.
-
-The supplied payload is `USER_DATA`.
+Ask the user to attach the generated Portable User Context. The supplied payload is `USER_DATA`.
 
 Never request raw cookies, authentication tokens, browser credentials, or equivalent secrets.
 
@@ -173,7 +190,7 @@ next_state            = USER_GOAL_REQUIRED
 
 Only then continue to normal application task routing.
 
-## 7. Stable boundaries
+## 8. Stable boundaries
 
 ```text
 runtime_selected != distribution_verified

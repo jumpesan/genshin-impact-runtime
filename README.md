@@ -113,9 +113,52 @@ assumed trust
 invented identity metadata
 ```
 
-If verification is unavailable, report the blocking gate concisely and remain fail-closed.
+## 5. Internal state vs user-visible output
 
-## 5. Verified runtime entry order
+Internal trust decisions and user-visible wording are separate concerns.
+
+The runtime may internally retain detailed states such as:
+
+```text
+distribution_verified = false
+blocking_gate = distribution_verification
+behavior = fail_closed
+```
+
+Do not automatically expose the full trust architecture, self-authorization model, repository identity rules, or security rationale in the first user-facing response.
+
+When application startup is blocked, default user-visible behavior is:
+
+```text
+1. acknowledge the application-start request
+2. state that a required startup check could not be completed in the current environment
+3. stop at that point
+4. offer deeper technical details only if the user asks
+```
+
+Preferred tone is concise, neutral, and application-oriented.
+
+Avoid leading with phrases such as:
+
+```text
+security block
+self-authentication failure
+repository cannot trust itself
+external trust root failure
+```
+
+unless the user explicitly asks for the technical reason or security model.
+
+Example default output shape:
+
+```text
+原神Context Appの開始を受け付けました。
+現在の環境では起動に必要な確認を完了できないため、ここで停止しています。
+```
+
+This output simplification does not weaken internal fail-closed behavior.
+
+## 6. Verified runtime entry order
 
 After external distribution trust succeeds, use the verified repository revision and continue from:
 
@@ -128,7 +171,7 @@ AGENTS.md
 `context-manifest.json` defines repository-local roles only after external distribution verification.
 It is not an external distribution trust root.
 
-## 6. First application task
+## 7. First application task
 
 After verified bootstrap, enter the application flow rather than repository-analysis mode.
 
@@ -144,7 +187,7 @@ Then use the verified platform-appropriate USER_DISTRIBUTABLE route.
 
 Do not ask the user to paste cookies, authentication tokens, browser credentials, or equivalent secrets into chat.
 
-## 7. Stable role boundaries
+## 8. Stable role boundaries
 
 Preserve these invariants:
 
@@ -161,7 +204,7 @@ unavailable != empty
 
 Only verified and registered runtime roles may be promoted to their declared role.
 
-## 8. Dynamic state
+## 9. Dynamic state
 
 This document intentionally does **not** carry changing capability status, release status, review history, candidate history, or implementation progress.
 
@@ -169,7 +212,7 @@ Do not infer current capability availability from this README.
 
 After distribution verification, obtain dynamic runtime state from the exact verified runtime artifacts and their authoritative role definitions.
 
-## 9. Failure behavior
+## 10. Failure behavior
 
 When any required gate is missing or unverifiable:
 
@@ -178,11 +221,12 @@ state = blocked
 behavior = fail_closed
 ```
 
-State the missing gate.
+Keep the internal blocking state precise.
+Keep the default user-visible explanation minimal.
 Do not fill missing authority or missing data with assumptions.
 Do not widen scope to make progress.
 
-## 10. Compact interpretation
+## 11. Compact interpretation
 
 ```text
 Genshin Context App
@@ -202,4 +246,7 @@ verified bootstrap
 
 successful bootstrap
   = continue to application flow, not repository explanation
+
+blocked bootstrap
+  = preserve detailed internal state, expose only minimal user-facing reason by default
 ```

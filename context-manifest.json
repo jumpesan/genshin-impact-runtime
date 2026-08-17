@@ -1,0 +1,151 @@
+{
+  "manifest_version": "1",
+  "repository_role": "genshin-context-app-public",
+  "release_status": "candidate",
+  "bootstrap": {
+    "entrypoint": "bootstrap/BOOTSTRAP.md",
+    "instruction_priority": [
+      "bootstrap/BOOTSTRAP.md",
+      "AGENTS.md",
+      "README.md"
+    ]
+  },
+  "registry": {
+    "trusted_instruction": [
+      "bootstrap/BOOTSTRAP.md",
+      "AGENTS.md",
+      "README.md"
+    ],
+    "trusted_contract": [
+      "contracts/README.md",
+      "contracts/application/README.md",
+      "contracts/application/context-manifest.schema.json",
+      "contracts/application/phase1b-b1-orchestration.md",
+      "contracts/account/README.md",
+      "contracts/account/portable_context.schema.json",
+      "contracts/identity/TARGETED_IDENTITY_READINESS.md",
+      "contracts/identity/current-v2-aether/TARGETED_IDENTITY_READINESS.md",
+      "contracts/optimization/party-candidate-validity-v1.md",
+      "contracts/recommendation/b1-qualitative-policy-v1.md"
+    ],
+    "trusted_executable": [
+      "tools/application/context_self_check.py",
+      "tools/account/validate_portable_context.py",
+      "tools/identity/identity_integration_validator.py",
+      "tools/identity/targeted_identity_readiness.py",
+      "tools/identity/current_v2_aether/targeted_identity_readiness.py",
+      "tools/optimization/party_candidate_validator.py"
+    ],
+    "data_reference_roots": [
+      "data/",
+      "mechanics/",
+      "execution/"
+    ],
+    "user_distributable": [
+      {
+        "artifact_id": "genshin_hoyolab_exporter_chrome_1_0_0",
+        "owner": "account",
+        "platform": "desktop_chrome_chromium",
+        "locale": null,
+        "role": "USER_DISTRIBUTABLE",
+        "public_path": "acquisition/chrome/genshin_hoyolab_exporter_chrome_1.0.0.zip",
+        "source_path": "account/hoyolab_exporter/chrome_package/genshin_hoyolab_exporter_chrome_1.0.0.zip",
+        "user_facing_filename": "genshin_hoyolab_exporter_chrome_1.0.0.zip",
+        "version": "1.0.0",
+        "size_bytes": 8262,
+        "sha256": "9a482a049cdbd3a143857b30cd2cf9e070db70298308f6e4f5ac273ddb03c364",
+        "git_blob_sha": "c95c606e2cf3450650ac467d1dc36db88e28f50e",
+        "source_revision": "f6f0c713b5a72d3822876f1a4180e2750ff3f4aa",
+        "execution_scope": "user_device",
+        "produces": "genshin_portable_user_context",
+        "output_format_version": "0.1-draft",
+        "availability": "available",
+        "entrypoint_url": "https://act.hoyolab.com/app/community-game-records-sea/index.html",
+        "portable_ingestion": {
+          "input_role": "USER_DATA",
+          "capability": "account_context_ingestion",
+          "validator_path": "tools/account/validate_portable_context.py",
+          "next_action": "attach_portable_user_context"
+        },
+        "opaque": false
+      },
+      {
+        "artifact_id": "genshin_hoyolab_exporter_ios_ja",
+        "owner": "account",
+        "platform": "ios_ipados",
+        "locale": "ja",
+        "role": "USER_DISTRIBUTABLE",
+        "public_path": "acquisition/ios/genshin_hoyolab_exporter_ja.shortcut",
+        "source_path": "account/hoyolab_exporter/ios/genshin_hoyolab_exporter_ja.shortcut",
+        "user_facing_filename": "genshin_hoyolab_exporter_ja.shortcut",
+        "version": "1.0.0",
+        "size_bytes": 25948,
+        "sha256": "4c7d606a482bc35f425d860a5f30f3d5203b4fcdd7a3dfc25e8daac52961da1f",
+        "git_blob_sha": "4210f14a50ae3d7650772b56dac09e7cde884728",
+        "source_revision": "443cbfc596a4e9d8cc0dfaca58f6d322542de317",
+        "execution_scope": "user_device",
+        "produces": "genshin_portable_user_context",
+        "output_format_version": "0.1-draft",
+        "availability": "available",
+        "entrypoint_url": "https://act.hoyolab.com/app/community-game-records-sea/index.html",
+        "portable_ingestion": {
+          "input_role": "USER_DATA",
+          "capability": "account_context_ingestion",
+          "validator_path": "tools/account/validate_portable_context.py",
+          "next_action": "attach_portable_user_context"
+        },
+        "opaque": true
+      },
+      {
+        "artifact_id": "genshin_hoyolab_exporter_ios_en",
+        "owner": "account",
+        "platform": "ios_ipados",
+        "locale": "en",
+        "role": "USER_DISTRIBUTABLE",
+        "public_path": "acquisition/ios/genshin_hoyolab_exporter_en.shortcut",
+        "source_path": "account/hoyolab_exporter/ios/genshin_hoyolab_exporter_en.shortcut",
+        "user_facing_filename": "genshin_hoyolab_exporter_en.shortcut",
+        "version": "1.0.0",
+        "size_bytes": 25951,
+        "sha256": "faecdf5b727a3136643c173eb2e0b1c81796319f224a4ec2ada538046a997352",
+        "git_blob_sha": "d323431602f6a162560d2d15c29b77099abcb47b",
+        "source_revision": "443cbfc596a4e9d8cc0dfaca58f6d322542de317",
+        "execution_scope": "user_device",
+        "produces": "genshin_portable_user_context",
+        "output_format_version": "0.1-draft",
+        "availability": "available",
+        "entrypoint_url": "https://act.hoyolab.com/app/community-game-records-sea/index.html",
+        "portable_ingestion": {
+          "input_role": "USER_DATA",
+          "capability": "account_context_ingestion",
+          "validator_path": "tools/account/validate_portable_context.py",
+          "next_action": "attach_portable_user_context"
+        },
+        "opaque": true
+      }
+    ]
+  },
+  "metadata": {
+    "version": "metadata/VERSION.json",
+    "provenance": "metadata/PROVENANCE.json"
+  },
+  "capabilities": {
+    "bootstrap": "candidate",
+    "account_acquisition_guidance": "available",
+    "account_user_distributable": "available",
+    "account_context_ingestion": "available",
+    "identity_targeted_readiness": "available",
+    "identity_targeted_aether_current_v2": "available",
+    "party_candidate_validation": "review_pending",
+    "sandbox_execution": "candidate",
+    "recommendation": "not_evaluated"
+  },
+  "policies": {
+    "unknown_path": "exclude_unclassified",
+    "symlink_trusted_path": "reject",
+    "symlink_any_candidate_path": "reject",
+    "external_trust_inheritance": "deny",
+    "role_collision": "reject",
+    "unregistered_executable": "deny"
+  }
+}

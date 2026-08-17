@@ -1,0 +1,284 @@
+{
+  "release_status": "candidate",
+  "generated_from": {
+    "project": "genshin_impact development repository",
+    "source_revision": "UNRESOLVED_CANDIDATE_EXPORT",
+    "export_method": "manual_application_candidate"
+  },
+  "published_components": [
+    {"path": "README.md", "owner": "application", "role": "TRUSTED_INSTRUCTION"},
+    {"path": "AGENTS.md", "owner": "application", "role": "TRUSTED_INSTRUCTION"},
+    {"path": "bootstrap/BOOTSTRAP.md", "owner": "application", "role": "TRUSTED_INSTRUCTION"},
+    {"path": "contracts/application/README.md", "owner": "application", "role": "TRUSTED_CONTRACT"},
+    {"path": "contracts/application/context-manifest.schema.json", "owner": "application", "role": "TRUSTED_CONTRACT"},
+    {
+      "path": "contracts/application/phase1b-b1-orchestration.md",
+      "owner": "application",
+      "role": "TRUSTED_CONTRACT",
+      "publication_state": "candidate",
+      "note": "orchestration lifecycle only; does not provide Recommendation/Search owner semantics"
+    },
+    {
+      "path": "contracts/account/README.md",
+      "owner": "account",
+      "role": "TRUSTED_CONTRACT",
+      "publication_state": "reviewed_production_projection",
+      "source_path": "account/portable_context/README.md",
+      "source_git_blob": "d44c8eb0c7ab7aafa9eba580a4ea3f926cb46cb8"
+    },
+    {
+      "path": "contracts/account/portable_context.schema.json",
+      "owner": "account",
+      "role": "TRUSTED_CONTRACT",
+      "publication_state": "reviewed_production_projection",
+      "source_path": "account/portable_context/portable_context.schema.json",
+      "source_git_blob": "de9f4671e24514a02ff12866f7ac64fefd04a36e"
+    },
+    {
+      "path": "contracts/identity/TARGETED_IDENTITY_READINESS.md",
+      "owner": "identity_integration",
+      "role": "TRUSTED_CONTRACT",
+      "publication_state": "historical_registry_v1_owner_projection_context_integration_pass",
+      "source_path": "integration/identity/TARGETED_IDENTITY_READINESS.md",
+      "source_git_blob": "0707f6d9b8cc37ef6d0d04d7698de0c584fcdb6e"
+    },
+    {
+      "path": "contracts/identity/current-v2-aether/TARGETED_IDENTITY_READINESS.md",
+      "owner": "identity_integration",
+      "role": "TRUSTED_CONTRACT",
+      "publication_state": "current_registry_v2_immutable_projection_context_sandbox_integration_pass",
+      "source_path": "integration/identity/TARGETED_IDENTITY_READINESS.md",
+      "source_git_blob": "cb7d08e963fc7e6c5fe977d81700653ddfc74e54",
+      "owner_contract_source_revision": "be970bc3a06e2c3c9a9aba190a8b328333a85277",
+      "scope": "current Production Registry v2 targeted Aether PASS only; no full-roster widening"
+    },
+    {
+      "path": "contracts/optimization/party-candidate-validity-v1.md",
+      "owner": "optimization",
+      "role": "TRUSTED_CONTRACT",
+      "publication_state": "owner_review_pass_application_integration_pass_capability_promotion_pending",
+      "source_path": "optimization/party/contracts/candidate_validity_v1.md",
+      "source_git_blob": "f2de6b0323e177fc6ee62728d10bb93fadd1b51a",
+      "scope": "validator-only v1.0.1; spiral_abyss_single_team_v1; candidate validity only"
+    },
+    {
+      "path": "contracts/recommendation/b1-qualitative-policy-v1.md",
+      "owner": "recommendation",
+      "role": "TRUSTED_CONTRACT",
+      "publication_state": "owner_review_pass_exact_projection_context_pass",
+      "source_path": "recommendation/party/contracts/b1_qualitative_policy_v1.md",
+      "source_git_blob": "2c2d72b5c7157ca90f7d95435dddaa8d783b0767",
+      "policy_id": "party_b1_qualitative_v1",
+      "policy_version": "1-review-fix-01",
+      "scope": "contract-only B1 qualitative Recommendation policy; no executable authority"
+    },
+    {
+      "path": "tools/application/context_self_check.py",
+      "owner": "application",
+      "role": "TRUSTED_EXECUTABLE",
+      "publication_state": "candidate_implementation_design_pass",
+      "scope": "fixed-root manifest registration self-check only"
+    },
+    {
+      "path": "tools/account/validate_portable_context.py",
+      "owner": "account",
+      "role": "TRUSTED_EXECUTABLE",
+      "publication_state": "reviewed_production_projection_context_integration_pass",
+      "source_path": "account/portable_context/validate_portable_context.py",
+      "source_git_blob": "4b62d77aa480f1d1fd0f790f3142e4b09cb22aab",
+      "scope": "genshin_portable_user_context 0.1-draft deterministic validation only"
+    },
+    {
+      "path": "tools/identity/identity_integration_validator.py",
+      "owner": "identity_integration",
+      "role": "TRUSTED_EXECUTABLE",
+      "publication_state": "historical_registry_v1_dependency_context_integration_pass_reused_by_current_v2_snapshot",
+      "source_path": "integration/identity/identity_integration_validator.py",
+      "source_git_blob": "92d54187dc6d1a2de3abb15ebcb11a12bc391c17",
+      "scope": "shared deterministic alias projection dependency frozen at targeted Aether PASS chain"
+    },
+    {
+      "path": "tools/identity/targeted_identity_readiness.py",
+      "owner": "identity_integration",
+      "role": "TRUSTED_EXECUTABLE",
+      "publication_state": "historical_registry_v1_owner_projection_context_integration_pass",
+      "source_path": "integration/identity/targeted_identity_readiness.py",
+      "source_git_blob": "9f1d0d821a637eba4993e5b41b1bdbff0d5c0688",
+      "scope": "immutable historical Registry-v1 targeted Aether projection"
+    },
+    {
+      "path": "tools/identity/current_v2_aether/targeted_identity_readiness.py",
+      "owner": "identity_integration",
+      "role": "TRUSTED_EXECUTABLE",
+      "publication_state": "current_registry_v2_immutable_projection_context_sandbox_integration_pass",
+      "source_path": "integration/identity/targeted_identity_readiness.py",
+      "source_git_blob": "e56e578f37df3b984b902cb29fa26b7d3e97e05d",
+      "owner_execution_proof_revision": "e7c37a2b33ed6107087be1b5767cfc883b1bd516",
+      "scope": "Registry v2 compatibility extension; exact targeted Aether owner PASS chain only"
+    },
+    {
+      "path": "tools/optimization/party_candidate_validator.py",
+      "owner": "optimization",
+      "role": "TRUSTED_EXECUTABLE",
+      "publication_state": "owner_review_pass_application_integration_pass_capability_promotion_pending",
+      "source_path": "optimization/party/tools/party_candidate_validator.py",
+      "source_git_blob": "7aa3327f9351156fa617a613554819c2a6879d08",
+      "scope": "validator-only v1.0.1; validated != search_complete; search_completeness=not_searched"
+    },
+    {
+      "path": "data/official/characters/source_aliases/hoyolab_character_aliases.csv",
+      "owner": "character_collection",
+      "role": "DATA_REFERENCE",
+      "publication_state": "historical_production_projection_pinned_and_reused_by_current_v2_aether_snapshot",
+      "source_path": "data/official/characters/source_aliases/hoyolab_character_aliases.csv",
+      "source_git_blob": "c2e1dae27d29522120209a855d0bff362121b84e"
+    },
+    {
+      "path": "data/official/characters/identity_registry.json",
+      "owner": "character_collection",
+      "role": "DATA_REFERENCE",
+      "publication_state": "historical_production_v1_projection_pinned_for_targeted_identity_pass",
+      "source_path": "data/official/characters/identity_registry.json",
+      "source_git_blob": "3bac6b93c63ce94ebdbe9e43462d0a943d64c4f1"
+    },
+    {
+      "path": "data/official/characters/current_v2_aether/identity_registry.json",
+      "owner": "character_collection",
+      "role": "DATA_REFERENCE",
+      "publication_state": "current_production_v2_immutable_projection_context_sandbox_integration_pass",
+      "source_path": "data/official/characters/identity_registry.json",
+      "source_git_blob": "5e51e7468bf50b78104ad3b5ab1e3e81304aa3dd",
+      "scope": "schema_version=2 snapshot used by targeted Aether owner PASS; historical v1 file remains untouched"
+    },
+    {
+      "path": "mechanics/reaction/reaction_rules.csv",
+      "owner": "reaction",
+      "role": "DATA_REFERENCE",
+      "publication_state": "reviewed_production_projection_context_pass",
+      "source_path": "mechanics/reaction/reaction_rules.csv",
+      "source_git_blob": "1f714d11572d3e5149f01289945fa540eb02c127",
+      "scope": "byte-exact Reaction Static Rule registry snapshot; current Application use authorized for reviewed Melt rows only"
+    }
+  ],
+  "account_ingestion_review": {
+    "owner_review": "PASS",
+    "owner_review_path": "review/2026-08-16_portable_context_ingestion_v1/review/review_01_independent.md",
+    "production_handoff": "share/20260816_1328_account_to_application_portable_context_validation_contract_complete.md",
+    "projection_blob_identity": "verified",
+    "application_context_integration_review": "PASS",
+    "application_context_integration_review_path": "review/2026-08-16_account_context_public_projection_sandbox_integration/review/review_02_independent.md"
+  },
+  "identity_targeted_readiness": {
+    "projection_generation": "historical_registry_v1",
+    "owner_interface": "identity_targeted_readiness_v1",
+    "owner_handoff": "share/20260816_2048_identity_integration_to_application_phase1b_identity_readiness_result.md",
+    "owner_result": "PASS_TARGETED_AETHER_ONLY",
+    "coverage_scope": "targeted_single_source",
+    "full_fixture_claim": "NOT_MADE",
+    "projected_source_id": "10000005",
+    "projected_canonical_id": "aether",
+    "projection_blob_identity": "verified",
+    "application_context_integration_review": "PASS",
+    "application_context_integration_review_path": "review/2026-08-16_identity_targeted_public_projection_sandbox_integration/review/review_01_independent.md",
+    "review_return": "share/20260816_2228_dedicated_review_agent_to_application_identity_targeted_integration_pass.md",
+    "immutable_pin_replaced": false
+  },
+  "identity_targeted_aether_current_v2": {
+    "projection_generation": "current_registry_v2_immutable_delta",
+    "owner_interface": "identity_targeted_readiness_v1",
+    "owner_handoff": "share/20260817_0114_identity_integration_to_application_character_collection_registry_v2_targeted_readiness_pass.md",
+    "owner_execution_proof_revision": "e7c37a2b33ed6107087be1b5767cfc883b1bd516",
+    "owner_contract_source_revision": "be970bc3a06e2c3c9a9aba190a8b328333a85277",
+    "owner_result": "PASS_TARGETED_AETHER_ONLY",
+    "coverage_scope": "targeted_single_source",
+    "full_fixture_claim": "NOT_MADE",
+    "projected_source_id": "10000005",
+    "projected_canonical_id": "aether",
+    "projected_canonical_kind": "traveler_base",
+    "registry_schema_version": 2,
+    "contract_source_git_blob": "cb7d08e963fc7e6c5fe977d81700653ddfc74e54",
+    "shared_dependency_source_git_blob": "92d54187dc6d1a2de3abb15ebcb11a12bc391c17",
+    "targeted_executable_source_git_blob": "e56e578f37df3b984b902cb29fa26b7d3e97e05d",
+    "alias_source_git_blob": "c2e1dae27d29522120209a855d0bff362121b84e",
+    "registry_source_git_blob": "5e51e7468bf50b78104ad3b5ab1e3e81304aa3dd",
+    "projection_blob_identity": "verified",
+    "historical_registry_v1_pin_replaced": false,
+    "application_context_integration_review": "PASS",
+    "application_context_integration_review_path": "review/2026-08-17_identity_current_v2_aether_public_projection_sandbox_integration/review/review_02_independent.md",
+    "application_context_integration_review_result": "IDENTITY_CURRENT_V2_AETHER_INTEGRATION_PASS",
+    "application_sandbox_integration_review": "PASS",
+    "review_return": "share/20260817_0322_dedicated_review_agent_to_application_identity_current_v2_aether_f1_focused_pass.md",
+    "public_context_authority": "available_targeted_aether_only"
+  },
+  "party_candidate_validation": {
+    "owner": "optimization",
+    "owner_contract_version": "1.0.1",
+    "owner_validator_version": "1.0.1",
+    "search_semantics_version": "party-validator-only-v1",
+    "owner_review": "PASS",
+    "owner_review_path": "review/2026-08-16_optimization_party_candidate_validity_v1/review/review_02_independent.md",
+    "owner_handoff": "share/20260817_0046_optimization_to_application_phase1b_b1_party_validation_review_pass.md",
+    "contract_source_git_blob": "f2de6b0323e177fc6ee62728d10bb93fadd1b51a",
+    "validator_source_git_blob": "7aa3327f9351156fa617a613554819c2a6879d08",
+    "projection_blob_identity": "verified",
+    "application_context_integration_review": "PASS",
+    "application_context_integration_review_path": "review/2026-08-17_optimization_party_public_projection_sandbox_integration/review/review_02_independent.md",
+    "application_sandbox_integration_review": "PASS",
+    "review_return": "share/20260817_0215_dedicated_review_agent_to_application_optimization_party_integration_f1_pass.md",
+    "search_completeness": "not_searched",
+    "public_context_authority": "capability_promotion_pending"
+  },
+  "melt_static_rule_projection": {
+    "owner": "reaction",
+    "character_blocker": "NONE",
+    "source_path": "mechanics/reaction/reaction_rules.csv",
+    "source_git_blob": "1f714d11572d3e5149f01289945fa540eb02c127",
+    "projection_blob_identity": "verified",
+    "application_scope": "reviewed Melt static rows only",
+    "context_review": "PASS",
+    "context_review_path": "review/2026-08-16_melt_static_rule_public_data_reference_context/review/review_01_independent.md",
+    "review_return": "share/20260816_2308_dedicated_review_agent_to_application_melt_data_reference_context_pass.md",
+    "sandbox_delta_review": "NOT_APPLICABLE",
+    "runtime_e2e": "separate_gate"
+  },
+  "recommendation_b1_policy": {
+    "owner_review": "PASS",
+    "owner_review_path": "review/2026-08-16_recommendation_party_b1_qualitative_policy/review/review_02_independent.md",
+    "review_return": "share/20260817_0032_dedicated_review_agent_to_recommendation_b1_policy_focused_pass.md",
+    "formal_handoff": "share/20260817_0052_recommendation_to_application_phase1b_b1_policy_ready.md",
+    "formal_materialization": "complete",
+    "source_path": "recommendation/party/contracts/b1_qualitative_policy_v1.md",
+    "source_git_blob": "2c2d72b5c7157ca90f7d95435dddaa8d783b0767",
+    "public_path": "contracts/recommendation/b1-qualitative-policy-v1.md",
+    "projection_blob_identity": "verified",
+    "application_projection": "exact_contract_projected_context_pass",
+    "application_context_review": "PASS",
+    "application_context_review_path": "review/2026-08-17_recommendation_b1_policy_public_contract_context/review/review_01_independent.md",
+    "application_context_review_result": "RECOMMENDATION_B1_CONTRACT_CONTEXT_PASS",
+    "application_review_return": "share/20260817_0240_dedicated_review_agent_to_application_recommendation_b1_contract_context_pass.md",
+    "application_sandbox_delta": "NOT_APPLICABLE_CONTRACT_ONLY",
+    "recommendation_capability": "not_evaluated",
+    "real_b1_e2e": "eligible_for_representative_fail_closed_e2e"
+  },
+  "security_review": {
+    "implementation_design": "passed_review_03_before_account_projection",
+    "account_projection_integration_review": "passed_review_02",
+    "historical_identity_targeted_projection_integration_review": "passed_review_01",
+    "current_v2_aether_identity_projection_integration_review": "passed_review_02",
+    "melt_data_reference_context_review": "passed_review_01",
+    "optimization_party_validation_integration_review": "passed_review_02",
+    "recommendation_b1_contract_projection_review": "passed_review_01",
+    "final_release_gate": "not_passed"
+  },
+  "sandbox_review": {
+    "contract": "review/CONTEXT_SANDBOX_REVIEW.md",
+    "implementation_design": "passed_review_03_before_account_projection",
+    "account_validator_integration_review": "passed_review_02",
+    "historical_identity_targeted_execution_integration_review": "passed_review_01",
+    "current_v2_aether_identity_execution_integration_review": "passed_review_02",
+    "melt_data_reference_delta": "not_applicable_no_executable_authority_change",
+    "optimization_party_validation_integration_review": "passed_review_02",
+    "recommendation_b1_contract_delta": "not_applicable_contract_only_context_pass",
+    "final_release_gate": "not_passed"
+  }
+}

@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:genshin:account:portable-context:0.1-draft",
+  "title": "Genshin Portable User Context 0.1-draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "format_version", "generated_at", "source", "coverage", "characters"],
+  "properties": {
+    "format": {"const": "genshin_portable_user_context"},
+    "format_version": {"const": "0.1-draft"},
+    "generated_at": {"type": ["string", "null"]},
+    "source": {"$ref": "#/$defs/source"},
+    "coverage": {"$ref": "#/$defs/coverage"},
+    "characters": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/character"}
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "server", "raw_format", "raw_format_version"],
+      "properties": {
+        "provider": {"const": "HoYoLAB"},
+        "server": {"type": ["string", "null"]},
+        "raw_format": {"const": "genshin_hoyolab_raw_snapshot"},
+        "raw_format_version": {
+          "oneOf": [
+            {"const": "0.1-poc"},
+            {"type": "null"}
+          ]
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "characters",
+        "character_details",
+        "equipped_weapons",
+        "equipped_artifacts",
+        "weapon_inventory",
+        "artifact_inventory",
+        "character_ascension"
+      ],
+      "properties": {
+        "characters": {"const": "complete"},
+        "character_details": {"const": "complete"},
+        "equipped_weapons": {"const": "equipped_only"},
+        "equipped_artifacts": {"const": "equipped_only"},
+        "weapon_inventory": {"const": "unavailable"},
+        "artifact_inventory": {"const": "unavailable"},
+        "character_ascension": {"const": "not_explicit_in_source"}
+      }
+    },
+    "character": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "character_id",
+        "level",
+        "friendship_level",
+        "current_element",
+        "constellations",
+        "skills",
+        "equipped_weapon",
+        "equipped_artifacts",
+        "verification"
+      ],
+      "properties": {
+        "character_id": {"type": "integer", "minimum": 1},
+        "level": {"type": ["integer", "null"], "minimum": 0},
+        "friendship_level": {"type": ["integer", "null"], "minimum": 0},
+        "current_element": {"type": ["string", "null"]},
+        "constellations": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/constellation"}
+        },
+        "skills": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/skill"}
+        },
+        "equipped_weapon": {"$ref": "#/$defs/weapon"},
+        "equipped_artifacts": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {"$ref": "#/$defs/artifact"}
+        },
+        "verification": {"$ref": "#/$defs/verification"}
+      }
+    },
+    "constellation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["constellation_id", "position", "active", "enhanced"],
+      "properties": {
+        "constellation_id": {"type": "integer", "minimum": 1},
+        "position": {"type": ["integer", "null"], "minimum": 0},
+        "active": {"type": "boolean"},
+        "enhanced": {"type": "boolean"}
+      }
+    },
+    "skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["skill_id", "level", "unlocked", "enhanced"],
+      "properties": {
+        "skill_id": {"type": "integer", "minimum": 1},
+        "level": {"type": ["integer", "null"], "minimum": 0},
+        "unlocked": {"type": "boolean"},
+        "enhanced": {"type": "boolean"}
+      }
+    },
+    "weapon": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["weapon_id", "level", "ascension_level", "refinement"],
+      "properties": {
+        "weapon_id": {"type": "integer", "minimum": 1},
+        "level": {"type": ["integer", "null"], "minimum": 0},
+        "ascension_level": {"type": ["integer", "null"], "minimum": 0},
+        "refinement": {"type": ["integer", "null"], "minimum": 0}
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slot", "piece_id", "set_id", "rarity", "level", "main_stat", "substats"],
+      "properties": {
+        "slot": {"type": "integer", "minimum": 1, "maximum": 5},
+        "piece_id": {"type": "integer", "minimum": 1},
+        "set_id": {"type": ["integer", "null"], "minimum": 1},
+        "rarity": {"type": ["integer", "null"], "minimum": 0},
+        "level": {"type": ["integer", "null"], "minimum": 0},
+        "main_stat": {"$ref": "#/$defs/artifact_stat"},
+        "substats": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/artifact_stat"}
+        }
+      }
+    },
+    "artifact_stat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["property_type", "value"],
+      "properties": {
+        "property_type": {"type": "integer"},
+        "value": {"type": ["string", "number"]},
+        "source_times": {"type": "integer", "minimum": 0}
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hoyolab_actived_constellation_num",
+        "hoyolab_constellation_can_enhanced",
+        "hoyolab_skill_can_enhanced",
+        "hoyolab_selected_properties",
+        "hoyolab_base_properties",
+        "hoyolab_extra_properties",
+        "hoyolab_element_properties"
+      ],
+      "properties": {
+        "hoyolab_actived_constellation_num": {"type": ["integer", "null"], "minimum": 0},
+        "hoyolab_constellation_can_enhanced": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/constellation_verification"}
+        },
+        "hoyolab_skill_can_enhanced": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/skill_verification"}
+        },
+        "hoyolab_selected_properties": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/verification_property"}
+        },
+        "hoyolab_base_properties": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/verification_property"}
+        },
+        "hoyolab_extra_properties": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/verification_property"}
+        },
+        "hoyolab_element_properties": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/verification_property"}
+        }
+      }
+    },
+    "constellation_verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["constellation_id", "can_enhanced"],
+      "properties": {
+        "constellation_id": {"type": "integer", "minimum": 1},
+        "can_enhanced": {"type": "boolean"}
+      }
+    },
+    "skill_verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["skill_id", "can_enhanced"],
+      "properties": {
+        "skill_id": {"type": "integer", "minimum": 1},
+        "can_enhanced": {"type": "boolean"}
+      }
+    },
+    "verification_property": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["property_type", "base", "add", "final"],
+      "properties": {
+        "property_type": {"type": "integer"},
+        "base": {"type": ["string", "number"]},
+        "add": {"type": ["string", "number"]},
+        "final": {"type": ["string", "number"]}
+      }
+    }
+  }
+}

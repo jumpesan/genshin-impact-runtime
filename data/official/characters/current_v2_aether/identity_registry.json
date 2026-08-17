@@ -1,0 +1,46 @@
+{
+  "schema_version": 2,
+  "base_identities": [
+    {
+      "canonical_character_id": "aether",
+      "base_identity_status": "accepted",
+      "base_evidence_refs": [
+        "architecture/character_identity_form.md",
+        "review/2026-08-16_character_identity_registry_v1_migration/review/review_04_independent.md"
+      ],
+      "relationship": {
+        "status": "resolved",
+        "kind": "traveler_base",
+        "evidence_refs": [
+          "architecture/character_identity_form.md",
+          "share/20260816_0110_architecture_to_character_collection_traveler_identity_decision.md"
+        ]
+      }
+    },
+    {
+      "canonical_character_id": "alyosha",
+      "base_identity_status": "accepted",
+      "base_evidence_refs": [
+        "review/2026-08-16_character_hoyolab_wiki_entry_alias_candidates/work/source_evidence.md",
+        "review/2026-08-16_character_identity_registry_v1_migration/work/canonical_id_assignments_v1.json",
+        "review/2026-08-16_character_identity_registry_v1_migration/review/review_04_independent.md"
+      ],
+      "relationship": {
+        "status": "pending"
+      }
+    },
+    {
+      "canonical_character_id": "odette",
+      "base_identity_status": "accepted",
+      "base_evidence_refs": [
+        "review/2026-08-16_character_hoyolab_wiki_entry_alias_candidates/work/source_evidence.md",
+        "review/2026-08-16_character_identity_registry_v1_migration/work/canonical_id_assignments_v1.json",
+        "review/2026-08-16_character_identity_registry_v1_migration/review/review_04_independent.md"
+      ],
+      "relationship": {
+        "status": "pending"
+      }
+    }
+  ],
+  "form_identities": []
+}

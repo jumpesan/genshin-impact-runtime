@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "base_identities": [
+    {
+      "canonical_character_id": "aether",
+      "identity_kind": "traveler_base",
+      "evidence_refs": [
+        "architecture/character_identity_form.md",
+        "review/2026-08-16_character_identity_registry_v1_migration/review/review_04_independent.md"
+      ]
+    }
+  ],
+  "form_identities": []
+}

@@ -1,0 +1,5 @@
+rule_id,reaction_id,aura_element,trigger_element,result_behavior,verification_status,source_evidence_ref
+vaporize_hydro_trigger,vaporize,pyro,hydro,consume,provisional,review/2026-08-15_vaporize_static_rule_rows_v1/
+vaporize_pyro_trigger,vaporize,hydro,pyro,consume,provisional,review/2026-08-15_vaporize_static_rule_rows_v1/
+melt_pyro_trigger,melt,cryo,pyro,consume,provisional,review/2026-08-16_melt_static_rule_rows_v1/
+melt_cryo_trigger,melt,pyro,cryo,consume,provisional,review/2026-08-16_melt_static_rule_rows_v1/

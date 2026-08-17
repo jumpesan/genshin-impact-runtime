@@ -1,0 +1,15 @@
+{
+  "public_context_version": "0.10-candidate",
+  "manifest_version": "1",
+  "bootstrap_contract_version": "0.3-candidate",
+  "release_status": "candidate",
+  "account_ingestion_contract": "account-v1-reviewed-production-projected-context-integration-pass",
+  "identity_targeted_readiness_contract": "identity_targeted_readiness_v1-historical-registry-v1-owner-result-projected-context-integration-pass",
+  "identity_targeted_aether_current_v2_projection": "immutable-owner-snapshot-context-sandbox-integration-pass",
+  "melt_static_rule_projection": "reaction-production-byte-exact-data-reference-context-pass",
+  "party_candidate_validation_contract": "optimization-party-candidate-validity-v1.0.1-owner-review-pass-application-integration-pass-capability-promotion-pending",
+  "sandbox_execution_contract": "candidate-account-integration-pass-historical-identity-integration-pass-current-v2-identity-integration-pass-party-validation-integration-pass",
+  "phase1b_b1_application_contract": "candidate",
+  "recommendation_contract": "party_b1_qualitative_v1-1-review-fix-01-exact-contract-projection-context-pass",
+  "search_candidate_validation_contract": "validator-only-v1.0.1-integration-pass-capability-promotion-pending"
+}

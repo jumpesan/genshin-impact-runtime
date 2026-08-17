@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://context.genshin.example/contracts/application/context-manifest.schema.json",
+  "title": "Genshin Context App Public Repository Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "manifest_version",
+    "repository_role",
+    "release_status",
+    "bootstrap",
+    "registry",
+    "metadata",
+    "capabilities",
+    "policies"
+  ],
+  "properties": {
+    "manifest_version": {"const": "1"},
+    "repository_role": {"const": "genshin-context-app-public"},
+    "release_status": {"enum": ["candidate", "release"]},
+    "bootstrap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entrypoint", "instruction_priority"],
+      "properties": {
+        "entrypoint": {"const": "bootstrap/BOOTSTRAP.md"},
+        "instruction_priority": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "bootstrap/BOOTSTRAP.md"},
+            {"const": "AGENTS.md"},
+            {"const": "README.md"}
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        }
+      }
+    },
+    "registry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trusted_instruction",
+        "trusted_contract",
+        "trusted_executable",
+        "data_reference_roots",
+        "user_distributable"
+      ],
+      "properties": {
+        "trusted_instruction": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 3,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "trusted_contract": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "trusted_executable": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "data_reference_roots": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "/$"}
+        },
+        "user_distributable": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/userDistributable"}
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "provenance"],
+      "properties": {
+        "version": {"type": "string", "minLength": 1},
+        "provenance": {"type": "string", "minLength": 1}
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bootstrap",
+        "account_acquisition_guidance",
+        "account_user_distributable",
+        "account_context_ingestion",
+        "identity_targeted_readiness",
+        "identity_targeted_aether_current_v2",
+        "party_candidate_validation",
+        "sandbox_execution",
+        "recommendation"
+      ],
+      "properties": {
+        "bootstrap": {"enum": ["candidate", "available", "invalid", "unsupported"]},
+        "account_acquisition_guidance": {"enum": ["available", "partial", "unsupported"]},
+        "account_user_distributable": {"enum": ["not_evaluated", "review_pending", "available", "partial", "unsupported", "invalid"]},
+        "account_context_ingestion": {"enum": ["pending_contract", "available", "partial", "unsupported", "invalid"]},
+        "identity_targeted_readiness": {"enum": ["not_evaluated", "review_pending", "available", "partial", "unsupported", "invalid"]},
+        "identity_targeted_aether_current_v2": {"enum": ["not_evaluated", "review_pending", "available", "partial", "unsupported", "invalid"]},
+        "party_candidate_validation": {"enum": ["not_evaluated", "review_pending", "available", "partial", "unsupported", "invalid"]},
+        "sandbox_execution": {"enum": ["candidate", "available", "partial", "unsupported", "review_pending", "invalid"]},
+        "recommendation": {"enum": ["not_evaluated", "available", "partial", "unsupported", "review_pending"]}
+      }
+    },
+    "policies": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unknown_path",
+        "symlink_trusted_path",
+        "symlink_any_candidate_path",
+        "external_trust_inheritance",
+        "role_collision",
+        "unregistered_executable"
+      ],
+      "properties": {
+        "unknown_path": {"const": "exclude_unclassified"},
+        "symlink_trusted_path": {"const": "reject"},
+        "symlink_any_candidate_path": {"const": "reject"},
+        "external_trust_inheritance": {"const": "deny"},
+        "role_collision": {"const": "reject"},
+        "unregistered_executable": {"const": "deny"}
+      }
+    }
+  },
+  "$defs": {
+    "portableIngestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["input_role", "capability", "validator_path", "next_action"],
+      "properties": {
+        "input_role": {"const": "USER_DATA"},
+        "capability": {"const": "account_context_ingestion"},
+        "validator_path": {"const": "tools/account/validate_portable_context.py"},
+        "next_action": {"const": "attach_portable_user_context"}
+      }
+    },
+    "userDistributable": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_id",
+        "owner",
+        "platform",
+        "locale",
+        "role",
+        "public_path",
+        "source_path",
+        "user_facing_filename",
+        "version",
+        "size_bytes",
+        "sha256",
+        "git_blob_sha",
+        "source_revision",
+        "execution_scope",
+        "produces",
+        "output_format_version",
+        "availability",
+        "entrypoint_url",
+        "portable_ingestion",
+        "opaque"
+      ],
+      "properties": {
+        "artifact_id": {"type": "string", "minLength": 1},
+        "owner": {"const": "account"},
+        "platform": {"enum": ["desktop_chrome_chromium", "ios_ipados"]},
+        "locale": {"type": ["string", "null"]},
+        "role": {"const": "USER_DISTRIBUTABLE"},
+        "public_path": {"type": "string", "minLength": 1},
+        "source_path": {"type": "string", "minLength": 1},
+        "user_facing_filename": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "git_blob_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "source_revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "execution_scope": {"const": "user_device"},
+        "produces": {"const": "genshin_portable_user_context"},
+        "output_format_version": {"const": "0.1-draft"},
+        "availability": {"enum": ["registered", "review_pending", "reviewed", "available", "unsupported", "invalid"]},
+        "entrypoint_url": {"const": "https://act.hoyolab.com/app/community-game-records-sea/index.html"},
+        "portable_ingestion": {"$ref": "#/$defs/portableIngestion"},
+        "opaque": {"type": "boolean"}
+      }
+    }
+  }
+}

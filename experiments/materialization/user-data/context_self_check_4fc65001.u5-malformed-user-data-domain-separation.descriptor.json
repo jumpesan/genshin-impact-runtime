@@ -1,0 +1,93 @@
+{
+  "descriptor_version": "0.1-experiment",
+  "descriptor_role": "EXECUTABLE_MATERIALIZATION_WITH_USER_DATA_DESCRIPTOR",
+  "control": "U5_MALFORMED_USER_DATA_FAILURE_DOMAIN_SEPARATION",
+  "authority": {
+    "repository": "jumpesan/genshin-impact-runtime",
+    "revision": "4fc650013b680963e1a72c491ed3ae5c5639c3c7"
+  },
+  "executable": {
+    "path": "tools/application/context_self_check.py",
+    "required_manifest_role": "TRUSTED_EXECUTABLE",
+    "identity": {
+      "size_bytes": 5028,
+      "sha256": "b942d9b0ba17207bc7cc4febba266a71d34b56c601c01e25b959c5667538a4ed",
+      "git_blob_sha": "965712703e78b4851d5d9b41941d5fe9828d537e"
+    },
+    "representation": {
+      "role": "TRANSPORT_ONLY",
+      "profile": "gzip-base64-chunked-v1",
+      "locator": {
+        "repository": "jumpesan/genshin-impact-runtime",
+        "revision": "24ca00c2594c5ded3d5a2a912c74ba066c214a18",
+        "base_path": "experiments/materialization/"
+      },
+      "compression": {
+        "algorithm": "gzip",
+        "profile": "deterministic-gzip-v1",
+        "compresslevel": 9,
+        "mtime": 0
+      },
+      "encoding": {
+        "algorithm": "base64",
+        "variant": "RFC4648_STANDARD",
+        "padding": "required"
+      },
+      "compressed_identity": {
+        "size_bytes": 1688,
+        "sha256": "1c0c9bbd9c7f631cd414344d2e0f122196fd6cfb1d6a85a46c8122ddd9004198"
+      },
+      "encoded_length_chars": 2252,
+      "chunks": [
+        {
+          "path": "context_self_check_4fc65001.gzip-base64.part-001.b64",
+          "encoded_length_chars": 2252,
+          "ascii_sha256": "91991ee10a97731d9d7df5e9665b76aafcd3646d9d39b359f3d347c991d2567b",
+          "git_blob_sha": "9f808c7040b4ade5e56311b22bee306132a63ccc"
+        }
+      ]
+    }
+  },
+  "materialization": {
+    "root": "FRESH_ISOLATED_ROOT",
+    "target_relative_path_source": "executable.path",
+    "target_relative_path": "tools/application/context_self_check.py"
+  },
+  "user_data": {
+    "role": "USER_DATA",
+    "consumption": "OWNER_INPUT_JSON_VALIDATION",
+    "source_locator": {
+      "repository": "jumpesan/genshin-impact-runtime",
+      "revision": "92da6498f3e055235703c1aec56b96863be49bbb",
+      "path": "experiments/materialization/user-data/u5_malformed_portable_context.user-data.json"
+    },
+    "identity": {
+      "size_bytes": 112,
+      "sha256": "6b26dfab248f675fa67fa64b39463a4600fcb15c70c118875336679b3081d5b8",
+      "git_blob_sha": "78e82b5ada4754a09e508ccb9613c8d4e71d9c3c"
+    }
+  },
+  "policy": {
+    "authority_binding_source": "AUTHORITY_MANIFEST_ONLY",
+    "executable_materialization_independent_of_user_data_parse_result": true,
+    "user_data_parse_failure_does_not_revoke_executable_authority": true,
+    "user_data_parse_failure_does_not_mutate_executable_identity": true,
+    "user_data_parse_failure_does_not_start_new_materialization_attempt": true,
+    "owner_invocation_requires_valid_user_data": true,
+    "owner_input_failure_is_separate_from_materialization_failure": true,
+    "semantic_repair": "forbidden",
+    "execute_only_after_canonical_identity": true
+  },
+  "expected_contract_behavior": {
+    "legitimate_executable_authority": true,
+    "legitimate_executable_canonical_identity": true,
+    "execution_eligible": true,
+    "user_data_identity": true,
+    "user_data_json_valid": false,
+    "owner_input_valid": false,
+    "owner_invocation_eligible": false,
+    "owner_execution": false,
+    "executable_identity_rewritten_after_user_data_failure": false,
+    "new_materialization_attempt": false
+  }
+}

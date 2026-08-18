@@ -10,9 +10,9 @@ application_id: genshin-context-app
 
 Bootstrap establishes a usable Account Context before normal Genshin application work begins.
 
-The runtime describes state, authority, dependencies, and runtime-owned operands. The conversational model resolves those semantics first, then presents the resulting user actions naturally.
+The runtime describes state, authority, dependencies, runtime-owned operands, and required user interactions. The conversational model resolves those semantics first, then presents the resulting user actions naturally.
 
-The same runtime facts and the same user context should lead independent interpretations toward the same required state transitions, selected artifact, bound operands, and next actions.
+The same runtime facts and the same user context should lead independent interpretations toward the same required state transitions, selected artifact, bound operands, required interactions, and next actions.
 
 ## 1. Session
 
@@ -52,7 +52,7 @@ A conversational turn should resolve the information needed for the current stat
 
 ## 3. Conversation surface
 
-Bootstrap conversation should expose the user's current task, the information or action needed next, and the resolved operands required to perform that action.
+Bootstrap conversation should expose the user's current task, the information or action needed next, and the resolved operands and interactions required to perform that action.
 
 Internal application details such as state identifiers, capability identifiers, repository paths, or the exact runtime revision remain part of application context. They become user-facing when they are relevant to a diagnostic, an error, a security decision, or an explicit user request.
 
@@ -64,7 +64,7 @@ what is needed now
 -> the smallest information/action that moves acquisition forward
 ```
 
-Presentation may be prose, a short question, or a compact set of choices. Semantic equivalence depends on resolving the same missing context and required operands, not on reproducing a fixed UI.
+Presentation may be prose, a short question, or a compact set of choices. Semantic equivalence depends on resolving the same missing context, required operands, required interactions, and postconditions, not on reproducing a fixed UI.
 
 ## 4. Acquisition environment
 
@@ -122,11 +122,13 @@ action kind
 required operands
 operand authority
 resolved operand values
+required interaction
+interaction capability
 resulting user-visible transition
 postcondition
 ```
 
-An action becomes ready for presentation when its required operands are bound to values from the selected runtime or trusted contract and its postcondition is achievable from the presented action.
+An action becomes ready for presentation when its required operands are bound to values from the selected runtime or trusted contract, its required interaction is realizable on the current conversation surface, and its postcondition is achievable from that presented interaction.
 
 Examples:
 
@@ -134,6 +136,7 @@ Examples:
 obtain_artifact(
   location = resolved artifact transport,
   filename = selected USER_DISTRIBUTABLE.user_facing_filename,
+  interaction = user_activate_uri(target = location),
   postcondition = user obtains the selected artifact bytes
 )
 
@@ -144,6 +147,7 @@ register_extension(
 
 navigate_external(
   destination = selected USER_DISTRIBUTABLE.entrypoint_url,
+  interaction = user_activate_uri(target = destination),
   postcondition = external entrypoint is open in the user's browser
 )
 
@@ -153,38 +157,38 @@ produce_user_data(
 )
 ```
 
-The user-facing procedure is composed from these instantiated actions. This keeps a semantic action, the runtime-owned value needed to perform it, and the state it must establish in the same resolved unit.
+The user-facing procedure is composed from these instantiated actions. This keeps a semantic action, the runtime-owned value needed to perform it, the interaction that consumes that value, and the state it must establish in the same resolved unit.
 
-## 7. Actionable presentation
+## 7. Interaction resolution
 
-A resolved action is not complete at the conversation surface merely because its operand value is visible. The presentation must preserve the interaction needed to establish the action postcondition.
+Interaction is part of the action instance rather than a formatting afterthought.
 
-For an action whose required operand is a navigable URI and whose postcondition is reached by the human user opening or retrieving that URI, interpret presentation as:
-
-```text
-resolved URI operand
-+ user activation required
-+ conversation host supports navigable hyperlinks
--> render a directly actionable hyperlink bound to that exact resolved URI
-```
-
-Examples include:
+A URI-backed action that requires the human user to open or retrieve a destination uses:
 
 ```text
-obtain_artifact.location
-navigate_external.destination
+user_activate_uri(target = resolved URI operand)
 ```
 
-The visible label is presentation text; the hyperlink target is the resolved operand. The label may describe the user action naturally, while the target preserves the authoritative runtime value.
+The interaction is resolved against the current conversation host's capabilities.
 
-If the conversation host cannot provide a navigable hyperlink, preserve the URI as an explicit copyable operand together with the action needed to use it. A presentation that places a URI in a non-interactive representation establishes only that the value was shown; it does not by itself establish an action postcondition that depends on user navigation.
+For the current ChatGPT conversation surface:
 
-This distinction is part of semantic completeness:
+```text
+navigable URI activation = available
+```
+
+Therefore a `user_activate_uri(...)` interaction resolves to a host-native actionable reference whose target is the exact runtime-owned URI operand. The visible label remains presentation text and may describe the action naturally.
+
+A non-interactive representation of the URI does not satisfy `user_activate_uri(...)` when navigable URI activation is available. It exposes the operand value but leaves the required interaction unresolved, so the action postcondition is not yet reachable from the conversation surface.
+
+On a future host where navigable URI activation is genuinely unavailable, the interaction may resolve to a copyable URI plus an explicit user open/retrieve step only if that alternative still makes the same postcondition reachable.
+
+Action completeness is:
 
 ```text
 operand resolved
--> operand exposed
--> required interaction available
+-> required interaction resolved
+-> interaction exposed to user
 -> action postcondition reachable
 ```
 
@@ -204,15 +208,11 @@ retrieve artifact_transport
 
 The transport therefore resolves to the artifact resource itself, not merely to a navigation surface that requires another unresolved user action before the artifact bytes can be obtained.
 
-For supported GitHub runtime locators, transport derivation is deterministic:
+For supported GitHub runtime locators, transport derivation is deterministic.
 
-```text
-published tag + matching release asset
--> https://github.com/<owner>/<repository>/releases/download/<tag>/<user_facing_filename>
+For a published tag with a matching release asset, resolve a GitHub release-download terminal URI from the runtime owner, repository, tag, and selected `user_facing_filename`.
 
-full commit SHA
--> https://raw.githubusercontent.com/<owner>/<repository>/<sha40>/<public_path>
-```
+For a full commit SHA, resolve a `raw.githubusercontent.com` terminal URI from the runtime owner, repository, full SHA, and selected `public_path`.
 
 The exact owner, repository, reference, filename, and public path come from the selected runtime locator and selected `USER_DISTRIBUTABLE` record.
 
@@ -229,7 +229,7 @@ selected USER_DISTRIBUTABLE
 
 When direct attachment is unavailable, the derived terminal artifact transport becomes the `location` operand of `obtain_artifact(...)` and remains `fallback_link` until the human user obtains the artifact bytes.
 
-If a proposed presentation introduces an intermediate page or interaction before bytes are obtained, that interaction is an additional action in the graph. The artifact acquisition graph is complete only when all actions and operands needed to reach the artifact bytes are resolved.
+If a proposed presentation introduces an intermediate page or interaction before bytes are obtained, that interaction is an additional action in the graph. The artifact acquisition graph is complete only when all actions, operands, and interactions needed to reach the artifact bytes are resolved.
 
 Artifact security properties are defined in `bootstrap/ARTIFACT_DELIVERY_SECURITY.md`.
 
@@ -245,6 +245,7 @@ For the current Chrome/Chromium exporter, instantiate this action sequence:
 obtain_artifact(
   location = resolved terminal artifact transport or attached file,
   filename = selected user_facing_filename,
+  interaction = user_activate_uri(target = location) when location is a URI,
   postcondition = selected ZIP bytes obtained
 )
 
@@ -261,6 +262,7 @@ register_extension(
 
 navigate_external(
   destination = selected USER_DISTRIBUTABLE.entrypoint_url,
+  interaction = user_activate_uri(target = destination),
   postcondition = HoYoLAB entrypoint open in the user's browser
 )
 
@@ -289,7 +291,7 @@ return_user_data(
 )
 ```
 
-Natural guidance may combine adjacent actions, but each runtime-owned operand remains bound to the action that consumes it and the combined guidance must still establish the same postconditions.
+Natural guidance may combine adjacent actions, but each runtime-owned operand and required interaction remains bound to the action that consumes it and the combined guidance must still establish the same postconditions.
 
 ### ios_ipados
 
@@ -299,6 +301,7 @@ For the current Shortcut artifact, instantiate:
 obtain_artifact(
   location = resolved terminal artifact transport or attached file,
   filename = selected user_facing_filename,
+  interaction = user_activate_uri(target = location) when location is a URI,
   postcondition = selected Shortcut bytes obtained
 )
 
@@ -356,9 +359,9 @@ same selected runtime
 -> same selected USER_DISTRIBUTABLE
 -> same instantiated action graph
 -> same runtime-owned operand bindings
--> same required interaction affordances
+-> same required interaction resolution
 -> same action postconditions
 -> equivalent state progression
 ```
 
-Natural phrasing, formatting, grouping of adjacent actions, and link labels are presentation freedoms once the same resolved action graph, operand targets, interaction affordances, and postconditions are preserved.
+Natural phrasing, grouping of adjacent actions, and link labels are presentation freedoms once the same resolved action graph, operand targets, required interactions, and postconditions are preserved.

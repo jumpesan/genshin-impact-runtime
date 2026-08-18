@@ -72,6 +72,33 @@
         "opaque": false
       },
       {
+        "artifact_id": "genshin_hoyolab_exporter_android_1_0_0",
+        "owner": "account",
+        "platform": "android",
+        "locale": null,
+        "role": "USER_DISTRIBUTABLE",
+        "public_path": "acquisition/android/genshin_hoyolab_exporter_android_1.0.0.apk",
+        "source_path": "account/hoyolab_exporter/android_package/genshin_hoyolab_exporter_android_1.0.0.apk",
+        "user_facing_filename": "genshin_hoyolab_exporter_android_1.0.0.apk",
+        "version": "1.0.0",
+        "size_bytes": 1029352,
+        "sha256": "deb166599f2252b6a36c9357a1265cde3e5d7f006d02febbfd78fd78b2045e87",
+        "git_blob_sha": "8faf92aaf4cfebc127851065f6315e238a48abd2",
+        "source_revision": "2c71fe9095e257723a0a48cb6bce8e35429b15ad",
+        "execution_scope": "user_device",
+        "produces": "genshin_portable_user_context",
+        "output_format_version": "0.1-draft",
+        "availability": "available",
+        "entrypoint_url": "https://act.hoyolab.com/app/community-game-records-sea/index.html",
+        "portable_ingestion": {
+          "input_role": "USER_DATA",
+          "capability": "account_context_ingestion",
+          "validator_path": "tools/account/validate_portable_context.py",
+          "next_action": "attach_portable_user_context"
+        },
+        "opaque": false
+      },
+      {
         "artifact_id": "genshin_hoyolab_exporter_ios_ja",
         "owner": "account",
         "platform": "ios_ipados",

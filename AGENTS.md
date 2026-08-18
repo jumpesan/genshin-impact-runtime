@@ -106,7 +106,9 @@ required deterministic capability
 + capability state permits execution
 + required inputs resolved
 + manifest-registered TRUSTED_EXECUTABLE resolved
-+ execution environment available
++ executable resource obtainable from the selected immutable runtime
++ host can materialize required resources and execute the implementation
+-> materialize exact registered executable + required inputs
 -> execute registered implementation
 -> consume its structured output
 -> preserve its result/status semantics
@@ -114,7 +116,35 @@ required deterministic capability
 
 The authoritative deterministic result is the execution output, not a reimplementation of the algorithm in conversational reasoning.
 
-When execution or required input is unavailable, the capability status expresses that limitation. This applies to exact DPS, deterministic reaction/runtime numbers, validators, and other registered deterministic functions.
+### Execution availability resolution
+
+Execution availability is a resolved capability, not an assumption based on whether the executable is already present locally.
+
+For a manifest-registered executable, resolve:
+
+```text
+selected immutable runtime locator
++ registered executable path
+-> exact runtime resource identity
+```
+
+Then resolve whether the current host can obtain that resource through an available read transport and materialize it in an execution environment together with the required input.
+
+The following do not by themselves establish execution unavailability:
+
+```text
+registered executable is not preloaded in the current sandbox
+registered executable has not yet been fetched in this conversation
+source-specific repository connector is unavailable or intentionally unused
+```
+
+If the exact registered resource is publicly obtainable from the selected immutable runtime and the host provides ordinary resource retrieval plus a compatible execution sandbox, materialization is part of execution resolution rather than a reason to stop before execution.
+
+Only after the actual acquisition/materialization/execution path has been resolved or attempted may execution be classified as unavailable. Preserve the concrete blocking condition when it fails, such as resource retrieval failure, incompatible runtime, missing required input, or execution error.
+
+A conversational reimplementation or ad-hoc structural check may provide diagnostic observations, but it cannot substitute for the registered executable or upgrade a repository-owned deterministic status.
+
+This applies to exact DPS, deterministic reaction/runtime numbers, validators, and other registered deterministic functions.
 
 ## 6. Identity resolution
 
@@ -166,8 +196,9 @@ selected runtime revision
 resolved capability
 owner contract/data authority
 registered executable when applicable
+whether resource acquisition/materialization was attempted
 whether execution occurred
-result status
+result status or concrete blocking condition
 ```
 
 Diagnostics describe what actually happened in the session; they are not required boilerplate for normal user-facing answers.
@@ -182,6 +213,7 @@ same user request
 + same runtime authority/capability states
 -> equivalent capability graph
 -> equivalent authoritative resolution/execution needs
+-> equivalent execution availability resolution
 -> equivalent result/status semantics
 ```
 

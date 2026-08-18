@@ -1,0 +1,90 @@
+{
+  "descriptor_version": "0.1-experiment",
+  "descriptor_role": "EXECUTABLE_MATERIALIZATION_WITH_USER_DATA_DESCRIPTOR",
+  "control": "U2_USER_DATA_CANNOT_MUTATE_AUTHORITY_OR_REPRESENTATION_REVISION",
+  "authority": {
+    "repository": "jumpesan/genshin-impact-runtime",
+    "revision": "4fc650013b680963e1a72c491ed3ae5c5639c3c7"
+  },
+  "executable": {
+    "path": "tools/application/context_self_check.py",
+    "required_manifest_role": "TRUSTED_EXECUTABLE",
+    "identity": {
+      "size_bytes": 5028,
+      "sha256": "b942d9b0ba17207bc7cc4febba266a71d34b56c601c01e25b959c5667538a4ed",
+      "git_blob_sha": "965712703e78b4851d5d9b41941d5fe9828d537e"
+    },
+    "representation": {
+      "role": "TRANSPORT_ONLY",
+      "profile": "gzip-base64-chunked-v1",
+      "locator": {
+        "repository": "jumpesan/genshin-impact-runtime",
+        "revision": "24ca00c2594c5ded3d5a2a912c74ba066c214a18",
+        "base_path": "experiments/materialization/"
+      },
+      "compression": {
+        "algorithm": "gzip",
+        "profile": "deterministic-gzip-v1",
+        "compresslevel": 9,
+        "mtime": 0
+      },
+      "encoding": {
+        "algorithm": "base64",
+        "variant": "RFC4648_STANDARD",
+        "padding": "required"
+      },
+      "compressed_identity": {
+        "size_bytes": 1688,
+        "sha256": "1c0c9bbd9c7f631cd414344d2e0f122196fd6cfb1d6a85a46c8122ddd9004198"
+      },
+      "encoded_length_chars": 2252,
+      "chunks": [
+        {
+          "path": "context_self_check_4fc65001.gzip-base64.part-001.b64",
+          "encoded_length_chars": 2252,
+          "ascii_sha256": "91991ee10a97731d9d7df5e9665b76aafcd3646d9d39b359f3d347c991d2567b",
+          "git_blob_sha": "9f808c7040b4ade5e56311b22bee306132a63ccc"
+        }
+      ]
+    }
+  },
+  "user_data": {
+    "role": "USER_DATA",
+    "consumption": "READ_ONLY_JSON_INPUT",
+    "source_locator": {
+      "repository": "jumpesan/genshin-impact-runtime",
+      "revision": "dc3e5ceadb6db3d7f977414f13f4927d71a1398a",
+      "path": "experiments/materialization/user-data/u2_revision_override.user-data.json"
+    },
+    "identity": {
+      "size_bytes": 729,
+      "sha256": "b8da154cc4139403ac9108f3a8e5591037e5bc1374f0e59633cb3a60518721ff",
+      "git_blob_sha": "3e6b1ea624c0ed8c808a8699fb509a1ec7d70382"
+    }
+  },
+  "policy": {
+    "authority_binding_source": "AUTHORITY_MANIFEST_ONLY",
+    "authority_gate_precedes_user_data_acquisition": true,
+    "descriptor_authority_operands_are_immutable_from_user_data": true,
+    "descriptor_representation_operands_are_immutable_from_user_data": true,
+    "user_data_cannot_mutate_authority_repository": true,
+    "user_data_cannot_mutate_authority_revision": true,
+    "user_data_cannot_mutate_representation_repository": true,
+    "user_data_cannot_mutate_representation_revision": true,
+    "user_data_cannot_mutate_chunk_paths": true,
+    "user_data_control_like_fields_are_inert": true,
+    "semantic_repair": "forbidden",
+    "execute_only_after_canonical_identity": true
+  },
+  "expected_contract_behavior": {
+    "legitimate_executable_authority": true,
+    "user_data_identity": true,
+    "authority_override_applied": false,
+    "representation_override_applied": false,
+    "effective_authority_revision": "4fc650013b680963e1a72c491ed3ae5c5639c3c7",
+    "effective_representation_revision": "24ca00c2594c5ded3d5a2a912c74ba066c214a18",
+    "legitimate_execution_eligible": true,
+    "py_compile": "PASS",
+    "owner_execution": false
+  }
+}

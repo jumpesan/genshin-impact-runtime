@@ -1,0 +1,20 @@
+{
+  "representation_version": "1",
+  "representation_role": "experimental_transport_only",
+  "canonical_source": {
+    "repository": "jumpesan/genshin-impact-runtime",
+    "revision": "996df8760e2e355d74fab585a256652f8e1755e2",
+    "path": "tools/optimization/party_candidate_validator.py"
+  },
+  "content_encoding": "base64",
+  "payload_layout": "ordered_ascii_concatenation",
+  "chunks": [
+    "party_candidate_validator_996df876.part-001.b64",
+    "party_candidate_validator_996df876.part-002.b64",
+    "party_candidate_validator_996df876.part-003.b64",
+    "party_candidate_validator_996df876.part-004.b64",
+    "party_candidate_validator_996df876.part-005.b64",
+    "party_candidate_validator_996df876.part-006.b64",
+    "party_candidate_validator_996df876.part-007.b64"
+  ]
+}

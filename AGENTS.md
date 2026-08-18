@@ -128,21 +128,46 @@ selected immutable runtime locator
 -> exact runtime resource identity
 ```
 
-Then resolve whether the current host can obtain that resource through an available read transport and materialize it in an execution environment together with the required input.
+Then resolve whether the current host can obtain that exact resource through an available read transport and materialize it in an execution environment together with the required input.
+
+Resource acquisition is transport-independent while resource identity remains fixed. A failure of one transport does not change the registered executable identity and does not by itself establish that the executable is unobtainable.
+
+```text
+exact immutable runtime resource
+-> try an applicable host read transport
+-> transport failure
+-> preserve the same resource identity
+-> resolve another available read transport when one exists
+-> materialize exact resource content
+```
+
+Examples of distinct acquisition capability classes include a pre-existing local resource, host-native retrieval of an exact immutable URL/resource, or an allowed repository-specific read interface. These are alternative transports for the same registered resource, not alternative authorities.
 
 The following do not by themselves establish execution unavailability:
 
 ```text
 registered executable is not preloaded in the current sandbox
 registered executable has not yet been fetched in this conversation
+one network client / DNS path / transport fails
 source-specific repository connector is unavailable or intentionally unused
 ```
 
-If the exact registered resource is publicly obtainable from the selected immutable runtime and the host provides ordinary resource retrieval plus a compatible execution sandbox, materialization is part of execution resolution rather than a reason to stop before execution.
+Discovery/search results do not substitute for the registered executable. Any fallback acquisition must still resolve the exact selected runtime revision and registered path; unrelated search matches or reconstructed source are not equivalent resources.
 
-Only after the actual acquisition/materialization/execution path has been resolved or attempted may execution be classified as unavailable. Preserve the concrete blocking condition when it fails, such as resource retrieval failure, incompatible runtime, missing required input, or execution error.
+If the exact registered resource is publicly obtainable from the selected immutable runtime and the host provides some compatible resource retrieval plus an execution sandbox, materialization remains part of execution resolution. Only after applicable exact-resource transports have been resolved or attempted may acquisition be classified as unavailable.
 
-A conversational reimplementation or ad-hoc structural check may provide diagnostic observations, but it cannot substitute for the registered executable or upgrade a repository-owned deterministic status.
+Preserve the concrete blocking condition when execution fails, distinguishing at least:
+
+```text
+resource identity unresolved
+exact resource retrieval unavailable after applicable transport resolution
+materialization failure
+incompatible execution runtime
+missing required input
+execution error
+```
+
+A conversational reimplementation or ad-hoc structural check may provide diagnostic observations, but it cannot substitute for the registered executable, cannot establish its authoritative result, and cannot upgrade a repository-owned deterministic status.
 
 This applies to exact DPS, deterministic reaction/runtime numbers, validators, and other registered deterministic functions.
 
@@ -196,9 +221,11 @@ selected runtime revision
 resolved capability
 owner contract/data authority
 registered executable when applicable
-whether resource acquisition/materialization was attempted
+resource identity
+acquisition transports attempted / blocking condition
+whether materialization occurred
 whether execution occurred
-result status or concrete blocking condition
+result status
 ```
 
 Diagnostics describe what actually happened in the session; they are not required boilerplate for normal user-facing answers.
@@ -213,6 +240,7 @@ same user request
 + same runtime authority/capability states
 -> equivalent capability graph
 -> equivalent authoritative resolution/execution needs
+-> equivalent exact-resource acquisition resolution
 -> equivalent execution availability resolution
 -> equivalent result/status semantics
 ```

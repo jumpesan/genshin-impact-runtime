@@ -1,0 +1,168 @@
+{
+  "descriptor_version": "0.1-experiment",
+  "descriptor_role": "EXECUTABLE_EXECUTION_UNIT_DESCRIPTOR",
+  "experiment_role": "DEPENDENCY_AUTHORITY_VALIDATION",
+  "control": "D6_DATA_REFERENCE_DESCRIPTOR_PROMOTION_DENIED",
+  "authority": {
+    "repository": "jumpesan/genshin-impact-runtime",
+    "revision": "4fc650013b680963e1a72c491ed3ae5c5639c3c7"
+  },
+  "entrypoint": {
+    "path": "tools/identity/targeted_identity_readiness.py",
+    "required_manifest_role": "TRUSTED_EXECUTABLE",
+    "identity": {
+      "size_bytes": 9253,
+      "sha256": "21975f04581c68ec140375291f57088c8778ff4921d7c1948c061b76a4961a8c",
+      "git_blob_sha": "9f1d0d821a637eba4993e5b41b1bdbff0d5c0688"
+    },
+    "declared_import_requirements": [
+      {
+        "kind": "EXECUTABLE_CODE_DEPENDENCY",
+        "module": "identity_integration_validator",
+        "required_relative_path": "tools/identity/identity_integration_validator.py"
+      }
+    ],
+    "representation": {
+      "role": "TRANSPORT_ONLY",
+      "profile": "gzip-base64-chunked-v1",
+      "locator": {
+        "repository": "jumpesan/genshin-impact-runtime",
+        "revision": "7e1633cf98868a53897367eb5f09cb20af754334",
+        "base_path": "experiments/materialization/dependency/"
+      },
+      "encoding": {
+        "algorithm": "base64",
+        "variant": "RFC4648_STANDARD",
+        "padding": "required"
+      },
+      "compression": {
+        "algorithm": "gzip",
+        "profile": "deterministic-gzip-v1",
+        "compresslevel": 9,
+        "mtime": 0
+      },
+      "compressed_identity": {
+        "size_bytes": 2739,
+        "sha256": "c51e0a3a2ff89c91bf26793085e11701568d5749b2612f8d212475a510c985b4"
+      },
+      "encoded_length_chars": 3652,
+      "chunks": [
+        {
+          "path": "targeted_identity_readiness_4fc65001.gzip-base64.part-001.b64",
+          "encoded_length_chars": 3652,
+          "ascii_sha256": "a620983e593a9363721d95999b2b28a3861c283620ab689202adc760fe60206b",
+          "git_blob_sha": "77f6ee2a3e4aa42f2c1d9b9c06b5f8949dcc9e84"
+        }
+      ]
+    }
+  },
+  "executable_dependencies": [
+    {
+      "path": "tools/identity/identity_integration_validator.py",
+      "required_manifest_role": "TRUSTED_EXECUTABLE",
+      "materialization_relation": "same_parent_directory_as_entrypoint",
+      "identity": {
+        "size_bytes": 25892,
+        "sha256": "29f355d5be0a81f2772f830b25fbf37662c6c209923d932179fbafd359b433db",
+        "git_blob_sha": "92d54187dc6d1a2de3abb15ebcb11a12bc391c17"
+      },
+      "representation": {
+        "role": "TRANSPORT_ONLY",
+        "profile": "gzip-base64-chunked-v1",
+        "locator": {
+          "repository": "jumpesan/genshin-impact-runtime",
+          "revision": "7e1633cf98868a53897367eb5f09cb20af754334",
+          "base_path": "experiments/materialization/dependency/"
+        },
+        "encoding": {
+          "algorithm": "base64",
+          "variant": "RFC4648_STANDARD",
+          "padding": "required"
+        },
+        "compression": {
+          "algorithm": "gzip",
+          "profile": "deterministic-gzip-v1",
+          "compresslevel": 9,
+          "mtime": 0
+        },
+        "compressed_identity": {
+          "size_bytes": 5683,
+          "sha256": "e7ab4a8a882f96adf62a8888ab2b295b1114e0285fd8f4726bd2b62fee0ed097"
+        },
+        "encoded_length_chars": 7580,
+        "chunks": [
+          {
+            "path": "identity_integration_validator_4fc65001.gzip-base64.part-001.b64",
+            "encoded_length_chars": 4096,
+            "ascii_sha256": "88703a2f277f9d5aa311ca2bb40ca62c841988012fcf912e507488d2a5785db4",
+            "git_blob_sha": "30926eec1937771135f576eef6a2c2680c393856"
+          },
+          {
+            "path": "identity_integration_validator_4fc65001.gzip-base64.part-002.b64",
+            "encoded_length_chars": 3484,
+            "ascii_sha256": "b0bae4b3834653798d54c9f9a4e37df965d0beed3ddd3309c288add43646e338",
+            "git_blob_sha": "3b61356bb7a1e3dedf29c735e45e71cde2b3b4ea"
+          }
+        ]
+      }
+    },
+    {
+      "path": "data/official/characters/identity_registry.json",
+      "required_manifest_role": "TRUSTED_EXECUTABLE",
+      "descriptor_claim": "PROMOTE_DATA_REFERENCE_TO_EXECUTABLE_MEMBER",
+      "identity": {
+        "size_bytes": 358,
+        "sha256": "50cecfdfbf80272b05730ba1763991ec6a976ffb9b9386cfe928d72dc9538c70",
+        "git_blob_sha": "3bac6b93c63ce94ebdbe9e43462d0a943d64c4f1"
+      },
+      "representation": {
+        "role": "NON_AUTHORITATIVE_RAW_SOURCE_LOCATOR",
+        "locator": {
+          "repository": "jumpesan/genshin-impact-runtime",
+          "revision": "4fc650013b680963e1a72c491ed3ae5c5639c3c7",
+          "path": "data/official/characters/identity_registry.json"
+        }
+      }
+    }
+  ],
+  "data_dependencies": [
+    {
+      "path": "data/official/characters/identity_registry.json",
+      "declared_role": "DATA_REFERENCE",
+      "required_manifest_root": "data/",
+      "execution_unit_member": false,
+      "executable_authority_required": false,
+      "consumption_semantics": "READ_ONLY_JSON_INPUT",
+      "source_locator": {
+        "repository": "jumpesan/genshin-impact-runtime",
+        "revision": "4fc650013b680963e1a72c491ed3ae5c5639c3c7",
+        "path": "data/official/characters/identity_registry.json"
+      },
+      "identity": {
+        "size_bytes": 358,
+        "sha256": "50cecfdfbf80272b05730ba1763991ec6a976ffb9b9386cfe928d72dc9538c70",
+        "git_blob_sha": "3bac6b93c63ce94ebdbe9e43462d0a943d64c4f1"
+      }
+    }
+  ],
+  "materialization_policy": {
+    "authority_gate_precedes_representation_acquisition": true,
+    "all_executable_members_must_be_registered": true,
+    "descriptor_cannot_grant_executable_authority": true,
+    "data_reference_root_membership_does_not_grant_executable_authority": true,
+    "role_collision_does_not_upgrade_to_executable": true,
+    "attempt_is_terminal_on_executable_authority_failure": true,
+    "semantic_repair": "forbidden",
+    "alternate_representation_substitution": "forbidden"
+  },
+  "expected_contract_behavior": {
+    "entrypoint_authority": true,
+    "legitimate_executable_dependency_authority": true,
+    "promoted_data_path_manifest_executable_authority": false,
+    "promoted_data_path_data_reference_classification": true,
+    "promoted_data_representation_accessed": false,
+    "any_executable_representation_accessed_after_failed_unit_authority_gate": false,
+    "execution_unit_eligible": false,
+    "required_failure": "EXECUTABLE_AUTHORITY_NOT_REGISTERED"
+  }
+}

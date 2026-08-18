@@ -10,9 +10,9 @@ application_id: genshin-context-app
 
 Bootstrap establishes a usable Account Context before normal Genshin application work begins.
 
-The runtime describes state, authority, and dependencies. The conversational model chooses natural wording and presentation while preserving those semantics.
+The runtime describes state, authority, dependencies, and runtime-owned operands. The conversational model resolves those semantics first, then presents the resulting user actions naturally.
 
-The same runtime facts and the same user context should lead independent interpretations toward the same required state transitions and runtime-owned values.
+The same runtime facts and the same user context should lead independent interpretations toward the same required state transitions, selected artifact, bound operands, and next actions.
 
 ## 1. Session
 
@@ -52,11 +52,11 @@ A conversational turn should resolve the information needed for the current stat
 
 ## 3. Conversation surface
 
-Bootstrap conversation should expose the user's current task, the information or action needed next, and any runtime-owned operand required to perform it.
+Bootstrap conversation should expose the user's current task, the information or action needed next, and the resolved operands required to perform that action.
 
 Internal application details such as state identifiers, capability identifiers, repository paths, or the exact runtime revision remain part of application context. They become user-facing when they are relevant to a diagnostic, an error, a security decision, or an explicit user request.
 
-The normal bootstrap surface therefore follows the user's perspective:
+The normal bootstrap surface follows the user's perspective:
 
 ```text
 what is needed now
@@ -64,13 +64,13 @@ what is needed now
 -> the smallest information/action that moves acquisition forward
 ```
 
-Presentation may be prose, a short question, or a compact set of choices. Semantic equivalence depends on resolving the same missing context and required operands, not on exposing the internal state machine.
+Presentation may be prose, a short question, or a compact set of choices. Semantic equivalence depends on resolving the same missing context and required operands, not on reproducing a fixed UI.
 
 ## 4. Acquisition environment
 
 The acquisition environment exists to select one applicable Account `USER_DISTRIBUTABLE` from `context-manifest.json`.
 
-Use explicit evidence already present in the current conversation when it resolves the environment. When the environment remains ambiguous, ask the smallest natural question needed to distinguish the supported choices.
+Resolve it from trustworthy current-session evidence when available, including an explicit user statement or host-provided device/browser context. When the environment remains ambiguous, ask the smallest natural question needed to distinguish the supported choices.
 
 Current manifest platform identities are:
 
@@ -81,7 +81,7 @@ ios_ipados
 
 Locale is part of artifact selection when multiple artifacts exist for the same platform.
 
-The user-facing wording for environment resolution is a presentation choice. The semantic result is a sufficiently resolved platform/locale context for artifact selection.
+The semantic result is a sufficiently resolved platform/locale context for artifact selection.
 
 ## 5. USER_DISTRIBUTABLE resolution
 
@@ -107,26 +107,67 @@ portable_ingestion
 opaque
 ```
 
-Artifact selection and artifact semantics are one resolution step: user-device guidance is built from the selected record rather than from a separately duplicated filename or endpoint table.
+Artifact selection and artifact semantics are one resolution step: subsequent actions are instantiated from this selected record.
 
 A usable acquisition artifact requires an availability state that permits delivery.
 
-## 6. Artifact delivery
+## 6. Resolved action model
+
+Bootstrap guidance is rendered from resolved action instances.
+
+Each action has:
+
+```text
+action kind
+required operands
+operand authority
+resolved operand values
+resulting user-visible transition
+```
+
+An action becomes ready for presentation when its required operands are bound to values from the selected runtime or trusted contract.
+
+Examples:
+
+```text
+obtain_artifact(
+  location = resolved artifact transport,
+  filename = selected USER_DISTRIBUTABLE.user_facing_filename
+)
+
+register_extension(
+  manager_surface = browser extension manager,
+  folder_condition = extracted folder containing manifest.json
+)
+
+navigate_external(
+  destination = selected USER_DISTRIBUTABLE.entrypoint_url
+)
+
+produce_user_data(
+  output = selected USER_DISTRIBUTABLE.produces,
+  return_channel = current conversation
+)
+```
+
+The user-facing procedure is composed from these instantiated actions. This keeps a semantic action and the runtime-owned value needed to perform it in the same resolved unit.
+
+## 7. Artifact delivery
 
 Delivery preserves the selected artifact identity from the exact selected runtime revision.
 
-When the chat host can materialize files, the preferred path is:
+When the chat host can materialize files, resolve:
 
 ```text
 selected USER_DISTRIBUTABLE
--> retrieve exact bytes from selected runtime revision
--> verify filename / size / SHA-256
+-> exact bytes at selected runtime revision
+-> filename / size / SHA-256 verification
 -> session-local materialization
--> attach exact bytes using user_facing_filename
+-> chat attachment using user_facing_filename
 -> artifact_delivery = delivered
 ```
 
-When direct attachment is unavailable, derive an actionable direct-file location from the typed runtime reference and the selected artifact record:
+When direct attachment is unavailable, resolve one artifact transport location from the typed runtime reference and selected artifact record:
 
 ```text
 published tag + matching release asset
@@ -136,65 +177,95 @@ full commit SHA
 -> commit-pinned raw location for public_path
 ```
 
-The result is `fallback_link` until the human user actually obtains the artifact.
+That resolved location becomes the `location` operand of `obtain_artifact(...)` and remains `fallback_link` until the human user obtains the artifact.
 
 Artifact security properties are defined in `bootstrap/ARTIFACT_DELIVERY_SECURITY.md`.
 
-## 7. User-device acquisition procedure
+## 8. User-device acquisition procedure
 
-The procedure is complete when the user can move from the delivered artifact to the artifact's declared `produces` output using the presented guidance alone.
-
-Construct the procedure as dependency resolution:
-
-```text
-required transition
--> user action
--> operands needed by the action
--> runtime/contract authority for each operand
--> resolved operand
--> natural user-facing guidance
-```
-
-Runtime-owned operands come from the selected `USER_DISTRIBUTABLE` or its trusted contracts.
+The procedure is complete when the user can move from the delivered artifact to the artifact's declared `produces` output by following the resolved action instances presented in conversation.
 
 ### desktop_chrome_chromium
 
-For the current Chrome/Chromium exporter, the semantic action sequence is:
+For the current Chrome/Chromium exporter, instantiate this action sequence:
 
 ```text
-obtain selected ZIP
--> extract it to a persistent folder
--> register that folder as an unpacked Chromium extension; the selected folder contains manifest.json
--> navigate in the same browser to the external entrypoint owned by the selected USER_DISTRIBUTABLE
--> establish the user's normal HoYoLAB session when needed
--> reload the entrypoint page so the extension observes the active page state
--> open Genshin HoYoLAB Exporter
--> refresh exporter state
--> reach ready = true
--> save Portable JSON
--> obtain genshin_portable_user_context_<timestamp>.json
--> return that JSON to this conversation
+obtain_artifact(
+  location = resolved artifact delivery location or attached file,
+  filename = selected user_facing_filename
+)
+
+extract_artifact(
+  source = selected artifact,
+  destination = persistent user folder
+)
+
+register_extension(
+  manager_surface = Chrome chrome://extensions or Edge edge://extensions,
+  mode = unpacked extension,
+  folder_condition = folder containing manifest.json
+)
+
+navigate_external(
+  destination = selected USER_DISTRIBUTABLE.entrypoint_url
+)
+
+establish_service_session(
+  service = HoYoLAB,
+  method = user's normal browser session
+)
+
+refresh_entrypoint()
+
+open_exporter(
+  artifact = Genshin HoYoLAB Exporter
+)
+
+refresh_exporter_state()
+
+reach_readiness(
+  condition = ready = true
+)
+
+save_portable_json()
+
+return_user_data(
+  output_pattern = genshin_portable_user_context_<timestamp>.json,
+  destination = current conversation
+)
 ```
 
-The Chromium extension-management surface is the browser's standard extension manager (`chrome://extensions` for Chrome and `edge://extensions` for Edge).
-
-When external navigation is part of this action sequence, the destination operand is the selected record's `entrypoint_url`; present that resolved destination in a form the user can act on directly.
+Natural guidance may combine adjacent actions, but each runtime-owned operand remains bound to the action that consumes it.
 
 ### ios_ipados
 
-For the current Shortcut artifact, the semantic action sequence is:
+For the current Shortcut artifact, instantiate:
 
 ```text
-obtain selected .shortcut
--> import/open it through the platform-native Shortcuts mechanism
--> run it on the user device
--> follow its visible interaction
--> return the generated Portable User Context to this conversation
+obtain_artifact(
+  location = resolved artifact delivery location or attached file,
+  filename = selected user_facing_filename
+)
+
+import_shortcut(
+  mechanism = platform-native Shortcuts
+)
+
+run_user_distributable(
+  execution_scope = user_device
+)
+
+follow_visible_interaction()
+
+return_user_data(
+  output = selected USER_DISTRIBUTABLE.produces,
+  destination = current conversation
+)
 ```
 
-The Shortcut is an opaque `USER_DISTRIBUTABLE`; its binary contents are transported as registered bytes.
+The Shortcut is an opaque `USER_DISTRIBUTABLE`; its registered bytes define the transported artifact.
 
-## 8. Portable User Context and validation
+## 9. Portable User Context and validation
 
 The acquisition artifact produces Portable User Context as `USER_DATA`.
 
@@ -215,21 +286,22 @@ state = ACCOUNT_CONTEXT_READY
 
 The conversation can then ask or infer the user's Genshin goal and enter normal Application task routing.
 
-## 9. Account-data safety
+## 10. Account-data safety
 
 Account acquisition is designed so authentication secrets remain on the user's device/browser session. The chat receives the generated Portable User Context rather than raw Cookie values, authentication tokens, or browser credentials.
 
-## 10. Interpretation target
+## 11. Interpretation target
 
 Bootstrap conformance is evaluated semantically.
 
 ```text
 same selected runtime
-+ same user evidence
++ same trusted user/session evidence
 -> equivalent acquisition-environment resolution
 -> same selected USER_DISTRIBUTABLE
--> same runtime-owned operands
+-> same instantiated action graph
+-> same runtime-owned operand bindings
 -> equivalent state progression
 ```
 
-Natural phrasing, formatting, whether a choice is expressed as prose or a list, and link rendering are presentation freedoms so long as the required context and operands are actually resolved.
+Natural phrasing, formatting, grouping of adjacent actions, and link rendering are presentation freedoms once the same resolved action graph is preserved.

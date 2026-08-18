@@ -27,14 +27,13 @@
         "instruction_priority": {
           "type": "array",
           "prefixItems": [
-            {"const": "bootstrap/ARTIFACT_DELIVERY_SECURITY.md"},
             {"const": "bootstrap/BOOTSTRAP.md"},
             {"const": "AGENTS.md"},
-            {"const": "README.md"}
+            {"const": "bootstrap/ARTIFACT_DELIVERY_SECURITY.md"}
           ],
           "items": false,
-          "minItems": 4,
-          "maxItems": 4
+          "minItems": 3,
+          "maxItems": 3
         }
       }
     },
@@ -52,7 +51,7 @@
         "trusted_instruction": {
           "type": "array",
           "uniqueItems": true,
-          "minItems": 4,
+          "minItems": 3,
           "items": {"type": "string", "minLength": 1}
         },
         "trusted_contract": {

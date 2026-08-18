@@ -45,6 +45,11 @@
         "padding": "required",
         "variant": "RFC4648_STANDARD"
       },
+      "locator": {
+        "repository": "jumpesan/genshin-impact-runtime",
+        "revision": "7e1633cf98868a53897367eb5f09cb20af754334",
+        "base_path": "experiments/materialization/dependency/"
+      },
       "profile": "gzip-base64-chunked-v1",
       "role": "TRANSPORT_ONLY"
     },
@@ -90,6 +95,11 @@
           "padding": "required",
           "variant": "RFC4648_STANDARD"
         },
+        "locator": {
+          "repository": "jumpesan/genshin-impact-runtime",
+          "revision": "7e1633cf98868a53897367eb5f09cb20af754334",
+          "base_path": "experiments/materialization/dependency/"
+        },
         "profile": "gzip-base64-chunked-v1",
         "role": "TRANSPORT_ONLY"
       },
@@ -104,6 +114,7 @@
   "materialization_policy": {
     "all_executable_members_must_be_registered": true,
     "all_executable_members_must_match_identity": true,
+    "materialize_at_registered_relative_paths_under_isolated_root": true,
     "network_dependency_fetch": "forbidden",
     "recursive_import_discovery": "forbidden",
     "semantic_dependency_reimplementation": "forbidden",

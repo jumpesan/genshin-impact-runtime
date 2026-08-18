@@ -36,7 +36,8 @@
       "tools/identity/identity_integration_validator.py",
       "tools/identity/targeted_identity_readiness.py",
       "tools/identity/current_v2_aether/targeted_identity_readiness.py",
-      "tools/optimization/party_candidate_validator.py"
+      "tools/optimization/party_candidate_validator.py",
+      "experiments/materialization/portability/p3_unicode_newline_fixture.py"
     ],
     "data_reference_roots": [
       "data/",

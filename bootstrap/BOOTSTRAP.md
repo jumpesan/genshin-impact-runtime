@@ -58,7 +58,8 @@ At `PLATFORM_REQUIRED`, ask only:
 
 ```text
 1. PC / Chromium-based browser
-2. iPhone / iPad
+2. Android
+3. iPhone / iPad
 ```
 
 After selection:
@@ -76,6 +77,11 @@ PC / Chromium
   platform    = desktop_chrome_chromium
   filename    = genshin_hoyolab_exporter_chrome_1.0.0.zip
   public_path = acquisition/chrome/genshin_hoyolab_exporter_chrome_1.0.0.zip
+
+Android
+  platform    = android
+  filename    = genshin_hoyolab_exporter_android_1.0.0.apk
+  public_path = acquisition/android/genshin_hoyolab_exporter_android_1.0.0.apk
 
 iPhone / iPad + Japanese conversation
   platform    = ios_ipados
@@ -238,6 +244,24 @@ return that generated USER_DATA to this chat
 For any external navigation action above, use the resolved destination owned by the selected artifact metadata. Do not replace an available runtime-owned destination with a generic phrase that leaves the human user to discover it independently.
 
 Do not tell the user to read instructions inside the ZIP; the frozen package has no user README.
+
+### Android
+
+The applicable procedure includes only these established semantics:
+
+```text
+install the exact selected .apk through the Android package-installation flow
+launch the installed Genshin HoYoLAB Exporter
+follow the visible in-app flow to the official HoYoLAB entrypoint required to produce the declared output
+sign in normally if needed
+continue the exporter flow until Portable User Context is generated
+identify the produced genshin_portable_user_context_<timestamp>.json
+return that generated USER_DATA to this chat
+```
+
+Use the resolved `USER_DISTRIBUTABLE` record for the exact APK filename, identity, availability, and external entrypoint. Do not instruct the user to rebuild, re-sign, repackage, or modify the APK.
+
+Representative exact-artifact acceptance proves installation, app launch, and Portable User Context generation for the reviewed artifact. Do not generalize this into a broad Android-version/WebView compatibility claim, and do not claim that external/social OAuth paths have been validated.
 
 ### iPhone / iPad
 

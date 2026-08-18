@@ -155,7 +155,40 @@ produce_user_data(
 
 The user-facing procedure is composed from these instantiated actions. This keeps a semantic action, the runtime-owned value needed to perform it, and the state it must establish in the same resolved unit.
 
-## 7. Artifact transport and delivery
+## 7. Actionable presentation
+
+A resolved action is not complete at the conversation surface merely because its operand value is visible. The presentation must preserve the interaction needed to establish the action postcondition.
+
+For an action whose required operand is a navigable URI and whose postcondition is reached by the human user opening or retrieving that URI, interpret presentation as:
+
+```text
+resolved URI operand
++ user activation required
++ conversation host supports navigable hyperlinks
+-> render a directly actionable hyperlink bound to that exact resolved URI
+```
+
+Examples include:
+
+```text
+obtain_artifact.location
+navigate_external.destination
+```
+
+The visible label is presentation text; the hyperlink target is the resolved operand. The label may describe the user action naturally, while the target preserves the authoritative runtime value.
+
+If the conversation host cannot provide a navigable hyperlink, preserve the URI as an explicit copyable operand together with the action needed to use it. A presentation that places a URI in a non-interactive representation establishes only that the value was shown; it does not by itself establish an action postcondition that depends on user navigation.
+
+This distinction is part of semantic completeness:
+
+```text
+operand resolved
+-> operand exposed
+-> required interaction available
+-> action postcondition reachable
+```
+
+## 8. Artifact transport and delivery
 
 Delivery preserves the selected artifact identity from the exact selected runtime revision.
 
@@ -200,7 +233,7 @@ If a proposed presentation introduces an intermediate page or interaction before
 
 Artifact security properties are defined in `bootstrap/ARTIFACT_DELIVERY_SECURITY.md`.
 
-## 8. User-device acquisition procedure
+## 9. User-device acquisition procedure
 
 The procedure is complete when the user can move from the delivered artifact to the artifact's declared `produces` output by following the resolved action instances presented in conversation.
 
@@ -227,7 +260,8 @@ register_extension(
 )
 
 navigate_external(
-  destination = selected USER_DISTRIBUTABLE.entrypoint_url
+  destination = selected USER_DISTRIBUTABLE.entrypoint_url,
+  postcondition = HoYoLAB entrypoint open in the user's browser
 )
 
 establish_service_session(
@@ -286,7 +320,7 @@ return_user_data(
 
 The Shortcut is an opaque `USER_DISTRIBUTABLE`; its registered bytes define the transported artifact.
 
-## 9. Portable User Context and validation
+## 10. Portable User Context and validation
 
 The acquisition artifact produces Portable User Context as `USER_DATA`.
 
@@ -307,11 +341,11 @@ state = ACCOUNT_CONTEXT_READY
 
 The conversation can then ask or infer the user's Genshin goal and enter normal Application task routing.
 
-## 10. Account-data safety
+## 11. Account-data safety
 
 Account acquisition is designed so authentication secrets remain on the user's device/browser session. The chat receives the generated Portable User Context rather than raw Cookie values, authentication tokens, or browser credentials.
 
-## 11. Interpretation target
+## 12. Interpretation target
 
 Bootstrap conformance is evaluated semantically.
 
@@ -322,8 +356,9 @@ same selected runtime
 -> same selected USER_DISTRIBUTABLE
 -> same instantiated action graph
 -> same runtime-owned operand bindings
+-> same required interaction affordances
 -> same action postconditions
 -> equivalent state progression
 ```
 
-Natural phrasing, formatting, grouping of adjacent actions, and link rendering are presentation freedoms once the same resolved action graph and postconditions are preserved.
+Natural phrasing, formatting, grouping of adjacent actions, and link labels are presentation freedoms once the same resolved action graph, operand targets, interaction affordances, and postconditions are preserved.

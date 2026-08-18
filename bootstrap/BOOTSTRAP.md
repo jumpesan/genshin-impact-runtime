@@ -46,11 +46,27 @@ APP_SESSION_STARTED
 -> APPLICATION_TASK_ROUTING
 ```
 
-These are application states, not prescribed UI screens.
+These state labels are internal semantic vocabulary for reasoning about progress and dependencies. The conversation surface represents their user-relevant meaning rather than reproducing the labels themselves.
 
 A conversational turn should resolve the information needed for the current state and move forward when that dependency is satisfied.
 
-## 3. Acquisition environment
+## 3. Conversation surface
+
+Bootstrap conversation should expose the user's current task, the information or action needed next, and any runtime-owned operand required to perform it.
+
+Internal application details such as state identifiers, capability identifiers, repository paths, or the exact runtime revision remain part of application context. They become user-facing when they are relevant to a diagnostic, an error, a security decision, or an explicit user request.
+
+The normal bootstrap surface therefore follows the user's perspective:
+
+```text
+what is needed now
+-> why it is needed when useful
+-> the smallest information/action that moves acquisition forward
+```
+
+Presentation may be prose, a short question, or a compact set of choices. Semantic equivalence depends on resolving the same missing context and required operands, not on exposing the internal state machine.
+
+## 4. Acquisition environment
 
 The acquisition environment exists to select one applicable Account `USER_DISTRIBUTABLE` from `context-manifest.json`.
 
@@ -67,7 +83,7 @@ Locale is part of artifact selection when multiple artifacts exist for the same 
 
 The user-facing wording for environment resolution is a presentation choice. The semantic result is a sufficiently resolved platform/locale context for artifact selection.
 
-## 4. USER_DISTRIBUTABLE resolution
+## 5. USER_DISTRIBUTABLE resolution
 
 `context-manifest.json` is the authority for available Account acquisition artifacts.
 
@@ -95,7 +111,7 @@ Artifact selection and artifact semantics are one resolution step: user-device g
 
 A usable acquisition artifact requires an availability state that permits delivery.
 
-## 5. Artifact delivery
+## 6. Artifact delivery
 
 Delivery preserves the selected artifact identity from the exact selected runtime revision.
 
@@ -124,7 +140,7 @@ The result is `fallback_link` until the human user actually obtains the artifact
 
 Artifact security properties are defined in `bootstrap/ARTIFACT_DELIVERY_SECURITY.md`.
 
-## 6. User-device acquisition procedure
+## 7. User-device acquisition procedure
 
 The procedure is complete when the user can move from the delivered artifact to the artifact's declared `produces` output using the presented guidance alone.
 
@@ -178,7 +194,7 @@ obtain selected .shortcut
 
 The Shortcut is an opaque `USER_DISTRIBUTABLE`; its binary contents are transported as registered bytes.
 
-## 7. Portable User Context and validation
+## 8. Portable User Context and validation
 
 The acquisition artifact produces Portable User Context as `USER_DATA`.
 
@@ -199,11 +215,11 @@ state = ACCOUNT_CONTEXT_READY
 
 The conversation can then ask or infer the user's Genshin goal and enter normal Application task routing.
 
-## 8. Account-data safety
+## 9. Account-data safety
 
 Account acquisition is designed so authentication secrets remain on the user's device/browser session. The chat receives the generated Portable User Context rather than raw Cookie values, authentication tokens, or browser credentials.
 
-## 9. Interpretation target
+## 10. Interpretation target
 
 Bootstrap conformance is evaluated semantically.
 

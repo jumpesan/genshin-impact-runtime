@@ -1,0 +1,92 @@
+{
+  "descriptor_version": "0.1-experiment",
+  "descriptor_role": "EXECUTABLE_MATERIALIZATION_DESCRIPTOR",
+  "control": "P4_LARGER_PAYLOAD_MULTI_CHUNK_EXACT_MATERIALIZATION",
+  "authority": {
+    "repository": "jumpesan/genshin-impact-runtime",
+    "revision": "fe3ea043f648084ea72c609077f4b349c9f59824"
+  },
+  "executable": {
+    "path": "experiments/materialization/portability/p4_large_multichunk_fixture.py",
+    "required_manifest_role": "TRUSTED_EXECUTABLE",
+    "identity": {
+      "size_bytes": 13239,
+      "sha256": "06c229e6f37638aab38addae9808a1149864556605a5c08d47f4ef759e2c9f9a",
+      "git_blob_sha": "7c728106c0c28dd5ea51b326c6de1a2fa7b85e4c",
+      "line_feed_count": 191,
+      "trailing_lf": true
+    },
+    "representation": {
+      "role": "TRANSPORT_ONLY",
+      "profile": "gzip-base64-chunked-v1",
+      "locator": {
+        "repository": "jumpesan/genshin-impact-runtime",
+        "revision": "ced735ff56897e8d8cdea0ecbaf7bc99cea58d43",
+        "base_path": "experiments/materialization/portability/"
+      },
+      "compression": {
+        "algorithm": "gzip",
+        "profile": "deterministic-gzip-v1",
+        "compresslevel": 9,
+        "mtime": 0
+      },
+      "encoding": {
+        "algorithm": "base64",
+        "variant": "RFC4648_STANDARD",
+        "padding": "required"
+      },
+      "compressed_identity": {
+        "size_bytes": 7334,
+        "sha256": "601e0c76d7e79258d1207b8c8498548b6447e4405376cb8076f657ecb9ec2724"
+      },
+      "encoded_length_chars": 9780,
+      "chunk_count": 3,
+      "chunks": [
+        {
+          "path": "p4_large_multichunk_fixture.gzip-base64.part-001.b64",
+          "encoded_length_chars": 4096,
+          "ascii_sha256": "4fd2780201fa50ad4d7056020638c3def0d4420d7a767fa952e36ff53484d1df",
+          "git_blob_sha": "ebd6185d8abf43b22436a7daa97fa0bd21c8ad81"
+        },
+        {
+          "path": "p4_large_multichunk_fixture.gzip-base64.part-002.b64",
+          "encoded_length_chars": 4096,
+          "ascii_sha256": "bcb372d503ee19582c63c60ddf8b2331c6dbd94dd8b933f35d1a36b9d7aa73bd",
+          "git_blob_sha": "8bcde61f0942a7a5e234bcdd18061cd128cd78bd"
+        },
+        {
+          "path": "p4_large_multichunk_fixture.gzip-base64.part-003.b64",
+          "encoded_length_chars": 1588,
+          "ascii_sha256": "e6dbd3e03d5b0e1d139e7c789acdc1398e3f0dcff811aec7aa64c29078e4fe57",
+          "git_blob_sha": "9f55c117278eb34d359a189f7a1dfdc4457c04ca"
+        }
+      ]
+    }
+  },
+  "materialization": {
+    "root": "FRESH_ISOLATED_ROOT",
+    "target_relative_path_source": "executable.path",
+    "target_relative_path": "experiments/materialization/portability/p4_large_multichunk_fixture.py"
+  },
+  "policy": {
+    "authority_binding_source": "AUTHORITY_MANIFEST_ONLY",
+    "declared_chunk_order_is_normative": true,
+    "all_chunk_identities_required_before_join": true,
+    "joined_encoded_length_required": true,
+    "strict_base64_once": true,
+    "compressed_identity_before_decompression": true,
+    "canonical_identity_required_before_execution": true,
+    "semantic_repair": "forbidden",
+    "alternate_representation": "forbidden"
+  },
+  "expected_contract_behavior": {
+    "authority": true,
+    "all_chunks_exact": true,
+    "joined_encoded_length": 9780,
+    "compressed_identity": true,
+    "canonical_identity": true,
+    "execution_eligible": true,
+    "py_compile": "PASS",
+    "owner_execution": false
+  }
+}

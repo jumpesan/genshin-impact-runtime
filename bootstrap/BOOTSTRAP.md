@@ -123,16 +123,18 @@ required operands
 operand authority
 resolved operand values
 resulting user-visible transition
+postcondition
 ```
 
-An action becomes ready for presentation when its required operands are bound to values from the selected runtime or trusted contract.
+An action becomes ready for presentation when its required operands are bound to values from the selected runtime or trusted contract and its postcondition is achievable from the presented action.
 
 Examples:
 
 ```text
 obtain_artifact(
   location = resolved artifact transport,
-  filename = selected USER_DISTRIBUTABLE.user_facing_filename
+  filename = selected USER_DISTRIBUTABLE.user_facing_filename,
+  postcondition = user obtains the selected artifact bytes
 )
 
 register_extension(
@@ -141,7 +143,8 @@ register_extension(
 )
 
 navigate_external(
-  destination = selected USER_DISTRIBUTABLE.entrypoint_url
+  destination = selected USER_DISTRIBUTABLE.entrypoint_url,
+  postcondition = external entrypoint is open in the user's browser
 )
 
 produce_user_data(
@@ -150,11 +153,35 @@ produce_user_data(
 )
 ```
 
-The user-facing procedure is composed from these instantiated actions. This keeps a semantic action and the runtime-owned value needed to perform it in the same resolved unit.
+The user-facing procedure is composed from these instantiated actions. This keeps a semantic action, the runtime-owned value needed to perform it, and the state it must establish in the same resolved unit.
 
-## 7. Artifact delivery
+## 7. Artifact transport and delivery
 
 Delivery preserves the selected artifact identity from the exact selected runtime revision.
+
+An artifact transport is the terminal resource operand consumed by `obtain_artifact(...)`.
+
+Its semantics are:
+
+```text
+retrieve artifact_transport
+-> artifact bytes are returned
+-> bytes can be checked against selected USER_DISTRIBUTABLE identity
+```
+
+The transport therefore resolves to the artifact resource itself, not merely to a navigation surface that requires another unresolved user action before the artifact bytes can be obtained.
+
+For supported GitHub runtime locators, transport derivation is deterministic:
+
+```text
+published tag + matching release asset
+-> https://github.com/<owner>/<repository>/releases/download/<tag>/<user_facing_filename>
+
+full commit SHA
+-> https://raw.githubusercontent.com/<owner>/<repository>/<sha40>/<public_path>
+```
+
+The exact owner, repository, reference, filename, and public path come from the selected runtime locator and selected `USER_DISTRIBUTABLE` record.
 
 When the chat host can materialize files, resolve:
 
@@ -167,17 +194,9 @@ selected USER_DISTRIBUTABLE
 -> artifact_delivery = delivered
 ```
 
-When direct attachment is unavailable, resolve one artifact transport location from the typed runtime reference and selected artifact record:
+When direct attachment is unavailable, the derived terminal artifact transport becomes the `location` operand of `obtain_artifact(...)` and remains `fallback_link` until the human user obtains the artifact bytes.
 
-```text
-published tag + matching release asset
--> Release Asset location for user_facing_filename
-
-full commit SHA
--> commit-pinned raw location for public_path
-```
-
-That resolved location becomes the `location` operand of `obtain_artifact(...)` and remains `fallback_link` until the human user obtains the artifact.
+If a proposed presentation introduces an intermediate page or interaction before bytes are obtained, that interaction is an additional action in the graph. The artifact acquisition graph is complete only when all actions and operands needed to reach the artifact bytes are resolved.
 
 Artifact security properties are defined in `bootstrap/ARTIFACT_DELIVERY_SECURITY.md`.
 
@@ -191,8 +210,9 @@ For the current Chrome/Chromium exporter, instantiate this action sequence:
 
 ```text
 obtain_artifact(
-  location = resolved artifact delivery location or attached file,
-  filename = selected user_facing_filename
+  location = resolved terminal artifact transport or attached file,
+  filename = selected user_facing_filename,
+  postcondition = selected ZIP bytes obtained
 )
 
 extract_artifact(
@@ -235,7 +255,7 @@ return_user_data(
 )
 ```
 
-Natural guidance may combine adjacent actions, but each runtime-owned operand remains bound to the action that consumes it.
+Natural guidance may combine adjacent actions, but each runtime-owned operand remains bound to the action that consumes it and the combined guidance must still establish the same postconditions.
 
 ### ios_ipados
 
@@ -243,8 +263,9 @@ For the current Shortcut artifact, instantiate:
 
 ```text
 obtain_artifact(
-  location = resolved artifact delivery location or attached file,
-  filename = selected user_facing_filename
+  location = resolved terminal artifact transport or attached file,
+  filename = selected user_facing_filename,
+  postcondition = selected Shortcut bytes obtained
 )
 
 import_shortcut(
@@ -301,7 +322,8 @@ same selected runtime
 -> same selected USER_DISTRIBUTABLE
 -> same instantiated action graph
 -> same runtime-owned operand bindings
+-> same action postconditions
 -> equivalent state progression
 ```
 
-Natural phrasing, formatting, grouping of adjacent actions, and link rendering are presentation freedoms once the same resolved action graph is preserved.
+Natural phrasing, formatting, grouping of adjacent actions, and link rendering are presentation freedoms once the same resolved action graph and postconditions are preserved.

@@ -27,13 +27,14 @@
         "instruction_priority": {
           "type": "array",
           "prefixItems": [
+            {"const": "bootstrap/ARTIFACT_DELIVERY_SECURITY.md"},
             {"const": "bootstrap/BOOTSTRAP.md"},
             {"const": "AGENTS.md"},
             {"const": "README.md"}
           ],
           "items": false,
-          "minItems": 3,
-          "maxItems": 3
+          "minItems": 4,
+          "maxItems": 4
         }
       }
     },
@@ -51,7 +52,7 @@
         "trusted_instruction": {
           "type": "array",
           "uniqueItems": true,
-          "minItems": 3,
+          "minItems": 4,
           "items": {"type": "string", "minLength": 1}
         },
         "trusted_contract": {
@@ -189,7 +190,7 @@
         "produces": {"const": "genshin_portable_user_context"},
         "output_format_version": {"const": "0.1-draft"},
         "availability": {"enum": ["registered", "review_pending", "reviewed", "available", "unsupported", "invalid"]},
-        "entrypoint_url": {"const": "https://act.hoyolab.com/app/community-game-records-sea/index.html"},
+        "entrypoint_url": {"type": "string", "format": "uri", "minLength": 1},
         "portable_ingestion": {"$ref": "#/$defs/portableIngestion"},
         "opaque": {"type": "boolean"}
       }

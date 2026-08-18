@@ -201,13 +201,35 @@ navigable URI activation = available
 
 Therefore the URI-consuming action should surface a host-native actionable reference whose target is the exact runtime-owned URI. Its visible identity may be a natural action label, filename, or destination meaning; literal URI text is not required when the target is correctly bound and the user can recognize what the action does.
 
-The following do not satisfy a URI surface binding when navigable URI activation is available:
+### User-distributable delivery UX contract
+
+`USER_DISTRIBUTABLE` acquisition is a user-entry boundary where interaction friction is part of application correctness rather than optional presentation polish.
+
+When the selected artifact is delivered by URI and the conversation host supports navigable URI activation:
 
 ```text
-prose that merely says to obtain/open the resource
-an omitted resolved URI
-an inert representation with no activation bound to the operand
+selected USER_DISTRIBUTABLE
++ terminal artifact URI resolved
++ navigable URI activation available
+-> expose one directly actionable download reference bound to the exact terminal artifact URI
+-> user can initiate artifact retrieval without copying, reconstructing, or manually re-entering the URI
 ```
+
+For a Markdown-capable conversation surface, an ordinary rendered hyperlink bound to the exact URI satisfies this contract. An equivalent host-native link/file control also satisfies it.
+
+The following do **not** satisfy the delivery contract when direct activation is available:
+
+```text
+URI inside a fenced code block
+URI presented only as inline code
+plain instructions telling the user to copy/paste the URI into an address bar
+prose that names the artifact without a bound download control
+an intermediate repository page when the terminal artifact resource is already resolved
+```
+
+The same interaction requirement applies to a resolved external service entrypoint such as `navigate_external.destination`: when the host can render a navigable reference, the user should be able to open the selected destination directly from the response.
+
+Visible labels and surrounding explanatory prose remain presentation freedoms. Whether the user receives an actionable control for an already-resolved human-consumed URI is not a presentation freedom.
 
 A copyable URI is a fallback only on a host where direct URI activation is genuinely unavailable.
 
@@ -264,7 +286,7 @@ selected USER_DISTRIBUTABLE
 -> artifact_delivery = delivered
 ```
 
-When direct attachment is unavailable, the derived terminal artifact transport becomes the `location` operand of `obtain_artifact(...)` and remains `fallback_link` until the human user obtains the artifact bytes.
+When direct attachment is unavailable, the derived terminal artifact transport becomes the `location` operand of `obtain_artifact(...)` and remains `fallback_link` until the human user obtains the artifact bytes. On a host with navigable URI activation, that fallback link is still an actionable download reference; it is not inert URI text.
 
 Artifact identity cues such as the user-facing filename belong with the acquisition action when they help the user recognize what they are obtaining. Integrity metadata such as size/SHA remains available for verification and diagnostics and may be surfaced when useful without becoming mandatory prose.
 
@@ -410,4 +432,4 @@ same selected runtime
 -> equivalent state progression
 ```
 
-Natural phrasing, grouping of adjacent actions, link labels, and verification-detail density are presentation freedoms once the same resolved action graph, operand targets, surface bindings, required interactions, and postconditions are preserved.
+Natural phrasing, grouping of adjacent actions, link labels, and verification-detail density are presentation freedoms once the same resolved action graph, operand targets, surface bindings, required interactions, and postconditions are preserved. For a human-consumed URI on a host with navigable URI activation, actionable versus inert presentation is part of semantic conformance, not a formatting preference.

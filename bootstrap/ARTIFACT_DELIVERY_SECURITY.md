@@ -1,254 +1,63 @@
-# Context App — Artifact Delivery / Guidance Semantics
+# Context App — Artifact Delivery Security Boundaries
 
 ## Purpose
 
-This instruction defines semantic invariants for Account USER_DISTRIBUTABLE delivery and user-device guidance.
+This document defines the stable security and integrity properties of Account `USER_DISTRIBUTABLE` transport.
 
-The goal is not to make one model reproduce one canned response. The goal is that any conforming conversational LLM can derive the same required user actions from the same runtime metadata and contracts.
+It is intentionally narrow. Bootstrap behavior and user guidance are defined by `bootstrap/BOOTSTRAP.md`.
 
-When a lower-priority instruction contains a concrete endpoint, menu, numbered choice, or prose example, that presentation is not itself the authority for the semantic requirement. Runtime state, metadata, and contracts are the authority.
+## 1. Artifact identity
 
-## 1. Runtime reference semantics
+The selected manifest record defines the artifact identity.
 
-A GitHub `/tree/<ref>` shape does not determine whether `<ref>` is a tag or a commit.
+A delivered artifact satisfies:
 
 ```text
-full 40-hex ref -> commit SHA
-published immutable tag -> tag
-commit_sha != release_tag
+filename == user_facing_filename
+size     == size_bytes
+sha256   == manifest sha256
+revision == selected runtime revision
 ```
 
-Artifact transport is derived from the reference kind plus manifest metadata.
+A byte mismatch changes artifact identity and therefore does not satisfy delivery of the selected `USER_DISTRIBUTABLE`.
 
-For a full commit SHA and a manifest-resolved `public_path`:
+## 2. Execution boundary
+
+`USER_DISTRIBUTABLE` execution occurs on `user_device` according to its declared `execution_scope`.
+
+Repository retrieval, session-local materialization, hashing, archive inspection, and chat attachment are transport or inspection operations rather than authority to execute the artifact.
+
+## 3. Optional security scanning
+
+A host may perform a read-only security scan when an actual scanner is available.
+
+Scan semantics are:
 
 ```text
-artifact_transport = commit-pinned direct file at <sha40>/<public_path>
+scanner executed -> report its observed status factually
+scanner unavailable -> no scan result
+scan success -> no issue reported by that scanner in that run
 ```
 
-For a published tag with a matching Release binding:
+Scanning preserves artifact bytes. The final delivered bytes still satisfy the manifest identity after inspection.
+
+A scan result does not change the artifact's trust role from `USER_DISTRIBUTABLE` to `TRUSTED_EXECUTABLE`.
+
+## 4. Opaque artifacts
+
+An artifact marked `opaque = true` is transported as exact registered bytes. Its runtime behavior is represented by trusted metadata/contracts and by user-visible behavior on the user's device, not by reconstructing or rewriting its binary representation.
+
+## 5. Credential boundary
+
+Authentication credentials stay within the user's normal device/browser session.
+
+The Account acquisition handoff to chat is the produced Portable User Context. Raw cookies, authentication tokens, and browser credentials are outside the chat payload boundary.
+
+## 6. Fail-closed identity
+
+Artifact identity, authority, or required security state remains unresolved when its authoritative evidence is unresolved.
 
 ```text
-artifact_transport = Release Asset for <tag>/<user_facing_filename>
-```
-
-A commit SHA MUST NOT be interpreted as a Release tag merely because both can appear in `/tree/<ref>`.
-
-## 2. Platform selection is context resolution
-
-`PLATFORM_REQUIRED` means the Application lacks enough acquisition-environment context to select exactly one applicable `USER_DISTRIBUTABLE`.
-
-Interpret it as:
-
-```text
-current conversation / explicit user evidence
--> acquisition environment resolution
--> exactly one supported platform identity
--> artifact candidate resolution
-```
-
-It is not semantically equivalent to rendering a fixed menu.
-
-Preserve:
-
-```text
-platform already resolved from explicit current-context evidence
-  -> reuse that resolved context; do not ask the user to repeat it
-
-platform unresolved or genuinely ambiguous
-  -> ask one concise natural question whose answer can resolve one supported acquisition environment
-```
-
-The current supported platform identities are runtime semantics:
-
-```text
-desktop_chrome_chromium
-ios_ipados
-```
-
-A numbered menu, prose question, buttons, or other conversational phrasing are presentation choices. Lower-priority examples such as `1. PC / 2. iPhone` illustrate distinguishable choices; they do not require the assistant to behave like a conventional menu UI.
-
-A good question should expose only the user-relevant distinction needed for the next decision. Internal state names, enum names, artifact IDs, or implementation terminology are not required user-facing operands.
-
-Do not guess the acquisition environment from weak or unrelated clues merely to avoid asking. The goal is reproducible interpretation, not aggressive inference.
-
-Acceptance is semantic:
-
-```text
-same user/context evidence
-+ same supported runtime platform semantics
--> same resolved platform, or an equivalent clarification need
-```
-
-Exact wording of the clarification is not an acceptance condition.
-
-## 3. Artifact candidate vs resolved artifact semantics
-
-A platform/locale mapping may identify an artifact candidate without resolving the selected artifact's full runtime semantics.
-
-Preserve:
-
-```text
-artifact_candidate_resolved
-!= selected_USER_DISTRIBUTABLE_resolved
-!= user_device_procedure_ready
-```
-
-The candidate mapping may be sufficient to know a filename or public path, but a user-device procedure depends on the selected manifest-declared `USER_DISTRIBUTABLE` record.
-
-Before procedure generation can be complete, resolve exactly one applicable `USER_DISTRIBUTABLE` from the selected runtime revision.
-
-That resolved record supplies runtime-owned semantics including at least:
-
-```text
-role
-platform
-locale
-public_path
-user_facing_filename
-size_bytes
-sha256
-availability
-execution_scope
-produces
-entrypoint_url when present
-portable_ingestion
-```
-
-If the candidate is known but the matching record is unresolved, preserve that distinction. Do not allow model memory or generic platform knowledge to silently stand in for unresolved runtime-owned operands.
-
-## 4. Artifact identity and attachment semantics
-
-When the chat host can retrieve and attach the artifact, prefer:
-
-```text
-selected runtime revision
--> resolve exactly one applicable USER_DISTRIBUTABLE from manifest
--> retrieve exact bytes
--> validate manifest identity (filename / size / SHA-256)
--> materialize session-locally without executing the artifact
--> optional read-only security scan when a real scanner is available
--> confirm bytes delivered to the user still match the manifest identity
--> attach exact bytes using user_facing_filename
-```
-
-Security invariants:
-
-```text
-scan != execution
-scan pass != proof of safety
-scan unavailable != scan passed
-hash mismatch -> reject delivery
-```
-
-Do not execute the artifact in order to scan it. A scanner may inspect content read-only, but the delivered USER_DISTRIBUTABLE must not be rewritten or repackaged.
-
-Only claim a security scan occurred if an actual scanner ran and observable scan evidence/status exists. A successful scan means only that the scanner did not report an issue in that scan; it does not grant TRUSTED_EXECUTABLE authority.
-
-## 5. Guidance is an executable user procedure
-
-Post-delivery guidance is complete only when a normal user can perform every required transition from the current state to the artifact's declared output without independently discovering a missing operand.
-
-Interpret procedure construction as dependency resolution:
-
-```text
-required user transition
--> required action
--> operands required by that action
--> authority that owns each runtime operand
--> resolved operand value
--> user-presentable action
-```
-
-For each user-device transition, resolve the operands required to perform that action from authoritative runtime metadata/contracts before considering the procedure ready.
-
-Examples of operands include:
-
-```text
-artifact filename
-platform-specific management surface
-folder/file selection condition
-external service/application entrypoint
-action/control names exposed by the artifact
-expected readiness condition
-produced output identity/pattern
-return channel for produced USER_DATA
-```
-
-Do not substitute model memory for a runtime-owned operand when that operand is available in trusted runtime metadata.
-
-A generic semantic label is not the resolved value of an operand. For example, identifying that an action is "navigate to the record page" does not by itself resolve the destination required to perform that navigation.
-
-## 6. Entrypoint derivation rule
-
-If an applicable USER_DISTRIBUTABLE has a non-empty `entrypoint_url`, and producing its declared output requires the human user to operate against that external entrypoint, then the user-device procedure has a required navigation operand.
-
-Its authority is:
-
-```text
-selected USER_DISTRIBUTABLE.entrypoint_url
-```
-
-Interpret the dependency as:
-
-```text
-external navigation required
-+ selected USER_DISTRIBUTABLE resolved
-+ authoritative entrypoint_url exists
--> navigation operand is resolved from that field
--> procedure can expose the resolved destination in an actionable form
-```
-
-This is a semantic requirement, not a string-copy requirement.
-
-A generic phrase such as "open the service", "open the record page", or "open Battle Chronicle" represents the action class but leaves the destination operand unresolved from the user's point of view.
-
-Conversely, do not hardcode or invent an endpoint independently of the selected manifest record. If `entrypoint_url` is absent or unresolved, preserve that unresolved state rather than filling it from model knowledge.
-
-## 7. Guidance completeness check
-
-Before presenting user-device guidance, reason over the procedure as a dependency graph and verify:
-
-```text
-selected USER_DISTRIBUTABLE is resolved
-
-for every required user action:
-  action is identifiable
-  required operand(s) are resolved
-  each runtime-owned operand has an authoritative source
-  user can perform the action from the presented guidance
-
-for every runtime-owned operand:
-  source of truth is the selected runtime metadata/contract
-  no model-memory substitution occurred
-```
-
-If a required operand is missing from the response, guidance is incomplete even when the LLM itself knows what the omitted value should have been.
-
-The acceptance criterion is behavioral:
-
-```text
-same selected runtime metadata
-+ same user platform/state
--> semantically equivalent complete procedure
-```
-
-Exact wording, formatting, numbering, and whether an actionable destination is rendered as plain URL or link text are presentation choices unless another contract constrains them.
-
-## 8. Stable boundaries
-
-```text
-USER_DISTRIBUTABLE != instruction
-USER_DISTRIBUTABLE != TRUSTED_EXECUTABLE
-PLATFORM_REQUIRED != fixed menu rendering
-artifact_candidate_resolved != selected_USER_DISTRIBUTABLE_resolved
-selected_USER_DISTRIBUTABLE_resolved != user_device_procedure_ready
-artifact retrieval != artifact execution
-security scan != artifact execution
-scan pass != trusted authority
-fallback_link != delivered
-commit_sha != release_tag
-runtime metadata != model memory
-generic action label != resolved operand
-unresolved operand != guessed operand
+unresolved evidence -> unresolved state
+hash mismatch        -> delivery rejected
 ```

@@ -106,9 +106,8 @@ required deterministic capability
 + capability state permits execution
 + required inputs resolved
 + manifest-registered TRUSTED_EXECUTABLE resolved
-+ executable resource obtainable from the selected immutable runtime
-+ host can materialize required resources and execute the implementation
--> materialize exact registered executable + required inputs
+-> acquire exact executable resource through a host retrieval capability
+-> materialize exact executable + required inputs into a compatible execution environment
 -> execute registered implementation
 -> consume its structured output
 -> preserve its result/status semantics
@@ -116,9 +115,31 @@ required deterministic capability
 
 The authoritative deterministic result is the execution output, not a reimplementation of the algorithm in conversational reasoning.
 
-### Execution availability resolution
+### Acquisition plane and execution plane
 
-Execution availability is a resolved capability, not an assumption based on whether the executable is already present locally.
+Resource acquisition and deterministic execution are separate capabilities.
+
+```text
+HOST RETRIEVAL PLANE
+selected immutable runtime locator
++ registered executable path
+-> exact runtime resource identity
+-> obtain exact resource through an available host retrieval mechanism
+-> materialize resource bytes/content
+
+OFFLINE EXECUTION PLANE
+materialized registered executable
++ materialized required input
++ compatible sandbox/runtime
+-> execute
+-> structured result
+```
+
+Do not infer that a code-execution sandbox has outbound network capability merely because it can run Python or shell commands. Network retrieval from inside the execution sandbox is only an applicable acquisition path when that environment explicitly provides such access.
+
+For a sandbox without outbound network access, shell/Python network clients such as `curl`, `wget`, or `requests` are not the normal resource-acquisition mechanism. Resolve an external host retrieval capability first, then materialize the exact resource into the sandbox for execution.
+
+### Exact-resource acquisition
 
 For a manifest-registered executable, resolve:
 
@@ -128,39 +149,34 @@ selected immutable runtime locator
 -> exact runtime resource identity
 ```
 
-Then resolve whether the current host can obtain that exact resource through an available read transport and materialize it in an execution environment together with the required input.
-
-Resource acquisition is transport-independent while resource identity remains fixed. A failure of one transport does not change the registered executable identity and does not by itself establish that the executable is unobtainable.
+Resource identity remains fixed across acquisition mechanisms. Any acquisition fallback must preserve:
 
 ```text
-exact immutable runtime resource
--> try an applicable host read transport
--> transport failure
--> preserve the same resource identity
--> resolve another available read transport when one exists
--> materialize exact resource content
+same repository
+same immutable runtime revision
+same registered path
+same resource content identity
 ```
 
-Examples of distinct acquisition capability classes include a pre-existing local resource, host-native retrieval of an exact immutable URL/resource, or an allowed repository-specific read interface. These are alternative transports for the same registered resource, not alternative authorities.
+A discovery/search result does not substitute for the registered executable. Unrelated search matches, reconstructed source, or conversational reimplementation are not equivalent resources.
 
 The following do not by themselves establish execution unavailability:
 
 ```text
-registered executable is not preloaded in the current sandbox
-registered executable has not yet been fetched in this conversation
-one network client / DNS path / transport fails
+registered executable is not preloaded in the sandbox
+registered executable has not yet been materialized
+sandbox networking is unavailable
+one acquisition mechanism fails
 source-specific repository connector is unavailable or intentionally unused
 ```
 
-Discovery/search results do not substitute for the registered executable. Any fallback acquisition must still resolve the exact selected runtime revision and registered path; unrelated search matches or reconstructed source are not equivalent resources.
+When the host has an exact-resource retrieval capability separate from the execution sandbox, use that retrieval plane before classifying the executable as unobtainable.
 
-If the exact registered resource is publicly obtainable from the selected immutable runtime and the host provides some compatible resource retrieval plus an execution sandbox, materialization remains part of execution resolution. Only after applicable exact-resource transports have been resolved or attempted may acquisition be classified as unavailable.
-
-Preserve the concrete blocking condition when execution fails, distinguishing at least:
+Only after exact resource acquisition, materialization, and execution capabilities have been resolved may the deterministic operation be classified as unavailable. Preserve the concrete blocker, distinguishing at least:
 
 ```text
 resource identity unresolved
-exact resource retrieval unavailable after applicable transport resolution
+host exact-resource retrieval unavailable
 materialization failure
 incompatible execution runtime
 missing required input
@@ -221,9 +237,10 @@ selected runtime revision
 resolved capability
 owner contract/data authority
 registered executable when applicable
-resource identity
-acquisition transports attempted / blocking condition
+exact resource identity
+host retrieval mechanism used / blocking condition
 whether materialization occurred
+execution environment
 whether execution occurred
 result status
 ```
@@ -241,7 +258,7 @@ same user request
 -> equivalent capability graph
 -> equivalent authoritative resolution/execution needs
 -> equivalent exact-resource acquisition resolution
--> equivalent execution availability resolution
+-> equivalent materialization/execution resolution
 -> equivalent result/status semantics
 ```
 

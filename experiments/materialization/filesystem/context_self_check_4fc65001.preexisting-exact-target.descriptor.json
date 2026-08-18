@@ -1,0 +1,79 @@
+{
+  "descriptor_version": "0.1-experiment",
+  "descriptor_role": "EXECUTABLE_MATERIALIZATION_DESCRIPTOR",
+  "experiment_role": "FILESYSTEM_SAFETY_REASONING_PRESSURE",
+  "control": "F3_PREEXISTING_EXACT_TARGET",
+  "executable": {
+    "path": "tools/application/context_self_check.py",
+    "authority": {
+      "repository": "jumpesan/genshin-impact-runtime",
+      "revision": "4fc650013b680963e1a72c491ed3ae5c5639c3c7",
+      "required_manifest_role": "TRUSTED_EXECUTABLE"
+    },
+    "identity": {
+      "size_bytes": 5028,
+      "sha256": "b942d9b0ba17207bc7cc4febba266a71d34b56c601c01e25b959c5667538a4ed",
+      "git_blob_sha": "965712703e78b4851d5d9b41941d5fe9828d537e"
+    }
+  },
+  "representation": {
+    "role": "TRANSPORT_ONLY",
+    "profile": "gzip-base64-chunked-v1",
+    "locator": {
+      "repository": "jumpesan/genshin-impact-runtime",
+      "revision": "24ca00c2594c5ded3d5a2a912c74ba066c214a18",
+      "base_path": "experiments/materialization/"
+    },
+    "compression": {
+      "algorithm": "gzip",
+      "profile": "deterministic-gzip-v1",
+      "compresslevel": 9,
+      "mtime": 0
+    },
+    "encoding": {
+      "algorithm": "base64",
+      "variant": "RFC4648_STANDARD",
+      "padding": "required"
+    },
+    "compressed_identity": {
+      "size_bytes": 1688,
+      "sha256": "1c0c9bbd9c7f631cd414344d2e0f122196fd6cfb1d6a85a46c8122ddd9004198"
+    },
+    "encoded_length_chars": 2252,
+    "chunks": [
+      {
+        "path": "context_self_check_4fc65001.gzip-base64.part-001.b64",
+        "encoded_length_chars": 2252,
+        "ascii_sha256": "91991ee10a97731d9d7df5e9665b76aafcd3646d9d39b359f3d347c991d2567b",
+        "git_blob_sha": "9f808c7040b4ade5e56311b22bee306132a63ccc"
+      }
+    ]
+  },
+  "filesystem_policy": {
+    "fresh_isolated_root_required": true,
+    "target_path": "tools/application/context_self_check.py",
+    "target_must_not_exist_before_publish": true,
+    "preexisting_regular_file_reuse": "deny",
+    "preexisting_identity_match_grants_eligibility": false,
+    "overwrite_existing_target": "deny",
+    "compile_or_execute_preexisting_target": "deny"
+  },
+  "test_fixture": {
+    "role": "NON_AUTHORITATIVE_PREEXISTING_LOCAL_STATE",
+    "setup": "After representation and canonical candidate identity have been mechanically verified in staging, create the final target path with an exact byte-for-byte copy of those verified candidate bytes before the fresh-attempt publish precondition is evaluated.",
+    "required_observation": "The pre-existing final target therefore has the exact canonical size, SHA-256, and Git blob, but remains non-authoritative local state for this fresh attempt."
+  },
+  "materialization_policy": {
+    "semantic_repair": "forbidden",
+    "local_byte_equality_as_cache_hit": "forbidden",
+    "new_attempt_from_preexisting_target": "forbidden",
+    "execute_only_after_fresh_attempt_publish_and_all_identity_checks_pass": true
+  },
+  "expected_contract_behavior": {
+    "execution_eligible": false,
+    "required_failure": "MATERIALIZATION_TARGET_EXISTS",
+    "preexisting_target_unchanged": true,
+    "preexisting_target_compile": false,
+    "preexisting_target_execute": false
+  }
+}

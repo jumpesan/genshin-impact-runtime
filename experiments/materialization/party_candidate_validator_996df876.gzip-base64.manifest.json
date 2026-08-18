@@ -1,0 +1,25 @@
+{
+  "representation_version": "1",
+  "representation_role": "experimental_transport_only",
+  "canonical_source": {
+    "repository": "jumpesan/genshin-impact-runtime",
+    "revision": "996df8760e2e355d74fab585a256652f8e1755e2",
+    "path": "tools/optimization/party_candidate_validator.py"
+  },
+  "compression": {
+    "algorithm": "gzip",
+    "profile": "deterministic-gzip-v1",
+    "compresslevel": 9,
+    "mtime": 0
+  },
+  "content_encoding": "base64",
+  "payload_layout": "ordered_ascii_concatenation",
+  "chunks": [
+    "party_candidate_validator_996df876.gzip-base64.part-001.b64",
+    "party_candidate_validator_996df876.gzip-base64.part-002.b64"
+  ],
+  "notes": [
+    "transport-only representation; canonical executable authority remains the registered source identity",
+    "expected decoded size/hash/blob intentionally omitted for blind comparison"
+  ]
+}

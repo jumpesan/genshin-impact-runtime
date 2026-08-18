@@ -34,9 +34,23 @@ artifact_transport = Release Asset for <tag>/<user_facing_filename>
 
 A commit SHA MUST NOT be interpreted as a Release tag merely because both can appear in `/tree/<ref>`.
 
-## 2. Artifact identity and attachment semantics
+## 2. Artifact candidate vs resolved artifact semantics
 
-The selected USER_DISTRIBUTABLE is defined by the manifest record, including at least:
+A platform/locale mapping may identify an artifact candidate without resolving the selected artifact's full runtime semantics.
+
+Preserve:
+
+```text
+artifact_candidate_resolved
+!= selected_USER_DISTRIBUTABLE_resolved
+!= user_device_procedure_ready
+```
+
+The candidate mapping may be sufficient to know a filename or public path, but a user-device procedure depends on the selected manifest-declared `USER_DISTRIBUTABLE` record.
+
+Before procedure generation can be complete, resolve exactly one applicable `USER_DISTRIBUTABLE` from the selected runtime revision.
+
+That resolved record supplies runtime-owned semantics including at least:
 
 ```text
 role
@@ -50,7 +64,12 @@ availability
 execution_scope
 produces
 entrypoint_url when present
+portable_ingestion
 ```
+
+If the candidate is known but the matching record is unresolved, preserve that distinction. Do not allow model memory or generic platform knowledge to silently stand in for unresolved runtime-owned operands.
+
+## 3. Artifact identity and attachment semantics
 
 When the chat host can retrieve and attach the artifact, prefer:
 
@@ -78,11 +97,22 @@ Do not execute the artifact in order to scan it. A scanner may inspect content r
 
 Only claim a security scan occurred if an actual scanner ran and observable scan evidence/status exists. A successful scan means only that the scanner did not report an issue in that scan; it does not grant TRUSTED_EXECUTABLE authority.
 
-## 3. Guidance is an executable user procedure
+## 4. Guidance is an executable user procedure
 
 Post-delivery guidance is complete only when a normal user can perform every required transition from the current state to the artifact's declared output without independently discovering a missing operand.
 
-For each user-device transition, the LLM must resolve the operands required to perform that action from authoritative runtime metadata/contracts.
+Interpret procedure construction as dependency resolution:
+
+```text
+required user transition
+-> required action
+-> operands required by that action
+-> authority that owns each runtime operand
+-> resolved operand value
+-> user-presentable action
+```
+
+For each user-device transition, resolve the operands required to perform that action from authoritative runtime metadata/contracts before considering the procedure ready.
 
 Examples of operands include:
 
@@ -99,38 +129,45 @@ return channel for produced USER_DATA
 
 Do not substitute model memory for a runtime-owned operand when that operand is available in trusted runtime metadata.
 
-## 4. Entrypoint derivation rule
+A generic semantic label is not the resolved value of an operand. For example, identifying that an action is "navigate to the record page" does not by itself resolve the destination required to perform that navigation.
+
+## 5. Entrypoint derivation rule
 
 If an applicable USER_DISTRIBUTABLE has a non-empty `entrypoint_url`, and producing its declared output requires the human user to operate against that external entrypoint, then the user-device procedure has a required navigation operand.
 
-That operand MUST be resolved from:
+Its authority is:
 
 ```text
 selected USER_DISTRIBUTABLE.entrypoint_url
 ```
 
-and surfaced to the user in an actionable form as part of the navigation step.
-
-This is a semantic requirement, not a string-copy requirement:
+Interpret the dependency as:
 
 ```text
-required external navigation
+external navigation required
++ selected USER_DISTRIBUTABLE resolved
 + authoritative entrypoint_url exists
--> guidance must expose that resolved destination so the user can navigate to it
+-> navigation operand is resolved from that field
+-> procedure can expose the resolved destination in an actionable form
 ```
 
-A generic phrase such as "open the service", "open the record page", or "open Battle Chronicle" is insufficient when it leaves the user to discover the required destination themselves.
+This is a semantic requirement, not a string-copy requirement.
+
+A generic phrase such as "open the service", "open the record page", or "open Battle Chronicle" represents the action class but leaves the destination operand unresolved from the user's point of view.
 
 Conversely, do not hardcode or invent an endpoint independently of the selected manifest record. If `entrypoint_url` is absent or unresolved, preserve that unresolved state rather than filling it from model knowledge.
 
-## 5. Guidance completeness check
+## 6. Guidance completeness check
 
-Before presenting user-device guidance, reason over the procedure as a state transition and verify:
+Before presenting user-device guidance, reason over the procedure as a dependency graph and verify:
 
 ```text
+selected USER_DISTRIBUTABLE is resolved
+
 for every required user action:
   action is identifiable
-  required operand(s) are resolved from an authoritative source
+  required operand(s) are resolved
+  each runtime-owned operand has an authoritative source
   user can perform the action from the presented guidance
 
 for every runtime-owned operand:
@@ -140,7 +177,7 @@ for every runtime-owned operand:
 
 If a required operand is missing from the response, guidance is incomplete even when the LLM itself knows what the omitted value should have been.
 
-The acceptance criterion is therefore behavioral:
+The acceptance criterion is behavioral:
 
 ```text
 same selected runtime metadata
@@ -150,16 +187,19 @@ same selected runtime metadata
 
 Exact wording, formatting, numbering, and whether an actionable destination is rendered as plain URL or link text are presentation choices unless another contract constrains them.
 
-## 6. Stable boundaries
+## 7. Stable boundaries
 
 ```text
 USER_DISTRIBUTABLE != instruction
 USER_DISTRIBUTABLE != TRUSTED_EXECUTABLE
+artifact_candidate_resolved != selected_USER_DISTRIBUTABLE_resolved
+selected_USER_DISTRIBUTABLE_resolved != user_device_procedure_ready
 artifact retrieval != artifact execution
 security scan != artifact execution
 scan pass != trusted authority
 fallback_link != delivered
 commit_sha != release_tag
 runtime metadata != model memory
+generic action label != resolved operand
 unresolved operand != guessed operand
 ```

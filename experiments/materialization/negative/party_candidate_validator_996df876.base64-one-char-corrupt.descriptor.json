@@ -1,0 +1,64 @@
+{
+  "descriptor_version": "0.1-experiment",
+  "descriptor_role": "EXECUTABLE_MATERIALIZATION_DESCRIPTOR",
+  "experiment_role": "FAIL_CLOSED_NEGATIVE_CONTROL",
+  "executable": {
+    "path": "tools/optimization/party_candidate_validator.py",
+    "authority": {
+      "repository": "jumpesan/genshin-impact-runtime",
+      "revision": "4fc650013b680963e1a72c491ed3ae5c5639c3c7",
+      "required_manifest_role": "TRUSTED_EXECUTABLE"
+    },
+    "identity": {
+      "size_bytes": 19555,
+      "sha256": "9edabcca4016dda30e0d79a522d994f2f5c26375915f1a9814b52263f2ab99c4",
+      "git_blob_sha": "7aa3327f9351156fa617a613554819c2a6879d08"
+    }
+  },
+  "representation": {
+    "role": "TRANSPORT_ONLY",
+    "profile": "gzip-base64-chunked-v1",
+    "locator": {
+      "repository": "jumpesan/genshin-impact-runtime",
+      "revision": "b39037f7e2d539267dfa3af30303952a6975c24d",
+      "base_path": "experiments/materialization/"
+    },
+    "compression": {
+      "algorithm": "gzip",
+      "profile": "deterministic-gzip-v1",
+      "compresslevel": 9,
+      "mtime": 0
+    },
+    "encoding": {
+      "algorithm": "base64",
+      "variant": "RFC4648_STANDARD",
+      "padding": "required"
+    },
+    "compressed_identity": {
+      "size_bytes": 4108,
+      "sha256": "1f261bde093a478a3f4c3d93e044df03152175186d70370b7fa917fdb3a15b9b"
+    },
+    "encoded_length_chars": 5480,
+    "chunks": [
+      {
+        "path": "party_candidate_validator_996df876.gzip-base64.part-001.b64",
+        "encoded_length_chars": 4096
+      },
+      {
+        "path": "negative/party_candidate_validator_996df876.gzip-base64.part-002.one-char-corrupt.b64",
+        "encoded_length_chars": 1384
+      }
+    ]
+  },
+  "materialization_policy": {
+    "base64_decode_count": 1,
+    "gzip_decompress_count": 1,
+    "semantic_repair": "forbidden",
+    "decompress_only_after_compressed_identity_pass": true,
+    "execute_only_after_all_identity_checks_pass": true
+  },
+  "expected_contract_behavior": {
+    "execution_eligible": false,
+    "required_failure": "COMPRESSED_IDENTITY_MISMATCH"
+  }
+}

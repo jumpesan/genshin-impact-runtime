@@ -1,0 +1,95 @@
+{
+  "descriptor_version": "0.1-experiment",
+  "descriptor_role": "EXECUTABLE_MATERIALIZATION_DESCRIPTOR",
+  "control": "P3_UNICODE_NEWLINE_EXACT_BYTE_PRESERVATION",
+  "authority": {
+    "repository": "jumpesan/genshin-impact-runtime",
+    "revision": "69f66c4fe425d0908b8abd670896edd48e8c821a"
+  },
+  "executable": {
+    "path": "experiments/materialization/portability/p3_unicode_newline_fixture.py",
+    "required_manifest_role": "TRUSTED_EXECUTABLE",
+    "identity": {
+      "size_bytes": 422,
+      "sha256": "4e28700de44c0cbbccbcec5d1f3307c2ca11a68610536ca48ede864d4298056f",
+      "git_blob_sha": "bb3b087ebd037bb97c483327383a4cf24082e2fa"
+    },
+    "byte_shape": {
+      "encoding": "UTF-8",
+      "contains_non_ascii": true,
+      "contains_japanese": true,
+      "contains_emoji": true,
+      "contains_composed_e_acute": true,
+      "contains_decomposed_e_plus_combining_acute": true,
+      "crlf_sequence_count": 10,
+      "lf_byte_count": 18,
+      "lone_lf_count": 8,
+      "trailing_lf": true,
+      "trailing_crlf": false,
+      "lf_normalized_size_bytes": 412,
+      "lf_normalized_sha256": "9bd43ae992c1958d9b52c80e17345b473e841a8a90f86a0e9559d883a78cd480",
+      "nfc_normalized_size_bytes": 421,
+      "nfc_normalized_sha256": "1eae4af33e71ae00f87ab8f6d3cf8d8da36b78e445117d54540ba933bb05f739"
+    },
+    "representation": {
+      "role": "TRANSPORT_ONLY",
+      "profile": "gzip-base64-chunked-v1",
+      "locator": {
+        "repository": "jumpesan/genshin-impact-runtime",
+        "revision": "2aeb1749d7e121f4a2be393fabcb89c60e94cf7e",
+        "base_path": "experiments/materialization/portability/"
+      },
+      "compression": {
+        "algorithm": "gzip",
+        "profile": "deterministic-gzip-v1",
+        "compresslevel": 9,
+        "mtime": 0
+      },
+      "encoding": {
+        "algorithm": "base64",
+        "variant": "RFC4648_STANDARD",
+        "padding": "required"
+      },
+      "compressed_identity": {
+        "size_bytes": 325,
+        "sha256": "55fd6243ae858b113927b40347620c1647de9550b9352c6576f9cbb2c676ba32"
+      },
+      "encoded_length_chars": 436,
+      "chunks": [
+        {
+          "path": "p3_unicode_newline_fixture.gzip-base64.part-001.b64",
+          "encoded_length_chars": 436,
+          "ascii_sha256": "ffc31aafbf1e2883252b2539767b3a4bf33a207e939db90bd01beefdf3f98c6a",
+          "git_blob_sha": "d1b215610a2d915f1ac4b8a6ebba77a4066bf4a2"
+        }
+      ]
+    }
+  },
+  "materialization": {
+    "root": "FRESH_ISOLATED_ROOT",
+    "target_relative_path_source": "executable.path",
+    "target_relative_path": "experiments/materialization/portability/p3_unicode_newline_fixture.py"
+  },
+  "policy": {
+    "authority_binding_source": "AUTHORITY_MANIFEST_ONLY",
+    "representation_is_transport_only": true,
+    "canonical_identity_is_byte_exact": true,
+    "newline_normalization_forbidden": true,
+    "unicode_normalization_forbidden": true,
+    "text_reencoding_forbidden": true,
+    "semantic_repair": "forbidden",
+    "execute_only_after_canonical_identity": true
+  },
+  "expected_contract_behavior": {
+    "authority": true,
+    "representation_identity": true,
+    "compressed_identity": true,
+    "canonical_identity": true,
+    "byte_shape_exact": true,
+    "newline_normalization_performed": false,
+    "unicode_normalization_performed": false,
+    "execution_eligible": true,
+    "py_compile": "PASS",
+    "owner_execution": false
+  }
+}

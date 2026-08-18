@@ -1,0 +1,112 @@
+name: Verify dependency materialization fixtures
+
+on:
+  push:
+    branches:
+      - agent/dependency-materialization-fixture
+    paths:
+      - .github/workflows/verify-dependency-materialization-fixture.yml
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify fixed-revision round trip
+        shell: bash
+        run: |
+          python - <<'PY'
+          import base64
+          import gzip
+          import hashlib
+          import json
+          import subprocess
+          from pathlib import Path
+
+          AUTH_REV = "4fc650013b680963e1a72c491ed3ae5c5639c3c7"
+          ROOT = Path("experiments/materialization/dependency")
+          DESC = ROOT / "identity_targeted_readiness_4fc65001.execution-unit.descriptor.json"
+          descriptor = json.loads(DESC.read_text(encoding="utf-8"))
+
+          def git_show(path: str) -> bytes:
+              return subprocess.check_output(["git", "show", f"{AUTH_REV}:{path}"])
+
+          def sha256(data: bytes) -> str:
+              return hashlib.sha256(data).hexdigest()
+
+          def git_blob_sha(data: bytes) -> str:
+              h = hashlib.sha1()
+              h.update(f"blob {len(data)}\0".encode("ascii"))
+              h.update(data)
+              return h.hexdigest()
+
+          def verify_member(member: dict) -> dict:
+              source = git_show(member["path"])
+              ident = member["identity"]
+              assert len(source) == ident["size_bytes"]
+              assert sha256(source) == ident["sha256"]
+              assert git_blob_sha(source) == ident["git_blob_sha"]
+
+              rep = member["representation"]
+              texts = []
+              for chunk in rep["chunks"]:
+                  raw = (ROOT / chunk["path"]).read_bytes()
+                  assert len(raw) == chunk["encoded_length_chars"]
+                  assert sha256(raw) == chunk["ascii_sha256"]
+                  assert git_blob_sha(raw) == chunk["git_blob_sha"]
+                  texts.append(raw.decode("ascii"))
+              joined = "".join(texts)
+              assert len(joined) == rep["encoded_length_chars"]
+              compressed = base64.b64decode(joined, validate=True)
+              assert len(compressed) == rep["compressed_identity"]["size_bytes"]
+              assert sha256(compressed) == rep["compressed_identity"]["sha256"]
+              restored = gzip.decompress(compressed)
+              assert restored == source
+              return {
+                  "path": member["path"],
+                  "source_size": len(source),
+                  "source_sha256": sha256(source),
+                  "source_git_blob": git_blob_sha(source),
+                  "chunk_count": len(rep["chunks"]),
+                  "encoded_length": len(joined),
+                  "compressed_size": len(compressed),
+                  "compressed_sha256": sha256(compressed),
+                  "round_trip_exact": True,
+              }
+
+          entry = verify_member(descriptor["entrypoint"])
+          deps = [verify_member(item) for item in descriptor["executable_dependencies"]]
+          entry_source = git_show(descriptor["entrypoint"]["path"]).decode("utf-8")
+          assert "import identity_integration_validator as shared" in entry_source
+          req = descriptor["entrypoint"]["declared_import_requirements"][0]
+          assert req["module"] == "identity_integration_validator"
+          assert req["required_relative_path"] == descriptor["executable_dependencies"][0]["path"]
+
+          report = {
+              "status": "PASS",
+              "authority_revision": AUTH_REV,
+              "descriptor": DESC.name,
+              "entrypoint": entry,
+              "dependencies": deps,
+              "declared_import_binding": "PASS",
+              "all_round_trips_exact": True,
+          }
+          (ROOT / "identity_targeted_readiness_4fc65001.fixture-verification.json").write_text(
+              json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          PY
+
+      - name: Commit verification report
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add experiments/materialization/dependency/identity_targeted_readiness_4fc65001.fixture-verification.json
+          git commit -m "experiment: verify dependency materialization fixtures"
+          git push origin HEAD:agent/dependency-materialization-fixture

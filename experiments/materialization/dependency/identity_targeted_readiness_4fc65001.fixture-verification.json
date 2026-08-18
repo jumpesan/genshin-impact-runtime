@@ -1,0 +1,31 @@
+{
+  "all_round_trips_exact": true,
+  "authority_revision": "4fc650013b680963e1a72c491ed3ae5c5639c3c7",
+  "declared_import_binding": "PASS",
+  "dependencies": [
+    {
+      "chunk_count": 2,
+      "compressed_sha256": "e7ab4a8a882f96adf62a8888ab2b295b1114e0285fd8f4726bd2b62fee0ed097",
+      "compressed_size": 5683,
+      "encoded_length": 7580,
+      "path": "tools/identity/identity_integration_validator.py",
+      "round_trip_exact": true,
+      "source_git_blob": "92d54187dc6d1a2de3abb15ebcb11a12bc391c17",
+      "source_sha256": "29f355d5be0a81f2772f830b25fbf37662c6c209923d932179fbafd359b433db",
+      "source_size": 25892
+    }
+  ],
+  "descriptor": "identity_targeted_readiness_4fc65001.execution-unit.descriptor.json",
+  "entrypoint": {
+    "chunk_count": 1,
+    "compressed_sha256": "c51e0a3a2ff89c91bf26793085e11701568d5749b2612f8d212475a510c985b4",
+    "compressed_size": 2739,
+    "encoded_length": 3652,
+    "path": "tools/identity/targeted_identity_readiness.py",
+    "round_trip_exact": true,
+    "source_git_blob": "9f1d0d821a637eba4993e5b41b1bdbff0d5c0688",
+    "source_sha256": "21975f04581c68ec140375291f57088c8778ff4921d7c1948c061b76a4961a8c",
+    "source_size": 9253
+  },
+  "status": "PASS"
+}

@@ -6,7 +6,7 @@ This instruction defines semantic invariants for Account USER_DISTRIBUTABLE deli
 
 The goal is not to make one model reproduce one canned response. The goal is that any conforming conversational LLM can derive the same required user actions from the same runtime metadata and contracts.
 
-When a lower-priority instruction contains a concrete endpoint as prose/example, that prose is not the authority for the endpoint value. Runtime metadata is the authority.
+When a lower-priority instruction contains a concrete endpoint, menu, numbered choice, or prose example, that presentation is not itself the authority for the semantic requirement. Runtime state, metadata, and contracts are the authority.
 
 ## 1. Runtime reference semantics
 
@@ -34,7 +34,55 @@ artifact_transport = Release Asset for <tag>/<user_facing_filename>
 
 A commit SHA MUST NOT be interpreted as a Release tag merely because both can appear in `/tree/<ref>`.
 
-## 2. Artifact candidate vs resolved artifact semantics
+## 2. Platform selection is context resolution
+
+`PLATFORM_REQUIRED` means the Application lacks enough acquisition-environment context to select exactly one applicable `USER_DISTRIBUTABLE`.
+
+Interpret it as:
+
+```text
+current conversation / explicit user evidence
+-> acquisition environment resolution
+-> exactly one supported platform identity
+-> artifact candidate resolution
+```
+
+It is not semantically equivalent to rendering a fixed menu.
+
+Preserve:
+
+```text
+platform already resolved from explicit current-context evidence
+  -> reuse that resolved context; do not ask the user to repeat it
+
+platform unresolved or genuinely ambiguous
+  -> ask one concise natural question whose answer can resolve one supported acquisition environment
+```
+
+The current supported platform identities are runtime semantics:
+
+```text
+desktop_chrome_chromium
+ios_ipados
+```
+
+A numbered menu, prose question, buttons, or other conversational phrasing are presentation choices. Lower-priority examples such as `1. PC / 2. iPhone` illustrate distinguishable choices; they do not require the assistant to behave like a conventional menu UI.
+
+A good question should expose only the user-relevant distinction needed for the next decision. Internal state names, enum names, artifact IDs, or implementation terminology are not required user-facing operands.
+
+Do not guess the acquisition environment from weak or unrelated clues merely to avoid asking. The goal is reproducible interpretation, not aggressive inference.
+
+Acceptance is semantic:
+
+```text
+same user/context evidence
++ same supported runtime platform semantics
+-> same resolved platform, or an equivalent clarification need
+```
+
+Exact wording of the clarification is not an acceptance condition.
+
+## 3. Artifact candidate vs resolved artifact semantics
 
 A platform/locale mapping may identify an artifact candidate without resolving the selected artifact's full runtime semantics.
 
@@ -69,7 +117,7 @@ portable_ingestion
 
 If the candidate is known but the matching record is unresolved, preserve that distinction. Do not allow model memory or generic platform knowledge to silently stand in for unresolved runtime-owned operands.
 
-## 3. Artifact identity and attachment semantics
+## 4. Artifact identity and attachment semantics
 
 When the chat host can retrieve and attach the artifact, prefer:
 
@@ -97,7 +145,7 @@ Do not execute the artifact in order to scan it. A scanner may inspect content r
 
 Only claim a security scan occurred if an actual scanner ran and observable scan evidence/status exists. A successful scan means only that the scanner did not report an issue in that scan; it does not grant TRUSTED_EXECUTABLE authority.
 
-## 4. Guidance is an executable user procedure
+## 5. Guidance is an executable user procedure
 
 Post-delivery guidance is complete only when a normal user can perform every required transition from the current state to the artifact's declared output without independently discovering a missing operand.
 
@@ -131,7 +179,7 @@ Do not substitute model memory for a runtime-owned operand when that operand is 
 
 A generic semantic label is not the resolved value of an operand. For example, identifying that an action is "navigate to the record page" does not by itself resolve the destination required to perform that navigation.
 
-## 5. Entrypoint derivation rule
+## 6. Entrypoint derivation rule
 
 If an applicable USER_DISTRIBUTABLE has a non-empty `entrypoint_url`, and producing its declared output requires the human user to operate against that external entrypoint, then the user-device procedure has a required navigation operand.
 
@@ -157,7 +205,7 @@ A generic phrase such as "open the service", "open the record page", or "open Ba
 
 Conversely, do not hardcode or invent an endpoint independently of the selected manifest record. If `entrypoint_url` is absent or unresolved, preserve that unresolved state rather than filling it from model knowledge.
 
-## 6. Guidance completeness check
+## 7. Guidance completeness check
 
 Before presenting user-device guidance, reason over the procedure as a dependency graph and verify:
 
@@ -187,11 +235,12 @@ same selected runtime metadata
 
 Exact wording, formatting, numbering, and whether an actionable destination is rendered as plain URL or link text are presentation choices unless another contract constrains them.
 
-## 7. Stable boundaries
+## 8. Stable boundaries
 
 ```text
 USER_DISTRIBUTABLE != instruction
 USER_DISTRIBUTABLE != TRUSTED_EXECUTABLE
+PLATFORM_REQUIRED != fixed menu rendering
 artifact_candidate_resolved != selected_USER_DISTRIBUTABLE_resolved
 selected_USER_DISTRIBUTABLE_resolved != user_device_procedure_ready
 artifact retrieval != artifact execution

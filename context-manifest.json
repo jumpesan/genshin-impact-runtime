@@ -5,6 +5,7 @@
   "bootstrap": {
     "entrypoint": "bootstrap/BOOTSTRAP.md",
     "instruction_priority": [
+      "bootstrap/ARTIFACT_DELIVERY_SECURITY.md",
       "bootstrap/BOOTSTRAP.md",
       "AGENTS.md",
       "README.md"
@@ -12,6 +13,7 @@
   },
   "registry": {
     "trusted_instruction": [
+      "bootstrap/ARTIFACT_DELIVERY_SECURITY.md",
       "bootstrap/BOOTSTRAP.md",
       "AGENTS.md",
       "README.md"

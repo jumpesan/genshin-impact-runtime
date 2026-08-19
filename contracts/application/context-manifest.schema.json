@@ -175,7 +175,7 @@
       "properties": {
         "artifact_id": {"type": "string", "minLength": 1},
         "owner": {"const": "account"},
-        "platform": {"enum": ["desktop_chrome_chromium", "ios_ipados"]},
+        "platform": {"enum": ["desktop_chrome_chromium", "android", "ios_ipados"]},
         "locale": {"type": ["string", "null"]},
         "role": {"const": "USER_DISTRIBUTABLE"},
         "public_path": {"type": "string", "minLength": 1},

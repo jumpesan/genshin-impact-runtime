@@ -39,116 +39,72 @@ APP_SESSION_STARTED
 
 Do not ask the user's Genshin goal before `ACCOUNT_CONTEXT_READY`.
 
-## 3. Platform to artifact mapping
+## 3. Platform resolution ownership
 
-At `PLATFORM_REQUIRED`, ask:
+`AGENTS.md` does not own the current supported-platform set or platform-to-artifact table.
 
-```text
-1. PC / Chromium-based browser
-2. iPhone / iPad
-```
-
-Use this mapping directly after selection:
+At `PLATFORM_REQUIRED`, resolve current platform semantics from the selected runtime's bootstrap surface:
 
 ```text
-PC / Chromium
-  filename = genshin_hoyolab_exporter_chrome_1.0.0.zip
-
-iPhone / iPad + Japanese conversation
-  filename = genshin_hoyolab_exporter_ja.shortcut
-
-iPhone / iPad + English conversation
-  filename = genshin_hoyolab_exporter_en.shortcut
+bootstrap/BOOTSTRAP.md
+context-manifest.json
 ```
 
-Do not browse `acquisition/` merely to discover the filename.
-Do not require a fresh `context-manifest.json` fetch merely to determine the filename.
-Do not claim the filename is unresolved when this mapping applies.
+Do not infer the current platform set from an older copied example, general Genshin knowledge, or remembered prior runtime state.
 
-## 4. Artifact delivery
-
-Prefer chat attachment when exact file materialization is available.
+Preserve:
 
 ```text
-attachment available
--> exact bytes
--> exact filename
--> chat attachment
--> artifact_delivery = delivered
+platform unresolved
+-> PLATFORM_REQUIRED
+
+platform resolved from current runtime semantics
+-> continue to current artifact resolution
 ```
 
-Opaque `.shortcut` files are exact-byte transport only. Do not parse, infer, regenerate, or rewrite them.
+Presentation is not fixed here. A numbered menu, natural-language question, or use of an already-resolved platform may all be valid when they preserve the same semantic state.
 
-### Direct Release Asset fallback
+## 4. Artifact delivery ownership
 
-If attachment is unavailable and the selected runtime locator is:
+`AGENTS.md` does not own current artifact filenames, release locators, or platform-specific delivery procedures.
+
+Resolve those from the selected runtime's current bootstrap/security surface:
 
 ```text
-https://github.com/<owner>/<repository>/tree/<tag>
+bootstrap/BOOTSTRAP.md
+bootstrap/ARTIFACT_DELIVERY_SECURITY.md
+context-manifest.json
 ```
 
-construct immediately:
+Preserve invariant distinctions:
 
 ```text
-https://github.com/<owner>/<repository>/releases/download/<tag>/<mapped-filename>
+artifact candidate != resolved artifact
+resolved artifact != delivered artifact
+fallback_link != delivered
+USER_DISTRIBUTABLE != executable authority
 ```
 
-Then:
+Prefer exact attachment when exact file materialization is available. If the current bootstrap/security contract permits a fallback link, present it as a fallback link and do not claim delivery occurred.
+
+Opaque user-distributable artifacts remain exact-byte transport. Do not infer, regenerate, or rewrite opaque contents.
+
+## 5. Post-download guidance ownership
+
+When current bootstrap semantics require user-device steps to produce Portable User Context, provide source-backed guidance from the selected runtime's bootstrap/security surface.
+
+Do not copy a fixed platform procedure into this agent-rules document.
+
+Preserve these invariant rules:
 
 ```text
-artifact_delivery = fallback_link
+guidance must match the currently resolved platform/artifact
+unsupported/unresolved steps must not be guessed
+opaque artifact internals must not be invented
+Portable User Context must return as USER_DATA
 ```
 
-Present the direct download link itself.
-Do not navigate the user to repository root, `acquisition/`, a directory, tree, or rendered file page.
-Do not present repository exploration as the next step.
-Do not say the file was attached or already downloaded.
-
-If owner/repository/tag cannot be parsed exactly from the selected tagged runtime locator:
-
-```text
-artifact_delivery = unavailable
-```
-
-## 5. Post-download guidance is mandatory
-
-Do not end the response with only the download link and "run it". Give the concrete platform steps needed to produce Portable User Context.
-
-### PC / Chromium
-
-After presenting the ZIP link or attachment, guide the user through:
-
-```text
-1. Extract the ZIP.
-2. Keep the extracted folder in place.
-3. Open chrome://extensions (Chrome) or edge://extensions (Edge).
-4. Enable Developer mode.
-5. Choose "Load unpacked" / 「パッケージ化されていない拡張機能を読み込む」.
-6. Select the extracted folder containing manifest.json.
-7. Open the HoYoLAB Genshin Battle Chronicle in the same browser:
-   https://act.hoyolab.com/app/community-game-records-sea/index.html
-8. Sign in normally if needed and reload the page once.
-9. Open the "Genshin HoYoLAB Exporter" extension popup.
-10. Select 「状態更新」 and confirm ready = true.
-11. If not ready, reload HoYoLAB and select 「状態更新」 again.
-12. Select 「Portable JSONを保存」.
-13. Wait for genshin_portable_user_context_<timestamp>.json.
-14. Attach that JSON file to this chat.
-```
-
-Never say "follow the instructions inside the ZIP"; the frozen ZIP contains no user README.
-
-### iPhone / iPad
-
-After presenting the `.shortcut`:
-
-```text
-1. Open/import it using the platform-native Shortcuts mechanism.
-2. Run it on the user device and follow visible prompts.
-3. Return the generated Portable User Context to this chat.
-```
-
-Do not infer or explain opaque Shortcut internals.
+Do not end with a bare artifact link when the current bootstrap contract requires additional user-device steps.
 
 ## 6. USER_DATA and validation
 
@@ -189,15 +145,9 @@ Direct-download-link presentation is not execution.
 
 Keep the conversation concise and application-oriented.
 
-When platform mapping exists and attachment is unavailable:
+When current bootstrap semantics resolve a platform/artifact and attachment is unavailable, follow the selected runtime's current delivery and setup guidance rather than a copied historical procedure.
 
-```text
-show exact direct Release Asset link
--> show exact platform setup/run steps
--> request Portable User Context
-```
-
-Do not explain internal retrieval limitations unless the exact direct link cannot be formed or the user asks for diagnostics.
+Do not explain internal retrieval limitations unless the current runtime cannot resolve the next user action or the user asks for diagnostics.
 
 ## 9. Post-account repository-first task routing
 

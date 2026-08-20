@@ -63,6 +63,7 @@ The current supported platform identities are runtime semantics:
 
 ```text
 desktop_chrome_chromium
+android
 ios_ipados
 ```
 

@@ -63,7 +63,6 @@ The current supported platform identities are runtime semantics:
 
 ```text
 desktop_chrome_chromium
-android
 ios_ipados
 ```
 
@@ -144,7 +143,7 @@ hash mismatch -> reject delivery
 
 Do not execute the artifact in order to scan it. A scanner may inspect content read-only, but the delivered USER_DISTRIBUTABLE must not be rewritten or repackaged.
 
-Only claim a security scan occurred if an actual scanner ran and observable scan evidence/status exists. A successful scan means only that the scanner did not report an issue in that scan; it does not grant TRUSTED_EXECUTABLE authority.
+Only claim a security scan occurred if an actual scanner ran and observable scan evidence/status exists. A successful scan means only that the scanner did not report an issue in that scan; it does not grant EXECUTABLE_AUTHORITY authority.
 
 ## 5. Guidance is an executable user procedure
 
@@ -240,7 +239,7 @@ Exact wording, formatting, numbering, and whether an actionable destination is r
 
 ```text
 USER_DISTRIBUTABLE != instruction
-USER_DISTRIBUTABLE != TRUSTED_EXECUTABLE
+USER_DISTRIBUTABLE != EXECUTABLE_AUTHORITY
 PLATFORM_REQUIRED != fixed menu rendering
 artifact_candidate_resolved != selected_USER_DISTRIBUTABLE_resolved
 selected_USER_DISTRIBUTABLE_resolved != user_device_procedure_ready

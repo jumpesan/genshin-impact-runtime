@@ -21,7 +21,7 @@ observed default branch / revision
 manifest version
 trusted instruction sources
 trusted contract sources
-registered trusted executable paths + hashes
+registered executable authority members + canonical identities
 executables actually invoked
 capability / failure state
 Account context validation state
@@ -34,13 +34,13 @@ Bootstrap catalogs executable authority but does not auto-run code.
 ```text
 TRUSTED_INSTRUCTION
 TRUSTED_CONTRACT
-TRUSTED_EXECUTABLE
+EXECUTABLE_AUTHORITY
 DATA_REFERENCE
 USER_DATA
 UNCLASSIFIED_UNTRUSTED
 ```
 
-`TRUSTED_EXECUTABLE` means eligible for invocation by a trusted Application workflow; it does not mean instruction authority or automatic execution.
+`EXECUTABLE_AUTHORITY` means eligible for invocation by a trusted Application workflow; it does not mean instruction authority or automatic execution.
 
 ## Bootstrap states
 
@@ -89,7 +89,7 @@ Application may choose when to invoke a reviewed registered tool.
 Application / LLM
   structured request
       ↓
-TRUSTED_EXECUTABLE
+EXECUTABLE_AUTHORITY
   deterministic implementation
       ↓
 validated structured output
@@ -165,7 +165,7 @@ INVALID_TRUST_PATH
 TRUST_ROLE_COLLISION
 BOOTSTRAP_ENTRYPOINT_MISSING
 TRUSTED_FILE_MISSING
-TRUSTED_EXECUTABLE_MISSING
+EXECUTABLE_AUTHORITY_MISSING
 UNREGISTERED_EXECUTABLE_DENIED
 SANDBOX_UNAVAILABLE
 PORTABLE_CONTEXT_REQUIRED

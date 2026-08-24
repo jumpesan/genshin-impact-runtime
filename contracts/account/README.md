@@ -136,11 +136,11 @@ runtime_ready
 
 Application must retain those downstream readiness states separately and must not upgrade `equipped_only`, `unavailable`, or `not_explicit_in_source` semantics.
 
-## Files
+## Distribution binding
 
 ```text
-portable_context.schema.json      structural contract
-validate_portable_context.py      deterministic validation + structured result
+portable_context.schema.json                  structural contract
+tools/account/validate_portable_context.py    logical sandbox materialization path
 ```
 
-The validator is Python stdlib-only and requires no private Account fixture or HoYoLAB Raw Snapshot.
+The validator canonical bytes remain Python stdlib-only and require no private Account fixture or HoYoLAB Raw Snapshot. In the Public Runtime image those bytes are carried only by Manifest v2 materialization transport; the logical path is not a physical Public raw `.py` file.

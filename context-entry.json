@@ -5,14 +5,15 @@
   "repository": "jumpesan/genshin-impact-runtime",
   "repository_url": "https://github.com/jumpesan/genshin-impact-runtime",
   "selector_role": "current_runtime_index_only",
-  "active_revision": "caf4226843c9b86711b3faec455edb6f636a6e16",
-  "active_tree": "527feab9287e2114869d5738bc4a462e25f6dcac",
-  "active_runtime_url": "https://github.com/jumpesan/genshin-impact-runtime/tree/caf4226843c9b86711b3faec455edb6f636a6e16",
+  "active_revision": "c2fe612dbad78451125e764f135340f56a5941f3",
+  "active_tree": "30de4fbda0df27c1a390f6b62b737e44bef2ec45",
+  "active_runtime_url": "https://github.com/jumpesan/genshin-impact-runtime/tree/c2fe612dbad78451125e764f135340f56a5941f3",
   "entrypoints": {
-    "readme": "https://github.com/jumpesan/genshin-impact-runtime/blob/caf4226843c9b86711b3faec455edb6f636a6e16/README.md",
-    "manifest": "https://github.com/jumpesan/genshin-impact-runtime/blob/caf4226843c9b86711b3faec455edb6f636a6e16/context-manifest.json",
-    "bootstrap": "https://github.com/jumpesan/genshin-impact-runtime/blob/caf4226843c9b86711b3faec455edb6f636a6e16/bootstrap/BOOTSTRAP.md",
-    "agent_rules": "https://github.com/jumpesan/genshin-impact-runtime/blob/caf4226843c9b86711b3faec455edb6f636a6e16/AGENTS.md"
+    "readme": "https://github.com/jumpesan/genshin-impact-runtime/blob/c2fe612dbad78451125e764f135340f56a5941f3/README.md",
+    "manifest": "https://github.com/jumpesan/genshin-impact-runtime/blob/c2fe612dbad78451125e764f135340f56a5941f3/context-manifest.json",
+    "bootstrap": "https://github.com/jumpesan/genshin-impact-runtime/blob/c2fe612dbad78451125e764f135340f56a5941f3/bootstrap/BOOTSTRAP.md",
+    "artifact_delivery_security": "https://github.com/jumpesan/genshin-impact-runtime/blob/c2fe612dbad78451125e764f135340f56a5941f3/bootstrap/ARTIFACT_DELIVERY_SECURITY.md",
+    "agent_rules": "https://github.com/jumpesan/genshin-impact-runtime/blob/c2fe612dbad78451125e764f135340f56a5941f3/AGENTS.md"
   },
   "rules": {
     "ordinary_user_supplies_revision": false,
@@ -21,6 +22,7 @@
     "fallback_to_main_as_runtime": false,
     "active_revision_must_be_full_sha40": true,
     "runtime_content_authority": "active_revision_immutable_tree",
-    "experiment_scope": "CNB-001_ROOT_TO_IMMUTABLE_TO_PLATFORM_REQUIRED"
+    "session_revision_drift": "deny",
+    "experiment_scope": "CNB-002_ROOT_TO_PC_USER_DISTRIBUTABLE_TO_PORTABLE_CONTEXT_REQUIRED"
   }
 }

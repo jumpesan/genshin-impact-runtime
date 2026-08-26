@@ -1,86 +1,81 @@
-# Genshin Context App Runtime — CNB-001 Root Entry
+# Genshin Context App Runtime — CNB-002 Root Entry
 
 > **EXPERIMENTAL / UNREVIEWED**
 >
-> This default branch is currently used only as a context-native bootstrap index for manual validation. It is not the active runtime content and is not Production.
+> This default branch is used only as the context-native current-runtime index for manual validation. It is not the active runtime content and is not Production.
 
 ## Start
 
-The ordinary user starts the Context App with exactly:
+The ordinary user starts with:
 
 ```text
 原神Context Appを開始
 https://github.com/jumpesan/genshin-impact-runtime
 ```
 
-Do **not** ask the user for a tag, commit SHA, tree, digest, selector, DTA, manifest path, or executable identity.
+Do not ask the user for a tag, commit SHA, tree, digest, selector, DTA, manifest path, or executable identity.
 
-When the repository root URL is supplied, the first runtime-discovery action is:
+When the repository root URL is supplied, first read:
 
 ```text
-read context-entry.json from this repository root
+context-entry.json
 ```
 
-`context-entry.json` is the current runtime selector/index for CNB-001.
+`context-entry.json` is the current experimental runtime selector/index.
 
-Required flow:
+Required transition:
 
 ```text
 repository root URL
 -> context-entry.json
--> active_revision (full 40-hex SHA)
+-> active_revision
 -> active_runtime_url
 -> exact immutable runtime revision
--> immutable context-manifest.json
--> immutable bootstrap/BOOTSTRAP.md
--> immutable AGENTS.md
+-> immutable runtime-local instructions/manifest
 -> Context App session
--> PLATFORM_REQUIRED
 ```
 
-The default branch itself is **not** runtime content.
-Do not use `main/bootstrap/BOOTSTRAP.md`, `main/context-manifest.json`, repository history, tags, or remembered prior revisions to choose the active runtime.
-Do not fall back to the old rule that the user must provide an immutable tree URL.
+The default branch itself is not runtime content.
+Do not use `main/bootstrap/BOOTSTRAP.md`, `main/context-manifest.json`, repository history, tags, or remembered prior revisions as runtime semantics.
+Do not fall back to asking the user for an immutable revision.
 
-If `context-entry.json` cannot be retrieved or does not deterministically resolve exactly one immutable full-SHA revision, return:
+If deterministic current-runtime resolution fails:
 
 ```text
 RUNTIME_RESOLUTION_BLOCKED
 ```
 
-Do not repair that failure by asking the ordinary user for the missing internal revision.
+## CNB-1 result
 
-## CNB-001 success condition
+The root-selector path reached `PLATFORM_REQUIRED` in ChatGPT Free manual validation with both thinking=false and thinking=true.
 
-This experiment tests only whether a fresh generic ChatGPT conversation can perform:
+That is experimental evidence only; it is not a formal Production trust decision.
 
-```text
-root URL only
--> repository-owned current selector
--> exact immutable revision
--> app start
--> platform question
-```
+## CNB-002 current scope
 
-The expected first user-visible application state is `PLATFORM_REQUIRED`, with choices equivalent to:
+After current immutable runtime resolution:
 
 ```text
-PC / Chromium系ブラウザ
-Android
-iPhone / iPad
+PLATFORM_REQUIRED
+-> user selects PC / Chromium
+-> resolve exactly one desktop_chrome_chromium USER_DISTRIBUTABLE from the same immutable runtime manifest
+-> exact commit-pinned artifact route or verified attachment
+-> complete PC user-device procedure
+-> PORTABLE_USER_CONTEXT_REQUIRED
 ```
 
-Do not proceed to artifact resolution, Portable User Context, Account validation, or normal Genshin task routing during CNB-001.
+The selected immutable runtime revision must not change during this flow.
+
+CNB-002 stops before Portable User Context validation or any repository executable execution.
 
 ## Boundary
 
 ```text
-CNB-001 PASS
+CNB-002 PASS
 != reviewed trust architecture
-!= frozen Runtime candidate C modification
+!= formal Runtime candidate C modification
 != Production
 != release
+!= Account validation PASS
 != EC-C PASS
 ```
-
-The experiment exists to determine whether context design alone can preserve the original product concept: the user supplies only the public Runtime repository URL and the Context App resolves its own current immutable runtime.

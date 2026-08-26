@@ -1,92 +1,95 @@
-# Genshin Context App — CNB-002 Experimental Runtime
+# Genshin Context App — CNB-002 Semantic Interpretation Experiment
 
 > **EXPERIMENTAL / UNREVIEWED**
->
-> This revision exists only for the context-native bootstrap manual validation spike. It is not Production, not a reviewed release, and does not change the frozen formal Runtime candidate C.
 
-## Entry contract
+This repository is the runtime context for a conversational Genshin Context App.
 
-The intended ordinary-user invocation remains:
+The important interpretation is the **application state**, not repository administration.
+Repository files provide the app's current facts, capabilities, and user-flow context in the background.
+
+## Start
+
+The ordinary user starts with:
 
 ```text
 原神Context Appを開始
 https://github.com/jumpesan/genshin-impact-runtime
 ```
 
-The ordinary user must not provide, choose, or guess a tag, commit SHA, tree, digest, selector, DTA, manifest path, or executable identity.
+The repository root identifies the current Context App distribution. Its small current-runtime index leads to one immutable runtime snapshot, and the conversation then continues as the application described by that snapshot.
 
-The repository root is a distribution namespace/current-index surface only. `context-entry.json` selects one immutable experimental runtime revision.
-
-```text
-user repository root
--> root context-entry.json
--> active_revision
--> exact immutable revision
--> immutable runtime-local context
-```
-
-Do not fall back to `main` as runtime content and do not change revisions inside the application session.
-
-## CNB-1 result
-
-Manual Free-account validation converged positively on both:
+For the user, the flow is simply:
 
 ```text
-thinking=false
-thinking=true
+Context App start
+-> choose platform
+-> prepare Account Context
+-> return Portable User Context
+-> continue into normal app use
 ```
 
-for:
+Internal revision and manifest details support this flow but are not normal user-facing setup choices.
 
-```text
-root URL only
--> immutable runtime selection
--> Context App start
--> PLATFORM_REQUIRED
-```
+## Current experiment state
 
-That empirical result is experimental evidence only and is not a formal Production trust decision.
+CNB-1 has already shown that ChatGPT Free can interpret the repository root as the Context App entry and reach platform selection with both thinking modes.
 
-## CNB-002 scope
-
-CNB-002 extends the same selected immutable runtime through the PC / Chromium Account acquisition route.
-
-Positive path:
+CNB-002 continues from that application state.
 
 ```text
 PLATFORM_REQUIRED
--> user selects PC / Chromium
--> platform = desktop_chrome_chromium
--> resolve exactly one manifest USER_DISTRIBUTABLE
--> exact commit-pinned artifact route or verified attachment
--> complete user-device procedure using manifest-owned entrypoint
+```
+
+Supported choices presented to the user are:
+
+```text
+PC / Chromium系ブラウザ
+Android
+iPhone / iPad
+```
+
+This experiment follows the PC / Chromium path.
+
+## PC / Chromium path
+
+When the user chooses PC / Chrome / Chromium, interpret that as:
+
+```text
+platform = PC / Chromium
+-> Account setup is needed
+-> use the PC Account acquisition resource defined by this runtime
+-> guide the user through setup
+-> user generates Portable User Context
 -> PORTABLE_USER_CONTEXT_REQUIRED
 ```
 
-The selected runtime revision must remain unchanged throughout this flow.
+The runtime already contains the information needed to identify the applicable PC acquisition package, its public location, the HoYoLAB entrypoint it works with, and the Portable User Context it produces.
 
-Load and follow, from this same immutable revision:
+Use those runtime facts to give the user a concise, actionable setup flow. The user should experience this as continuing the Context App, not as inspecting or managing a GitHub repository.
+
+## Supporting runtime context
+
+The following are backing context for the application:
 
 ```text
 context-manifest.json
-bootstrap/ARTIFACT_DELIVERY_SECURITY.md
 bootstrap/BOOTSTRAP.md
+bootstrap/ARTIFACT_DELIVERY_SECURITY.md
 AGENTS.md
 ```
 
-Do not inspect or validate Portable USER_DATA in CNB-002 and do not execute repository tools.
+They provide precise artifact identity, platform mapping, entrypoint, and delivery semantics when those details are needed.
 
-## Experimental authority hypothesis
+They are supporting evidence for the current application state; they are not the application experience itself.
 
-For this spike only:
+## CNB-002 boundary
+
+CNB-002 ends after the PC setup resource and procedure have been presented and the conversation is waiting for the generated Portable User Context.
 
 ```text
-explicit user choice of repository namespace
-+ repository-root context-entry current selector
-+ exact immutable revision retrieval
-= context-native runtime selection
+PORTABLE_USER_CONTEXT_REQUIRED
 ```
 
-CNB-002 additionally tests whether runtime-local manifest semantics can drive exact USER_DISTRIBUTABLE selection without returning authority to the ordinary user or drifting to another revision.
+Portable User Context validation and repository executable execution belong to later experiments.
 
-A successful conversational result does not by itself authorize this design for Production.
+A successful CNB-002 conversation remains experimental evidence only; it is not Production, release authority, Account validation PASS, or EC-C PASS.

@@ -1,8 +1,10 @@
-# Genshin Context App Runtime — CNB-002 Root Entry
+# Genshin Context App Runtime — Experimental Entry
 
 > **EXPERIMENTAL / UNREVIEWED**
->
-> This default branch is used only as the context-native current-runtime index for manual validation. It is not the active runtime content and is not Production.
+
+This repository is the public runtime entry for the conversational Genshin Context App.
+
+The repository root identifies the current app runtime. `context-entry.json` points to the immutable snapshot that describes the current application behavior.
 
 ## Start
 
@@ -13,69 +15,55 @@ The ordinary user starts with:
 https://github.com/jumpesan/genshin-impact-runtime
 ```
 
-Do not ask the user for a tag, commit SHA, tree, digest, selector, DTA, manifest path, or executable identity.
+Interpret this as starting the Context App, then continue from the current immutable runtime selected by `context-entry.json`.
 
-When the repository root URL is supplied, first read:
-
-```text
-context-entry.json
-```
-
-`context-entry.json` is the current experimental runtime selector/index.
-
-Required transition:
+The user-facing application flow is:
 
 ```text
-repository root URL
--> context-entry.json
--> active_revision
--> active_runtime_url
--> exact immutable runtime revision
--> immutable runtime-local instructions/manifest
--> Context App session
+Context App start
+-> choose platform
+-> prepare Account Context
+-> return Portable User Context
+-> continue into normal app use
 ```
 
-The default branch itself is not runtime content.
-Do not use `main/bootstrap/BOOTSTRAP.md`, `main/context-manifest.json`, repository history, tags, or remembered prior revisions as runtime semantics.
-Do not fall back to asking the user for an immutable revision.
+Internal repository identities support that flow in the background. They are not normal setup choices for the user.
 
-If deterministic current-runtime resolution fails:
+## Current experimental stage
+
+CNB-1 established the first transition on ChatGPT Free:
 
 ```text
-RUNTIME_RESOLUTION_BLOCKED
+repository root
+-> current immutable runtime
+-> PLATFORM_REQUIRED
 ```
 
-## CNB-1 result
-
-The root-selector path reached `PLATFORM_REQUIRED` in ChatGPT Free manual validation with both thinking=false and thinking=true.
-
-That is experimental evidence only; it is not a formal Production trust decision.
-
-## CNB-002 current scope
-
-After current immutable runtime resolution:
+CNB-002 continues the PC / Chromium path:
 
 ```text
 PLATFORM_REQUIRED
--> user selects PC / Chromium
--> resolve exactly one desktop_chrome_chromium USER_DISTRIBUTABLE from the same immutable runtime manifest
--> exact commit-pinned artifact route or verified attachment
--> complete PC user-device procedure
+-> PC / Chromium selected
+-> Account setup resource and guidance
 -> PORTABLE_USER_CONTEXT_REQUIRED
 ```
 
-The selected immutable runtime revision must not change during this flow.
+The selected immutable runtime contains the exact metadata needed for that setup. The conversation should feel like continuation of the app rather than repository inspection.
 
-CNB-002 stops before Portable User Context validation or any repository executable execution.
+## Runtime context
+
+The selected snapshot contains supporting application context such as:
+
+```text
+README.md
+bootstrap/BOOTSTRAP.md
+AGENTS.md
+context-manifest.json
+bootstrap/ARTIFACT_DELIVERY_SECURITY.md
+```
+
+These files describe current state, capabilities, artifact facts, and detailed delivery semantics.
 
 ## Boundary
 
-```text
-CNB-002 PASS
-!= reviewed trust architecture
-!= formal Runtime candidate C modification
-!= Production
-!= release
-!= Account validation PASS
-!= EC-C PASS
-```
+This is a manual context-interpretation experiment. Success here is experimental evidence only and does not itself mean Production, release, Account validation PASS, or EC-C PASS.

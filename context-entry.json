@@ -1,0 +1,26 @@
+{
+  "schema": "genshin-context-bootstrap/v0-experimental",
+  "status": "EXPERIMENTAL_UNREVIEWED",
+  "mode": "context_native_bootstrap",
+  "repository": "jumpesan/genshin-impact-runtime",
+  "repository_url": "https://github.com/jumpesan/genshin-impact-runtime",
+  "selector_role": "current_runtime_index_only",
+  "active_revision": "caf4226843c9b86711b3faec455edb6f636a6e16",
+  "active_tree": "527feab9287e2114869d5738bc4a462e25f6dcac",
+  "active_runtime_url": "https://github.com/jumpesan/genshin-impact-runtime/tree/caf4226843c9b86711b3faec455edb6f636a6e16",
+  "entrypoints": {
+    "readme": "https://github.com/jumpesan/genshin-impact-runtime/blob/caf4226843c9b86711b3faec455edb6f636a6e16/README.md",
+    "manifest": "https://github.com/jumpesan/genshin-impact-runtime/blob/caf4226843c9b86711b3faec455edb6f636a6e16/context-manifest.json",
+    "bootstrap": "https://github.com/jumpesan/genshin-impact-runtime/blob/caf4226843c9b86711b3faec455edb6f636a6e16/bootstrap/BOOTSTRAP.md",
+    "agent_rules": "https://github.com/jumpesan/genshin-impact-runtime/blob/caf4226843c9b86711b3faec455edb6f636a6e16/AGENTS.md"
+  },
+  "rules": {
+    "ordinary_user_supplies_revision": false,
+    "ask_user_for_revision_on_resolution_failure": false,
+    "main_is_runtime_content": false,
+    "fallback_to_main_as_runtime": false,
+    "active_revision_must_be_full_sha40": true,
+    "runtime_content_authority": "active_revision_immutable_tree",
+    "experiment_scope": "CNB-001_ROOT_TO_IMMUTABLE_TO_PLATFORM_REQUIRED"
+  }
+}

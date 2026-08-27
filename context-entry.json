@@ -5,12 +5,11 @@
   "repository": "jumpesan/genshin-impact-runtime",
   "repository_url": "https://github.com/jumpesan/genshin-impact-runtime",
   "selector_role": "current_runtime_index_only",
-  "active_revision": "72a286aa6b45bbcd987504f736ffd4004a6d8cd0",
-  "active_tree": "cefd79295f0b359d29ffd37efde208d3ae0d1fc8",
-  "active_runtime_url": "https://github.com/jumpesan/genshin-impact-runtime/tree/72a286aa6b45bbcd987504f736ffd4004a6d8cd0",
+  "active_revision": "ae5142de78519aa753033bb6662287e0b16be4af",
+  "active_runtime_url": "https://github.com/jumpesan/genshin-impact-runtime/tree/ae5142de78519aa753033bb6662287e0b16be4af",
   "selection_result": {
     "selected_runtime_role": "application_runtime",
     "state_after_selection": "APP_SESSION_STARTED"
   },
-  "experiment_scope": "ROOT_SELECTOR_ONLY_TO_PROVEN_IMMUTABLE_E5_RUNTIME"
+  "experiment_scope": "ROOT_SELECTOR_ONLY_TO_E7_USER_ACQUISITION_STATE_TRANSITION_RUNTIME"
 }

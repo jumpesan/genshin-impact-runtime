@@ -8,11 +8,29 @@
   "active_revision": "72a286aa6b45bbcd987504f736ffd4004a6d8cd0",
   "active_tree": "cefd79295f0b359d29ffd37efde208d3ae0d1fc8",
   "active_runtime_url": "https://github.com/jumpesan/genshin-impact-runtime/tree/72a286aa6b45bbcd987504f736ffd4004a6d8cd0",
-  "entrypoints": {
-    "readme": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/README.md",
-    "bootstrap": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/bootstrap/BOOTSTRAP.md",
-    "agent_rules": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/AGENTS.md",
-    "manifest": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/context-manifest.json"
+  "selection_result": {
+    "selected_runtime_role": "application_runtime",
+    "state_after_selection": "APP_SESSION_STARTED",
+    "primary_application_entrypoint_role": "bootstrap_contract",
+    "primary_application_entrypoint_url": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/bootstrap/BOOTSTRAP.md"
   },
-  "experiment_scope": "NORMALIZED_PRE_E1_SEMANTIC_BASELINE_WITH_ACTIONABLE_ACCOUNT_SETUP"
+  "entrypoints": {
+    "bootstrap_contract": {
+      "url": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/bootstrap/BOOTSTRAP.md",
+      "role": "primary_application_entrypoint"
+    },
+    "llm_entry_contract": {
+      "url": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/README.md",
+      "role": "supporting_entry_semantics"
+    },
+    "agent_rules": {
+      "url": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/AGENTS.md",
+      "role": "supporting_conversational_rules"
+    },
+    "runtime_facts": {
+      "url": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/context-manifest.json",
+      "role": "supporting_runtime_facts"
+    }
+  },
+  "experiment_scope": "NORMALIZED_PRE_E1_SEMANTIC_BASELINE_WITH_ROOT_APPLICATION_COMPOSITION"
 }

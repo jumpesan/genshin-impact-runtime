@@ -5,14 +5,14 @@
   "repository": "jumpesan/genshin-impact-runtime",
   "repository_url": "https://github.com/jumpesan/genshin-impact-runtime",
   "selector_role": "current_runtime_index_only",
-  "active_revision": "f1350d27ccc90d43a20b206e14aec9ba59355918",
-  "active_tree": "2858fda01996b49a6c72d7d2ddf28c2f98242c2a",
-  "active_runtime_url": "https://github.com/jumpesan/genshin-impact-runtime/tree/f1350d27ccc90d43a20b206e14aec9ba59355918",
+  "active_revision": "72a286aa6b45bbcd987504f736ffd4004a6d8cd0",
+  "active_tree": "cefd79295f0b359d29ffd37efde208d3ae0d1fc8",
+  "active_runtime_url": "https://github.com/jumpesan/genshin-impact-runtime/tree/72a286aa6b45bbcd987504f736ffd4004a6d8cd0",
   "entrypoints": {
-    "readme": "https://github.com/jumpesan/genshin-impact-runtime/blob/f1350d27ccc90d43a20b206e14aec9ba59355918/README.md",
-    "bootstrap": "https://github.com/jumpesan/genshin-impact-runtime/blob/f1350d27ccc90d43a20b206e14aec9ba59355918/bootstrap/BOOTSTRAP.md",
-    "agent_rules": "https://github.com/jumpesan/genshin-impact-runtime/blob/f1350d27ccc90d43a20b206e14aec9ba59355918/AGENTS.md",
-    "manifest": "https://github.com/jumpesan/genshin-impact-runtime/blob/f1350d27ccc90d43a20b206e14aec9ba59355918/context-manifest.json"
+    "readme": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/README.md",
+    "bootstrap": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/bootstrap/BOOTSTRAP.md",
+    "agent_rules": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/AGENTS.md",
+    "manifest": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/context-manifest.json"
   },
-  "experiment_scope": "NORMALIZED_PRE_E1_SEMANTIC_BASELINE_WITH_CONTEXT_NATIVE_SELECTOR"
+  "experiment_scope": "NORMALIZED_PRE_E1_SEMANTIC_BASELINE_WITH_ACTIONABLE_ACCOUNT_SETUP"
 }

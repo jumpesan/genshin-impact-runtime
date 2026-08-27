@@ -101,17 +101,31 @@ This map gives the application a stable user-facing resource choice. `context-ma
 
 ## 4. Resource delivery
 
-For the selected acquisition resource, use a user-actionable delivery route.
-
-If the chat can materialize and preserve the exact artifact, attachment is appropriate.
-
-For a full immutable commit revision, bind the selected `public_path` to that revision as a direct file resource:
+For the selected acquisition resource, resolve two distinct user-facing operands:
 
 ```text
+artifact filename
+artifact acquisition destination
+```
+
+The filename identifies what the user is acquiring. The acquisition destination identifies where the user can actually obtain it. Resolving only the filename does not complete the acquisition step.
+
+If the chat can materialize and preserve the exact artifact, attachment is an acquisition destination.
+
+For a full immutable commit revision, the acquisition destination is derived from the selected runtime revision plus the selected USER_DISTRIBUTABLE `public_path`:
+
+```text
+selected_revision
++ selected USER_DISTRIBUTABLE.public_path
+-> artifact_acquisition_destination
+
+artifact_acquisition_destination =
 https://raw.githubusercontent.com/jumpesan/genshin-impact-runtime/<selected_revision>/<public_path>
 ```
 
-The user action represented by this location is downloading/opening the artifact bytes. A rendered repository file view is a different action and does not satisfy the acquisition-resource presentation.
+The Account setup procedure is complete only when this acquisition destination is available to the user in a user-performable form.
+
+The user action represented by this location is downloading/opening the artifact bytes. A rendered repository file view represents repository browsing rather than the acquisition destination.
 
 This is a direct public resource location, not evidence that the file was attached or executed.
 
@@ -122,7 +136,7 @@ For opaque `.shortcut` files, preserve exact-byte transport semantics; do not in
 For `desktop_chrome_chromium`, provide a concise procedure that lets a normal user complete the Account setup without discovering missing operands independently:
 
 ```text
-1. Present the direct download for genshin_hoyolab_exporter_chrome_1.0.0.zip.
+1. Resolve and present both the filename and artifact acquisition destination for genshin_hoyolab_exporter_chrome_1.0.0.zip.
 2. Extract the ZIP to a normal folder and keep that folder in place.
 3. Open the Chromium extension-management screen.
    Chrome: chrome://extensions/

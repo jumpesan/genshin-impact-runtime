@@ -9,7 +9,7 @@ repository_role: runtime_distribution
 
 > **EXPERIMENTAL / UNREVIEWED**
 
-This repository is the public distribution entry for Genshin Context App, a chat-native application.
+This repository is the public distribution entry for Genshin Context App.
 
 Canonical start:
 
@@ -18,33 +18,17 @@ Canonical start:
 https://github.com/jumpesan/genshin-impact-runtime
 ```
 
-The repository root is a small current-runtime entry surface.
+The repository root is only the current-runtime selector.
 
 ```text
 repository root
 -> context-entry.json
 -> current immutable runtime
--> bootstrap/BOOTSTRAP.md
--> APP_SESSION_STARTED
 -> Genshin Context App
 ```
 
-`context-entry.json` identifies the immutable runtime snapshot and the application composition inside that snapshot.
+`context-entry.json` identifies one immutable runtime tree. After that tree is selected, that immutable tree is the application runtime for the conversation.
 
-The primary application entrypoint is the selected runtime's `bootstrap/BOOTSTRAP.md`. It owns current bootstrap state and user-flow interpretation.
+The ordinary user does not need to manage internal runtime identity.
 
-When Account acquisition guidance is needed, the selected runtime's `bootstrap/ARTIFACT_DELIVERY_SECURITY.md` supplies the delivery and user-device guidance semantics that complete the bootstrap flow.
-
-The selected runtime's supporting surfaces are:
-
-```text
-bootstrap/ARTIFACT_DELIVERY_SECURITY.md = USER_DISTRIBUTABLE delivery/guidance semantics
-bootstrap/BOOTSTRAP.md                  = primary application bootstrap semantics
-AGENTS.md                               = conversational interpretation
-README.md                               = entry semantics
-context-manifest.json                   = exact runtime facts/capabilities
-```
-
-The ordinary user does not need to manage internal runtime identity in order to use the app.
-
-This default-branch entry is experimental discovery context only. The selected immutable snapshot is the runtime context for the conversation.
+This default-branch entry does not duplicate the selected runtime's bootstrap, delivery, capability, or conversational semantics.

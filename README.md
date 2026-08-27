@@ -24,12 +24,22 @@ The repository root is a small current-runtime entry surface.
 repository root
 -> context-entry.json
 -> current immutable runtime
+-> bootstrap/BOOTSTRAP.md
+-> APP_SESSION_STARTED
 -> Genshin Context App
 ```
 
-`context-entry.json` identifies the immutable runtime snapshot that carries the current app semantics and capabilities.
+`context-entry.json` identifies the immutable runtime snapshot and the primary application entrypoint inside that snapshot.
 
-After that snapshot is selected, continue from its `README.md`, `bootstrap/BOOTSTRAP.md`, `AGENTS.md`, and `context-manifest.json` as the application runtime.
+The primary application entrypoint is the selected runtime's `bootstrap/BOOTSTRAP.md`. It owns the current bootstrap state and user-flow interpretation.
+
+The selected runtime's other surfaces support that application state:
+
+```text
+README.md = entry semantics
+AGENTS.md = conversational interpretation
+context-manifest.json = exact runtime facts/capabilities
+```
 
 The ordinary user does not need to manage internal runtime identity in order to use the app.
 

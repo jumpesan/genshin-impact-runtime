@@ -10,38 +10,7 @@
   "active_runtime_url": "https://github.com/jumpesan/genshin-impact-runtime/tree/72a286aa6b45bbcd987504f736ffd4004a6d8cd0",
   "selection_result": {
     "selected_runtime_role": "application_runtime",
-    "state_after_selection": "APP_SESSION_STARTED",
-    "primary_application_entrypoint_role": "bootstrap_contract",
-    "primary_application_entrypoint_url": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/bootstrap/BOOTSTRAP.md",
-    "application_composition_order": [
-      "artifact_delivery_guidance",
-      "bootstrap_contract",
-      "agent_rules",
-      "llm_entry_contract",
-      "runtime_facts"
-    ]
+    "state_after_selection": "APP_SESSION_STARTED"
   },
-  "entrypoints": {
-    "artifact_delivery_guidance": {
-      "url": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/bootstrap/ARTIFACT_DELIVERY_SECURITY.md",
-      "role": "user_distributable_delivery_and_guidance_semantics"
-    },
-    "bootstrap_contract": {
-      "url": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/bootstrap/BOOTSTRAP.md",
-      "role": "primary_application_entrypoint"
-    },
-    "agent_rules": {
-      "url": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/AGENTS.md",
-      "role": "supporting_conversational_rules"
-    },
-    "llm_entry_contract": {
-      "url": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/README.md",
-      "role": "supporting_entry_semantics"
-    },
-    "runtime_facts": {
-      "url": "https://github.com/jumpesan/genshin-impact-runtime/blob/72a286aa6b45bbcd987504f736ffd4004a6d8cd0/context-manifest.json",
-      "role": "supporting_runtime_facts"
-    }
-  },
-  "experiment_scope": "NORMALIZED_PRE_E1_SEMANTIC_BASELINE_WITH_ROOT_FULL_APPLICATION_COMPOSITION"
+  "experiment_scope": "ROOT_SELECTOR_ONLY_TO_PROVEN_IMMUTABLE_E5_RUNTIME"
 }

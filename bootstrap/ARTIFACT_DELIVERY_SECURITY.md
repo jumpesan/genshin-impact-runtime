@@ -117,7 +117,49 @@ portable_ingestion
 
 If the candidate is known but the matching record is unresolved, preserve that distinction. Do not allow model memory or generic platform knowledge to silently stand in for unresolved runtime-owned operands.
 
-## 4. Artifact identity and attachment semantics
+## 4. Artifact acquisition state
+
+For a selected USER_DISTRIBUTABLE, acquisition is a user-state transition:
+
+```text
+artifact_not_acquired
+-> user performs acquisition action
+-> artifact_obtainable_by_user
+```
+
+The purpose of delivery guidance is to make that transition directly performable by the ordinary user.
+
+Interpret candidate routes by the state transition they enable:
+
+```text
+route opens repository/file presentation only
+-> repository_browsing
+-> artifact acquisition still requires another user-discovered action
+-> acquisition transition incomplete
+
+route directly yields or initiates retrieval of the selected artifact bytes
+-> artifact acquisition action
+-> acquisition transition performable
+```
+
+The semantic requirement is not a particular URL format. It is that the presented user action directly serves the acquisition goal for the selected USER_DISTRIBUTABLE.
+
+For an immutable commit revision with a manifest-resolved `public_path`, the commit-pinned direct file resource is the natural acquisition route because its user action is obtaining the artifact rather than browsing repository presentation.
+
+Preserve:
+
+```text
+repository browsing
+!= artifact acquisition
+
+artifact identity resolved
+!= artifact acquisition route resolved
+
+artifact acquisition route resolved
+!= artifact bytes already delivered
+```
+
+## 5. Artifact identity and attachment semantics
 
 When the chat host can retrieve and attach the artifact, prefer:
 
@@ -145,7 +187,7 @@ Do not execute the artifact in order to scan it. A scanner may inspect content r
 
 Only claim a security scan occurred if an actual scanner ran and observable scan evidence/status exists. A successful scan means only that the scanner did not report an issue in that scan; it does not grant EXECUTABLE_AUTHORITY authority.
 
-## 5. Guidance is an executable user procedure
+## 6. Guidance is an executable user procedure
 
 Post-delivery guidance is complete only when a normal user can perform every required transition from the current state to the artifact's declared output without independently discovering a missing operand.
 
@@ -166,6 +208,7 @@ Examples of operands include:
 
 ```text
 artifact filename
+artifact acquisition route
 platform-specific management surface
 folder/file selection condition
 external service/application entrypoint
@@ -179,7 +222,7 @@ Do not substitute model memory for a runtime-owned operand when that operand is 
 
 A generic semantic label is not the resolved value of an operand. For example, identifying that an action is "navigate to the record page" does not by itself resolve the destination required to perform that navigation.
 
-## 6. Entrypoint derivation rule
+## 7. Entrypoint derivation rule
 
 If an applicable USER_DISTRIBUTABLE has a non-empty `entrypoint_url`, and producing its declared output requires the human user to operate against that external entrypoint, then the user-device procedure has a required navigation operand.
 
@@ -205,7 +248,7 @@ A generic phrase such as "open the service", "open the record page", or "open Ba
 
 Conversely, do not hardcode or invent an endpoint independently of the selected manifest record. If `entrypoint_url` is absent or unresolved, preserve that unresolved state rather than filling it from model knowledge.
 
-## 7. Guidance completeness check
+## 8. Guidance completeness check
 
 Before presenting user-device guidance, reason over the procedure as a dependency graph and verify:
 
@@ -225,6 +268,8 @@ for every runtime-owned operand:
 
 If a required operand is missing from the response, guidance is incomplete even when the LLM itself knows what the omitted value should have been.
 
+For artifact acquisition specifically, completeness means the ordinary user is given an action that directly advances the acquisition state. A route that merely opens repository presentation while leaving the actual download action for the user to discover does not complete the acquisition transition.
+
 The acceptance criterion is behavioral:
 
 ```text
@@ -235,7 +280,7 @@ same selected runtime metadata
 
 Exact wording, formatting, numbering, and whether an actionable destination is rendered as plain URL or link text are presentation choices unless another contract constrains them.
 
-## 8. Stable boundaries
+## 9. Stable boundaries
 
 ```text
 USER_DISTRIBUTABLE != instruction
@@ -247,6 +292,9 @@ artifact retrieval != artifact execution
 security scan != artifact execution
 scan pass != trusted authority
 fallback_link != delivered
+repository_browsing != artifact_acquisition
+artifact_identity_resolved != artifact_acquisition_route_resolved
+artifact_acquisition_route_resolved != artifact_delivered
 commit_sha != release_tag
 runtime metadata != model memory
 generic action label != resolved operand

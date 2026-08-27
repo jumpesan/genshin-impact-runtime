@@ -18,16 +18,18 @@ Canonical start:
 https://github.com/jumpesan/genshin-impact-runtime
 ```
 
-The repository root is only the current-runtime selector.
+The repository root is only the current application-entry selector.
 
 ```text
 repository root
 -> context-entry.json
--> current immutable runtime
+-> current immutable bootstrap entrypoint
 -> Genshin Context App
 ```
 
-`context-entry.json` identifies one immutable runtime tree. After that tree is selected, that immutable tree is the application runtime for the conversation.
+`context-entry.json` identifies one immutable application bootstrap entrypoint.
+
+After that entrypoint is selected, the selected bootstrap contract is the semantic owner of the application start state for the conversation.
 
 The ordinary user does not need to manage internal runtime identity.
 

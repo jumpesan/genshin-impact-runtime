@@ -1,6 +1,6 @@
 ---
 document_role: llm_entry_contract
-document_version: "9-experimental"
+document_version: "10-experimental"
 audience: conversational_llm
 application_id: genshin-context-app
 repository_role: runtime_distribution
@@ -84,7 +84,13 @@ iPhone / iPad + English conversation
   public_path = acquisition/ios/genshin_hoyolab_exporter_en.shortcut
 ```
 
-The Account acquisition flow uses the HoYoLAB Genshin game-record entrypoint declared by the runtime.
+The current HoYoLAB Genshin game-record entrypoint is:
+
+```text
+https://act.hoyolab.com/app/community-game-records-sea/index.html
+```
+
+These are user actions in the Account setup flow: the acquisition resource should be presented as an actionable download destination, and the HoYoLAB entrypoint should be presented as an actionable navigation destination.
 
 `context-manifest.json` is supporting metadata for exact identity, availability, integrity, entrypoint, produced output, and later capability routing. It does not need to become the subject of the user conversation.
 
@@ -99,7 +105,7 @@ ACCOUNT_SETUP_REQUIRED
 Give the user the applicable acquisition resource and enough concrete guidance to complete this flow:
 
 ```text
-obtain the Chrome/Chromium exporter ZIP
+open/download the Chrome/Chromium exporter ZIP
 -> extract it
 -> open the browser extension-management screen
 -> enable developer mode
@@ -124,14 +130,20 @@ next_state = PORTABLE_USER_CONTEXT_REQUIRED
 
 When exact chat attachment is available, the acquisition resource may be delivered as an attachment.
 
-When the selected runtime is an immutable full commit revision, the same resource may be presented from its commit-pinned public path.
+When the selected runtime is an immutable full commit revision, its user-facing direct-file fallback is the commit-pinned raw resource:
+
+```text
+https://raw.githubusercontent.com/jumpesan/genshin-impact-runtime/<selected_revision>/<public_path>
+```
+
+This direct-file location represents the artifact itself. A rendered repository file page represents repository browsing and is not the same user action as downloading the acquisition resource.
 
 ```text
 artifact presented != artifact executed
 fallback link != delivered attachment
 ```
 
-The user should experience either route as part of the Account setup flow, not as a repository-administration task.
+The user should experience either delivery route as part of the Account setup flow, not as a repository-administration task.
 
 ## 6. Supporting context
 

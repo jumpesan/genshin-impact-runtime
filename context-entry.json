@@ -1,16 +1,7 @@
 {
   "schema": "genshin-context-bootstrap/v0-experimental",
   "status": "EXPERIMENTAL_UNREVIEWED",
-  "mode": "context_native_bootstrap",
-  "repository": "jumpesan/genshin-impact-runtime",
-  "repository_url": "https://github.com/jumpesan/genshin-impact-runtime",
   "selector_role": "current_application_entrypoint_index_only",
-  "active_revision": "ae5142de78519aa753033bb6662287e0b16be4af",
   "active_application_entrypoint_url": "https://github.com/jumpesan/genshin-impact-runtime/blob/ae5142de78519aa753033bb6662287e0b16be4af/bootstrap/BOOTSTRAP.md",
-  "selection_result": {
-    "selected_runtime_role": "application_runtime",
-    "selected_entrypoint_role": "bootstrap_contract",
-    "state_after_selection": "APP_SESSION_STARTED"
-  },
-  "experiment_scope": "ROOT_SELECTOR_TO_SINGLE_IMMUTABLE_E7_BOOTSTRAP_OWNER"
+  "experiment_scope": "ROOT_SELECTOR_ONLY_TO_SINGLE_IMMUTABLE_E7_BOOTSTRAP_OWNER"
 }

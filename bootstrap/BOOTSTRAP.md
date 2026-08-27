@@ -91,6 +91,12 @@ iPhone / iPad + English conversation
   public_path = acquisition/ios/genshin_hoyolab_exporter_en.shortcut
 ```
 
+The current HoYoLAB Genshin game-record entrypoint is:
+
+```text
+https://act.hoyolab.com/app/community-game-records-sea/index.html
+```
+
 This map gives the application a stable user-facing resource choice. `context-manifest.json` supplies the exact backing metadata for the selected resource when needed.
 
 ## 4. Resource delivery
@@ -99,11 +105,13 @@ For the selected acquisition resource, use a user-actionable delivery route.
 
 If the chat can materialize and preserve the exact artifact, attachment is appropriate.
 
-For a full immutable commit revision, the public path can be bound directly to that revision:
+For a full immutable commit revision, bind the selected `public_path` to that revision as a direct file resource:
 
 ```text
 https://raw.githubusercontent.com/jumpesan/genshin-impact-runtime/<selected_revision>/<public_path>
 ```
+
+The user action represented by this location is downloading/opening the artifact bytes. A rendered repository file view is a different action and does not satisfy the acquisition-resource presentation.
 
 This is a direct public resource location, not evidence that the file was attached or executed.
 
@@ -114,7 +122,7 @@ For opaque `.shortcut` files, preserve exact-byte transport semantics; do not in
 For `desktop_chrome_chromium`, provide a concise procedure that lets a normal user complete the Account setup without discovering missing operands independently:
 
 ```text
-1. Obtain genshin_hoyolab_exporter_chrome_1.0.0.zip.
+1. Present the direct download for genshin_hoyolab_exporter_chrome_1.0.0.zip.
 2. Extract the ZIP to a normal folder and keep that folder in place.
 3. Open the Chromium extension-management screen.
    Chrome: chrome://extensions/
@@ -122,7 +130,8 @@ For `desktop_chrome_chromium`, provide a concise procedure that lets a normal us
 4. Enable Developer mode.
 5. Choose Load unpacked / 「パッケージ化されていない拡張機能を読み込む」.
 6. Select the extracted folder containing manifest.json.
-7. Open the HoYoLAB Genshin game-record entrypoint declared by the selected runtime.
+7. Present and open the HoYoLAB Genshin game-record entrypoint:
+   https://act.hoyolab.com/app/community-game-records-sea/index.html
 8. Sign in normally if needed and reload the page once.
 9. Open Genshin HoYoLAB Exporter.
 10. Refresh the exporter state and confirm ready = true.
@@ -130,7 +139,7 @@ For `desktop_chrome_chromium`, provide a concise procedure that lets a normal us
 12. Return genshin_portable_user_context_<timestamp>.json to this chat.
 ```
 
-The current runtime manifest declares the HoYoLAB entrypoint and exact artifact identity. Use those facts as backing context rather than turning the conversation into repository inspection.
+The current runtime manifest supplies exact artifact identity and confirms the same HoYoLAB entrypoint. Use those facts as backing context rather than turning the conversation into repository inspection.
 
 Never request raw cookies, authentication tokens, browser credentials, or equivalent secrets.
 

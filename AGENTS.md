@@ -66,20 +66,28 @@ filename    = genshin_hoyolab_exporter_chrome_1.0.0.zip
 public_path = acquisition/chrome/genshin_hoyolab_exporter_chrome_1.0.0.zip
 ```
 
-Use the selected runtime's backing metadata for exact identity and the HoYoLAB entrypoint when needed.
+Current HoYoLAB entrypoint:
+
+```text
+https://act.hoyolab.com/app/community-game-records-sea/index.html
+```
+
+Use the selected runtime's backing metadata for exact identity when needed.
 
 ## 4. Account setup conversation
 
 For PC / Chromium, continue as an application setup flow:
 
 ```text
-present the applicable exporter resource
+present an actionable direct-download destination for the exporter
 -> explain how to load it in the browser
--> direct the user to the runtime-declared HoYoLAB game-record entrypoint
+-> present the HoYoLAB game-record entrypoint as an actionable navigation destination
 -> explain how to reach ready = true
 -> explain how to save Portable JSON
 -> ask the user to return the generated Portable User Context
 ```
+
+For an immutable commit runtime, the natural direct-download destination is the commit-pinned raw resource formed from `selected_revision + public_path`.
 
 Keep internal revision, manifest, hash, and repository-topology detail in the background unless it is needed for provenance or the user asks for diagnostics.
 

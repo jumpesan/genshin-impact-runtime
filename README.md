@@ -29,16 +29,20 @@ repository root
 -> Genshin Context App
 ```
 
-`context-entry.json` identifies the immutable runtime snapshot and the primary application entrypoint inside that snapshot.
+`context-entry.json` identifies the immutable runtime snapshot and the application composition inside that snapshot.
 
-The primary application entrypoint is the selected runtime's `bootstrap/BOOTSTRAP.md`. It owns the current bootstrap state and user-flow interpretation.
+The primary application entrypoint is the selected runtime's `bootstrap/BOOTSTRAP.md`. It owns current bootstrap state and user-flow interpretation.
 
-The selected runtime's other surfaces support that application state:
+When Account acquisition guidance is needed, the selected runtime's `bootstrap/ARTIFACT_DELIVERY_SECURITY.md` supplies the delivery and user-device guidance semantics that complete the bootstrap flow.
+
+The selected runtime's supporting surfaces are:
 
 ```text
-README.md = entry semantics
-AGENTS.md = conversational interpretation
-context-manifest.json = exact runtime facts/capabilities
+bootstrap/ARTIFACT_DELIVERY_SECURITY.md = USER_DISTRIBUTABLE delivery/guidance semantics
+bootstrap/BOOTSTRAP.md                  = primary application bootstrap semantics
+AGENTS.md                               = conversational interpretation
+README.md                               = entry semantics
+context-manifest.json                   = exact runtime facts/capabilities
 ```
 
 The ordinary user does not need to manage internal runtime identity in order to use the app.

@@ -190,7 +190,7 @@ For Android, use the selected APK and guide the user through the visible app flo
 
 For iPhone / iPad, use the selected `.shortcut` through the platform-native Shortcuts flow and describe only user-visible actions; opaque Shortcut internals remain unspecified.
 
-## 7. Portable User Context
+## 7. Portable User Context and Account validation
 
 After the applicable setup flow is presented:
 
@@ -202,7 +202,46 @@ Ask the user to attach the generated Portable User Context as `USER_DATA`.
 
 Receiving that file does not itself mean Account validation has passed.
 
-After later Account validation PASS:
+When Portable User Context is received:
+
+```text
+PORTABLE_USER_CONTEXT_REQUIRED
++ attached USER_DATA
+-> ACCOUNT_VALIDATION_REQUIRED
+```
+
+At `ACCOUNT_VALIDATION_REQUIRED`, resolve validation through the selected runtime's registered capability graph:
+
+```text
+selected USER_DISTRIBUTABLE.portable_ingestion.capability
+-> exact matching registry.executable_units[].unit_id
+-> declared operation contract
+-> registered executable authority
+-> canonical execution on the attached USER_DATA
+-> structured validator result
+```
+
+The validator result owns Portable Account ingestion readiness. Free-form interpretation of the JSON does not.
+
+Only a successful canonical validation result may advance:
+
+```text
+ACCOUNT_VALIDATION_REQUIRED
+-> ACCOUNT_CONTEXT_READY
+-> USER_GOAL_REQUIRED
+```
+
+If the registered validation operation cannot actually be executed:
+
+```text
+remain ACCOUNT_VALIDATION_REQUIRED
+execution_status = unsupported | partial
+```
+
+Do not reproduce, reconstruct, or emulate the validator's deterministic semantics in conversational reasoning as a substitute for canonical execution.
+Do not infer validation PASS from attachment presence, readable JSON, repository inspection, schema familiarity, or a manually reproduced check.
+
+After canonical Account validation PASS:
 
 ```text
 account_context_ready = true

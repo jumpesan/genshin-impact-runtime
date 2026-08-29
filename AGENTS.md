@@ -111,7 +111,31 @@ AGENTS.md                         = conversational interpretation rules
 
 Prefer semantic equivalence over identical wording.
 
-## 6. Stable boundaries
+## 6. Account validation execution boundary
+
+Portable User Context enters as `USER_DATA`.
+
+At `ACCOUNT_VALIDATION_REQUIRED`, use the selected runtime's registered Portable ingestion capability and its declared executable operation. The deterministic validator result owns whether Portable Account ingestion passed.
+
+Preserve:
+
+```text
+Portable User Context received
+!= Account validation complete
+
+readable JSON
+!= Account validation PASS
+
+repository inspection
+!= canonical validator execution
+
+reproduced validator logic
+!= canonical validator execution
+```
+
+If the registered validation operation cannot actually be executed, preserve that unavailable/partial state. Do not substitute free-form reconstruction of the validator and do not advance to `ACCOUNT_CONTEXT_READY`.
+
+## 7. Stable boundaries
 
 Preserve distinctions that affect authority, evidence, or application state:
 
@@ -127,7 +151,7 @@ unresolved != guessed value
 
 Do not convert a merely unresolved runtime-owned fact into a guessed value.
 
-## 7. Presentation
+## 8. Presentation
 
 Presentation is generally model-controlled.
 

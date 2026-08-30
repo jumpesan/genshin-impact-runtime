@@ -190,7 +190,7 @@ For Android, use the selected APK and guide the user through the visible app flo
 
 For iPhone / iPad, use the selected `.shortcut` through the platform-native Shortcuts flow and describe only user-visible actions; opaque Shortcut internals remain unspecified.
 
-## 7. Portable User Context and Account validation
+## 7. Submission bundle and Account validation
 
 After the applicable setup flow is presented:
 
@@ -198,33 +198,49 @@ After the applicable setup flow is presented:
 next_state = PORTABLE_USER_CONTEXT_REQUIRED
 ```
 
-Ask the user to attach the generated Portable User Context as `USER_DATA`.
+The preferred local-execution input is one generated Genshin Context submission bundle.
 
-Receiving that file does not itself mean Account validation has passed.
+```text
+GENSHIN_CONTEXT_SUBMISSION_BUNDLE
+  submission-manifest.json
+  .user-data/portable_context.json
+  .execution/account_context_ingestion.execution-capsule.json
+```
 
-When Portable User Context is received:
+Receiving the bundle does not itself mean Account validation has passed.
+
+When a submission bundle is received:
 
 ```text
 PORTABLE_USER_CONTEXT_REQUIRED
-+ attached USER_DATA
++ attached submission bundle
 -> ACCOUNT_VALIDATION_REQUIRED
 ```
 
-At `ACCOUNT_VALIDATION_REQUIRED`, use the selected Portable ingestion's machine-readable execution descriptor:
+At `ACCOUNT_VALIDATION_REQUIRED`, use the selected immutable Runtime as the authority anchor and the attachment plane only as transport:
 
 ```text
-selected USER_DISTRIBUTABLE.portable_ingestion.execution_unit_descriptor_path
--> exact registered execution unit
--> descriptor-declared transport materialization
--> canonical execution on the attached USER_DATA
+bundle runtime_binding.revision
+== selected immutable Runtime revision
+
+bundle execution capsule bytes
+-> exact match against context-manifest.registry.execution_capsule_transport
+-> local capsule accepted as transport only
+-> capsule reconstructs exact registered executable authority
+-> canonical validator execution on bundled USER_DATA
 -> structured validator result
 ```
 
-The execution descriptor is the direct handoff for this state. Do not replace it with free-form reconstruction of validation semantics.
+Required bundle semantics are defined by:
 
-Before canonical validation PASS, Portable User Context remains opaque application `USER_DATA` bytes. Do not derive Account/domain facts from direct pre-validation payload inspection.
+```text
+contracts/application/SUBMISSION_BUNDLE.md
+contracts/application/submission-bundle-v0.1.schema.json
+```
 
-The validator result owns Portable Account ingestion readiness.
+Before canonical validation PASS, bundled Portable User Context remains opaque application `USER_DATA` bytes. Bundle processing may verify path, byte size and SHA-256 but must not derive Account/domain facts from the payload.
+
+Capsule attachment presence does not create executable authority. A capsule is eligible only when its exact bytes match the selected Runtime's registered `EXECUTION_TRANSPORT_CAPSULE` identity and the reconstructed entrypoint matches registered `EXECUTABLE_AUTHORITY` identity.
 
 Only a successful canonical validation result may advance:
 
@@ -234,15 +250,16 @@ ACCOUNT_VALIDATION_REQUIRED
 -> USER_GOAL_REQUIRED
 ```
 
-If the registered validation operation cannot actually be executed:
+If bundle validation, capsule authority matching, materialization, or canonical execution cannot complete:
 
 ```text
 remain ACCOUNT_VALIDATION_REQUIRED
-execution_status = unsupported | partial
+execution_status = unsupported | partial | invalid
 ```
 
-Do not reproduce, reconstruct, or emulate the validator's deterministic semantics in conversational reasoning as a substitute for canonical execution.
-Do not infer validation PASS from attachment presence, readable JSON, repository inspection, schema familiarity, or a manually reproduced check.
+Do not reproduce, reconstruct, or emulate validator semantics in conversational reasoning as a substitute for canonical execution.
+
+Legacy direct Portable USER_DATA plus separately attached capsule remains an experimental diagnostic surface only; it is not the intended ordinary-user UX.
 
 After canonical Account validation PASS:
 

@@ -39,6 +39,23 @@ Reject any missing, duplicate, mismatched, unregistered, or non-available bindin
 
 The selected immutable Runtime revision owns all `SELECTED_RUNTIME_REVISION` bindings.
 
+## Transport representation modes
+
+The generic materializer may consume either of these descriptor-declared transport representations:
+
+```text
+LOCATED_GZIP_BASE64
+INLINE_DESCRIPTOR_PAYLOAD
+```
+
+Both carry compressed executable bytes only and remain `TRANSPORT_ONLY`.
+
+For `LOCATED_GZIP_BASE64`, retrieve the descriptor-declared immutable transport resource.
+
+For `INLINE_DESCRIPTOR_PAYLOAD`, use the exact base64 payload contained inside the immutable execution-unit descriptor itself. This mode exists for consumer surfaces where Web retrieval and sandbox filesystem execution are separate capabilities without a reliable cross-surface payload handoff.
+
+Neither mode changes executable authority. Authority is created only after compressed and final executable identities match the descriptor and Manifest registry.
+
 ## Materialization
 
 Create a new isolated root for every invocation.

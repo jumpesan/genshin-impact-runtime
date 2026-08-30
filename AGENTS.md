@@ -115,7 +115,19 @@ Prefer semantic equivalence over identical wording.
 
 Portable User Context enters as `USER_DATA`.
 
-At `ACCOUNT_VALIDATION_REQUIRED`, use the selected runtime's registered Portable ingestion capability and its declared executable operation. The deterministic validator result owns whether Portable Account ingestion passed.
+At `ACCOUNT_VALIDATION_REQUIRED`, use the selected runtime's registered Portable ingestion capability and its declared executable operation.
+
+For Manifest-v2 materialized executable authority, follow the registered trusted contract:
+
+```text
+contracts/application/materialized-executable-execution-v0.1.md
+```
+
+A generic Python sandbox can satisfy this boundary when it can retrieve the descriptor-declared transport, verify the declared identities, materialize the exact registered bytes, and execute them under the operation contract.
+
+Until canonical validation PASS, treat Portable USER_DATA as opaque application input rather than a source of domain facts.
+
+The deterministic validator result owns whether Portable Account ingestion passed.
 
 Preserve:
 

@@ -56,6 +56,25 @@ For `INLINE_DESCRIPTOR_PAYLOAD`, use the exact base64 payload contained inside t
 
 Neither mode changes executable authority. Authority is created only after compressed and final executable identities match the descriptor and Manifest registry.
 
+## Caller-context to sandbox relay
+
+Some conversational consumer surfaces expose repository/Web retrieval and Python execution as separate tools, while the Python sandbox itself has no network access.
+
+For an immutable execution descriptor that already contains an inline transport scalar, the caller may relay that exact scalar value into the sandbox invocation as data:
+
+```text
+resolved immutable descriptor in caller context
+-> exact payload_base64 scalar
+-> sandbox invocation literal/data argument
+-> identity-verified materialization
+```
+
+The sandbox must not re-fetch the descriptor or transport over the network when this relay mode is selected.
+
+The relay itself has no executable authority. It is a transport copy only. Any corruption, truncation, or model transcription error must fail closed at the declared encoded-length, compressed-identity, or final-executable-identity checks.
+
+This bridge is generic execution orchestration and does not authorize semantic reconstruction of Domain code.
+
 ## Materialization
 
 Create a new isolated root for every invocation.

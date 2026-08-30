@@ -113,33 +113,39 @@ Prefer semantic equivalence over identical wording.
 
 ## 6. Account validation execution boundary
 
-Portable User Context enters as `USER_DATA`.
+The ordinary-user Account validation input is one local submission bundle.
 
-At `ACCOUNT_VALIDATION_REQUIRED`, resolve the selected Portable ingestion's `execution_unit_descriptor_path` and use that machine-readable descriptor as the direct execution handoff.
+At `ACCOUNT_VALIDATION_REQUIRED`:
 
-The descriptor owns transport resolution, exact executable identity, USER_DATA byte binding, runtime profile, invocation, and structured result parsing.
+```text
+submission bundle
+-> verify bundle manifest structure
+-> require runtime_binding.revision == selected immutable Runtime
+-> verify bundled capsule exact identity against registry.execution_capsule_transport
+-> extract bundled USER_DATA and capsule locally
+-> execute exact capsule materialization recipe
+-> verify final registered executable identity
+-> consume deterministic validator structured result
+```
 
-Until canonical validation PASS, treat Portable USER_DATA as opaque application input rather than a source of domain facts.
-
-The deterministic validator result owns whether Portable Account ingestion passed.
+The selected Runtime registry is the authority anchor. The bundle and capsule are transport.
 
 Preserve:
 
 ```text
-Portable User Context received
-!= Account validation complete
-
-readable JSON
-!= Account validation PASS
-
-repository inspection
-!= canonical validator execution
-
-reproduced validator logic
-!= canonical validator execution
+bundle attached != Account validation complete
+capsule attached != executable authority
+capsule internal self-consistency != Runtime authorization
+readable USER_DATA != Account validation PASS
+repository inspection != canonical validator execution
+reproduced validator logic != canonical validator execution
 ```
 
-If the registered validation operation cannot actually be executed, preserve that unavailable/partial state. Do not substitute free-form reconstruction of the validator and do not advance to `ACCOUNT_CONTEXT_READY`.
+Until canonical validation PASS, treat bundled Portable USER_DATA as opaque application input rather than a source of domain facts.
+
+If bundle identity matching or canonical execution cannot complete, preserve unavailable/partial/invalid state and do not advance to `ACCOUNT_CONTEXT_READY`.
+
+Legacy direct USER_DATA + separate capsule is diagnostic-only.
 
 ## 7. Stable boundaries
 

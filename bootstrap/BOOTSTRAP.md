@@ -217,9 +217,20 @@ selected USER_DISTRIBUTABLE.portable_ingestion.capability
 -> exact matching registry.executable_units[].unit_id
 -> declared operation contract
 -> registered executable authority
+-> trusted materialization/execution contract
 -> canonical execution on the attached USER_DATA
 -> structured validator result
 ```
+
+For registered Manifest-v2 executable authority, use:
+
+```text
+contracts/application/materialized-executable-execution-v0.1.md
+```
+
+A generic Python-capable sandbox plus read access to the descriptor-declared materialization transport is sufficient execution capability. A bespoke product-specific validator tool is not required.
+
+Before canonical validation PASS, pass the attached Portable User Context to the operation as opaque `USER_DATA` bytes. Do not derive Account/domain facts from direct pre-validation payload inspection.
 
 The validator result owns Portable Account ingestion readiness. Free-form interpretation of the JSON does not.
 

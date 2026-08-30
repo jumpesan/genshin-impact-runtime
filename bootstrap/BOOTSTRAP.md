@@ -210,29 +210,21 @@ PORTABLE_USER_CONTEXT_REQUIRED
 -> ACCOUNT_VALIDATION_REQUIRED
 ```
 
-At `ACCOUNT_VALIDATION_REQUIRED`, resolve validation through the selected runtime's registered capability graph:
+At `ACCOUNT_VALIDATION_REQUIRED`, use the selected Portable ingestion's machine-readable execution descriptor:
 
 ```text
-selected USER_DISTRIBUTABLE.portable_ingestion.capability
--> exact matching registry.executable_units[].unit_id
--> declared operation contract
--> registered executable authority
--> trusted materialization/execution contract
+selected USER_DISTRIBUTABLE.portable_ingestion.execution_unit_descriptor_path
+-> exact registered execution unit
+-> descriptor-declared transport materialization
 -> canonical execution on the attached USER_DATA
 -> structured validator result
 ```
 
-For registered Manifest-v2 executable authority, use:
+The execution descriptor is the direct handoff for this state. Do not replace it with free-form reconstruction of validation semantics.
 
-```text
-contracts/application/materialized-executable-execution-v0.1.md
-```
+Before canonical validation PASS, Portable User Context remains opaque application `USER_DATA` bytes. Do not derive Account/domain facts from direct pre-validation payload inspection.
 
-A generic Python-capable sandbox plus read access to the descriptor-declared materialization transport is sufficient execution capability. A bespoke product-specific validator tool is not required.
-
-Before canonical validation PASS, pass the attached Portable User Context to the operation as opaque `USER_DATA` bytes. Do not derive Account/domain facts from direct pre-validation payload inspection.
-
-The validator result owns Portable Account ingestion readiness. Free-form interpretation of the JSON does not.
+The validator result owns Portable Account ingestion readiness.
 
 Only a successful canonical validation result may advance:
 

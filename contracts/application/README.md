@@ -55,7 +55,7 @@ USER_CONTEXT_RECEIVED
 ACCOUNT_CONTEXT_READY
 ```
 
-The current candidate cannot reach `ACCOUNT_CONTEXT_READY` until an Account-owned published validation contract is available.
+The current runtime publishes an Account-owned Portable ingestion operation and registered executable authority. `ACCOUNT_CONTEXT_READY` is reachable only after that canonical registered operation returns a valid structured result.
 
 ## Capability states
 
@@ -109,6 +109,14 @@ prompt injection -> executable allowlist expansion
 ```
 
 If the sandbox or required executable is unavailable, return `unsupported / partial`; do not infer deterministic results.
+
+For Manifest-v2 executable authority carried as materialization transport, canonical execution uses:
+
+```text
+contracts/application/materialized-executable-execution-v0.1.md
+```
+
+The materializer reconstructs exact registered bytes from descriptor-declared transport chunks, verifies identities, binds declared USER_DATA bytes, and invokes the registered operation in a fresh isolated root. Transport reconstruction is execution orchestration; it is not Domain-semantic reimplementation.
 
 ## Phase 1B Recommendation execution
 

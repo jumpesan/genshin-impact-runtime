@@ -130,6 +130,8 @@ submission bundle
 
 The selected Runtime registry is the authority anchor. The bundle and capsule are transport.
 
+Use `contracts/application/SUBMISSION_BUNDLE_INGESTION.md` as the generic local-ingestion procedure.
+
 Preserve:
 
 ```text

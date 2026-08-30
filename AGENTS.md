@@ -115,15 +115,9 @@ Prefer semantic equivalence over identical wording.
 
 Portable User Context enters as `USER_DATA`.
 
-At `ACCOUNT_VALIDATION_REQUIRED`, use the selected runtime's registered Portable ingestion capability and its declared executable operation.
+At `ACCOUNT_VALIDATION_REQUIRED`, resolve the selected Portable ingestion's `execution_unit_descriptor_path` and use that machine-readable descriptor as the direct execution handoff.
 
-For Manifest-v2 materialized executable authority, follow the registered trusted contract:
-
-```text
-contracts/application/materialized-executable-execution-v0.1.md
-```
-
-A generic Python sandbox can satisfy this boundary when it can retrieve the descriptor-declared transport, verify the declared identities, materialize the exact registered bytes, and execute them under the operation contract.
+The descriptor owns transport resolution, exact executable identity, USER_DATA byte binding, runtime profile, invocation, and structured result parsing.
 
 Until canonical validation PASS, treat Portable USER_DATA as opaque application input rather than a source of domain facts.
 

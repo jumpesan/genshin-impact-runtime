@@ -236,6 +236,7 @@ Required bundle semantics are defined by:
 ```text
 contracts/application/SUBMISSION_BUNDLE.md
 contracts/application/submission-bundle-v0.1.schema.json
+contracts/application/SUBMISSION_BUNDLE_INGESTION.md
 ```
 
 Before canonical validation PASS, bundled Portable User Context remains opaque application `USER_DATA` bytes. Bundle processing may verify path, byte size and SHA-256 but must not derive Account/domain facts from the payload.

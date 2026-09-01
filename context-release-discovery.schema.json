@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jumpesan/genshin-impact-runtime/context-release-discovery.schema.json",
+  "title": "Genshin Context App Release Discovery v0.2 — bounded A1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema_version",
+    "application_id",
+    "descriptor_role",
+    "governance",
+    "release_candidate",
+    "failure_policy"
+  ],
+  "properties": {
+    "schema": {
+      "const": "genshin-context-release-discovery"
+    },
+    "schema_version": {
+      "const": "0.2"
+    },
+    "application_id": {
+      "const": "genshin-context-app"
+    },
+    "descriptor_role": {
+      "const": "release_candidate_nomination_authority"
+    },
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_repository",
+        "source_branch",
+        "source_path",
+        "source_state_role",
+        "mutation_policy",
+        "arbitrary_copy_governing"
+      ],
+      "properties": {
+        "source_repository": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "full_name",
+            "repository_id"
+          ],
+          "properties": {
+            "full_name": {
+              "const": "jumpesan/genshin-impact-runtime"
+            },
+            "repository_id": {
+              "const": "1336166066"
+            }
+          }
+        },
+        "source_branch": {
+          "const": "main"
+        },
+        "source_path": {
+          "const": "context-entry.json"
+        },
+        "source_state_role": {
+          "const": "project_governed_current_nomination"
+        },
+        "mutation_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner_role",
+            "independent_review_required",
+            "architecture_consume_required",
+            "bounded_apply_authorization_required"
+          ],
+          "properties": {
+            "owner_role": {
+              "const": "architecture_release_governance"
+            },
+            "independent_review_required": {
+              "const": true
+            },
+            "architecture_consume_required": {
+              "const": true
+            },
+            "bounded_apply_authorization_required": {
+              "const": true
+            }
+          }
+        },
+        "arbitrary_copy_governing": {
+          "const": false
+        }
+      }
+    },
+    "release_candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "tag",
+        "semver",
+        "release_class",
+        "channel",
+        "prerelease",
+        "required_immutable",
+        "required_attestation",
+        "authority_asset_name",
+        "review_decision_asset_name",
+        "authority_schema",
+        "review_decision_schema"
+      ],
+      "properties": {
+        "repository": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "full_name",
+            "repository_id"
+          ],
+          "properties": {
+            "full_name": {
+              "const": "jumpesan/genshin-impact-runtime"
+            },
+            "repository_id": {
+              "const": "1336166066"
+            }
+          }
+        },
+        "tag": {
+          "const": "v0.1.0-alpha.1"
+        },
+        "semver": {
+          "const": "0.1.0-alpha.1"
+        },
+        "release_class": {
+          "const": "experiment"
+        },
+        "channel": {
+          "const": "context-app-authority-a1-experiment"
+        },
+        "prerelease": {
+          "const": true
+        },
+        "required_immutable": {
+          "const": true
+        },
+        "required_attestation": {
+          "const": true
+        },
+        "authority_asset_name": {
+          "const": "context-app-release-authority.json"
+        },
+        "review_decision_asset_name": {
+          "const": "context-app-release-review-decision.json"
+        },
+        "authority_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema",
+            "schema_version"
+          ],
+          "properties": {
+            "schema": {
+              "const": "genshin-context-app-release-authority"
+            },
+            "schema_version": {
+              "const": "0.3"
+            }
+          }
+        },
+        "review_decision_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema",
+            "schema_version"
+          ],
+          "properties": {
+            "schema": {
+              "const": "genshin-context-app-release-review-decision"
+            },
+            "schema_version": {
+              "const": "0.1"
+            }
+          }
+        }
+      }
+    },
+    "failure_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "missing_candidate",
+        "invalid_candidate",
+        "user_model_override",
+        "latest_newest_fallback",
+        "alternate_candidate_fallback"
+      ],
+      "properties": {
+        "missing_candidate": {
+          "const": "AUTHORITY_UNAVAILABLE"
+        },
+        "invalid_candidate": {
+          "const": "AUTHORITY_UNAVAILABLE"
+        },
+        "user_model_override": {
+          "const": false
+        },
+        "latest_newest_fallback": {
+          "const": false
+        },
+        "alternate_candidate_fallback": {
+          "const": false
+        }
+      }
+    }
+  }
+}

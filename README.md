@@ -3,12 +3,13 @@ document_role: llm_entry_contract
 audience: conversational_llm
 application_id: genshin-context-app
 repository_role: runtime_distribution
+authority_model: simplified_release_nomination_v0_1
 current_application_state_in_this_document: forbidden
 ---
 
 # Genshin Context App — Entry Contract
 
-> **EXPERIMENTAL / A1 D1 BOUNDED PROJECTION**
+> **EXPERIMENTAL / SIMPLIFIED RELEASE NOMINATION**
 
 Genshin Context App is a chat-native application.
 
@@ -19,63 +20,138 @@ Canonical start input:
 https://github.com/jumpesan/genshin-impact-runtime
 ```
 
-The repository URL in this start input is the application's stable distribution locator. It is not, by itself, Runtime authority and it is not a request to explain the repository.
+The repository URL is the application's stable distribution locator. It is caller/session data and is not Runtime authority, a release selector supplied by the user, or a request to explain the repository.
 
-When explicit Genshin Context App start intent and this distribution locator are present:
-
-```text
-invocation_requested = true
-distribution_entry_selected = true
-```
-
-A safe conversational application session may begin, but repository or Runtime content is not yet verified distribution merely because the session exists.
-
-Before interpreting the current release nomination, read and apply the public validation contract and schema at these fixed root paths:
+When explicit start intent and this stable locator are present:
 
 ```text
-context-release-discovery-validation.md
-context-release-discovery.schema.json
+INVOCATION_CONFIRMED
+-> APP_SESSION_STARTED
 ```
 
-Then validate the raw governing descriptor at:
+A safe conversational session may begin before stronger distribution or execution capabilities are verified.
+
+## Current release nomination
+
+Read the current project-controlled nomination only from:
 
 ```text
-context-entry.json
+canonical repository = jumpesan/genshin-impact-runtime
+repository_id = 1336166066
+current root path = context-entry.json
 ```
 
-The validation contract/schema are not selected by `context-entry.json`; the descriptor cannot override their path, version, or rules.
-
-The descriptor has exactly one authority role:
+`context-entry.json` has exactly one authority role:
 
 ```text
 RELEASE_CANDIDATE_NOMINATION_AUTHORITY
 ```
 
-It nominates which GitHub Release must be validated. It does not by itself prove that the Release or Runtime is accepted.
+It nominates one GitHub Release to validate. It does not itself prove release immutability, Runtime acceptance, review completion, or executable eligibility.
 
-Required progression:
-
-```text
-repository root
--> fixed public D1 validation contract/schema
--> validated governing context-entry.json
--> exact nominated GitHub Release
--> Immutable Release + Release attestation + exact authority/review assets
--> exact reviewed Runtime acceptance
--> authority-selected Runtime README.md / bootstrap/BOOTSTRAP.md
--> trusted application semantics and verified capabilities
-```
-
-The ordinary user does not provide or choose the Runtime tag, commit SHA, digest, authority asset, review identity, validation contract, or schema.
-
-If the validation contract/schema, descriptor, nominated release, or downstream authority chain cannot be resolved, do not fall back to `main`, `latest`, newest-by-time, another tag, model memory, or a user-supplied identity. Verified Runtime capabilities remain unavailable.
-
-The mutable repository root owns only:
+The controlling nomination object is intentionally small. Accept only an unambiguous object with these exact controlling fields:
 
 ```text
-application invocation classification
-current release-candidate nomination
-nomination-validation semantics
+schema
+schema_version
+application_id
+descriptor_role
+canonical_repository.full_name
+canonical_repository.repository_id
+release_candidate.tag
+release_candidate.release_class
+release_candidate.immutable_required
+failure_policy.allow_caller_override
+failure_policy.allow_latest_newest_fallback
+failure_policy.allow_alternate_candidate_fallback
 ```
 
-The accepted exact Runtime owns subsequent trusted application state, Account bootstrap semantics, delivery semantics, and conversational progression.
+Required constants for this bounded experiment:
+
+```text
+schema = genshin-context-release-nomination
+schema_version = 0.1
+application_id = genshin-context-app
+descriptor_role = release_candidate_nomination_authority
+
+canonical_repository.full_name = jumpesan/genshin-impact-runtime
+canonical_repository.repository_id = 1336166066
+
+release_candidate.tag = v0.1.0-alpha.1
+release_candidate.release_class = prerelease
+release_candidate.immutable_required = true
+
+failure_policy.allow_caller_override = false
+failure_policy.allow_latest_newest_fallback = false
+failure_policy.allow_alternate_candidate_fallback = false
+```
+
+`release_class = prerelease` maps to GitHub Release metadata:
+
+```text
+draft = false
+prerelease = true
+```
+
+If a controlling field is missing, unknown, conflicting, ambiguous, or requires model repair/reconstruction, release nomination is unavailable.
+
+## Publication validation
+
+Resolve only the exact nominated release in the exact canonical repository.
+
+The minimum ordinary-Web publication evidence is source-bound GitHub-hosted metadata establishing all of:
+
+```text
+repository full_name = jumpesan/genshin-impact-runtime
+repository_id = 1336166066
+release tag_name = v0.1.0-alpha.1
+draft = false
+prerelease = true
+immutable = true
+refs/tags/v0.1.0-alpha.1 resolves directly to exactly one full commit SHA
+```
+
+Release-note prose, release asset contents, search snippets, model memory, and user-supplied SHA/tag/digest values are not publication authority.
+
+GitHub Release attestation and `gh release verify` remain strong release-validation evidence, but ordinary chat startup does not require attestation bytes to be transported or parsed as a separate authority payload.
+
+After all nomination and publication checks pass, the exact tag-target full commit is the accepted Runtime identity for this bounded release model.
+
+## Runtime semantic transition
+
+Only after exact Runtime acceptance, retrieve trusted application semantics from that exact immutable Runtime commit:
+
+```text
+README.md
+bootstrap/BOOTSTRAP.md
+context-manifest.json
+```
+
+These files must actually be retrieved from the accepted immutable Runtime ref/path. If unavailable, do not substitute model memory, search snippets, mutable-root prose, release notes, or reconstructed content.
+
+The accepted Runtime then owns subsequent Account bootstrap semantics, delivery semantics, application behavior, and executable discovery.
+
+## Historical non-controlling material
+
+The existing immutable release may still contain historical experiment assets:
+
+```text
+context-app-release-authority.json
+context-app-release-review-decision.json
+```
+
+They are not inputs to this simplified ordinary-Web startup chain.
+
+Historical A/D/R designs, prior D1 validation/schema machinery, and trusted-host/DTA designs may remain in Git history or Development records. Their presence does not reactivate them.
+
+## Failure policy
+
+If nomination, publication evidence, exact tag resolution, or accepted Runtime semantic retrieval cannot be established:
+
+```text
+AUTHORITY_UNAVAILABLE
+```
+
+Do not fall back to `main`, default branch, GitHub Latest, newest-by-time, another release, another repository, model memory, or caller/model supplied authority operands.
+
+Safe conversational `APP_SESSION_STARTED` may remain, but verified Runtime capabilities do not become available.

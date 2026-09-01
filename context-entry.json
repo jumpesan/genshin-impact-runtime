@@ -1,52 +1,20 @@
 {
-  "schema": "genshin-context-release-discovery",
-  "schema_version": "0.2",
+  "schema": "genshin-context-release-nomination",
+  "schema_version": "0.1",
   "application_id": "genshin-context-app",
   "descriptor_role": "release_candidate_nomination_authority",
-  "governance": {
-    "source_repository": {
-      "full_name": "jumpesan/genshin-impact-runtime",
-      "repository_id": "1336166066"
-    },
-    "source_branch": "main",
-    "source_path": "context-entry.json",
-    "source_state_role": "project_governed_current_nomination",
-    "mutation_policy": {
-      "owner_role": "architecture_release_governance",
-      "independent_review_required": true,
-      "architecture_consume_required": true,
-      "bounded_apply_authorization_required": true
-    },
-    "arbitrary_copy_governing": false
+  "canonical_repository": {
+    "full_name": "jumpesan/genshin-impact-runtime",
+    "repository_id": 1336166066
   },
   "release_candidate": {
-    "repository": {
-      "full_name": "jumpesan/genshin-impact-runtime",
-      "repository_id": "1336166066"
-    },
     "tag": "v0.1.0-alpha.1",
-    "semver": "0.1.0-alpha.1",
-    "release_class": "experiment",
-    "channel": "context-app-authority-a1-experiment",
-    "prerelease": true,
-    "required_immutable": true,
-    "required_attestation": true,
-    "authority_asset_name": "context-app-release-authority.json",
-    "review_decision_asset_name": "context-app-release-review-decision.json",
-    "authority_schema": {
-      "schema": "genshin-context-app-release-authority",
-      "schema_version": "0.3"
-    },
-    "review_decision_schema": {
-      "schema": "genshin-context-app-release-review-decision",
-      "schema_version": "0.1"
-    }
+    "release_class": "prerelease",
+    "immutable_required": true
   },
   "failure_policy": {
-    "missing_candidate": "AUTHORITY_UNAVAILABLE",
-    "invalid_candidate": "AUTHORITY_UNAVAILABLE",
-    "user_model_override": false,
-    "latest_newest_fallback": false,
-    "alternate_candidate_fallback": false
+    "allow_caller_override": false,
+    "allow_latest_newest_fallback": false,
+    "allow_alternate_candidate_fallback": false
   }
 }

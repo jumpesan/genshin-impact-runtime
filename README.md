@@ -3,13 +3,13 @@ document_role: llm_entry_contract
 audience: conversational_llm
 application_id: genshin-context-app
 repository_role: runtime_distribution
-authority_model: simplified_release_nomination_v0_1
+authority_model: simplified_release_nomination_v0_2
 current_application_state_in_this_document: forbidden
 ---
 
 # Genshin Context App — Entry Contract
 
-> **EXPERIMENTAL / SIMPLIFIED RELEASE NOMINATION**
+> **EXPERIMENTAL / SIMPLIFIED RELEASE NOMINATION v0.2**
 
 Genshin Context App is a chat-native application.
 
@@ -37,7 +37,6 @@ Read the current project-controlled nomination only from:
 
 ```text
 canonical repository = jumpesan/genshin-impact-runtime
-repository_id = 1336166066
 current root path = context-entry.json
 ```
 
@@ -57,7 +56,6 @@ schema_version
 application_id
 descriptor_role
 canonical_repository.full_name
-canonical_repository.repository_id
 release_candidate.tag
 release_candidate.release_class
 release_candidate.immutable_required
@@ -70,12 +68,11 @@ Required constants for this bounded experiment:
 
 ```text
 schema = genshin-context-release-nomination
-schema_version = 0.1
+schema_version = 0.2
 application_id = genshin-context-app
 descriptor_role = release_candidate_nomination_authority
 
 canonical_repository.full_name = jumpesan/genshin-impact-runtime
-canonical_repository.repository_id = 1336166066
 
 release_candidate.tag = v0.1.0-alpha.1
 release_candidate.release_class = prerelease
@@ -97,18 +94,32 @@ If a controlling field is missing, unknown, conflicting, ambiguous, or requires 
 
 ## Publication validation
 
-Resolve only the exact nominated release in the exact canonical repository.
+Resolve only the exact nominated release in the exact canonical GitHub repository.
 
 The minimum ordinary-Web publication evidence is source-bound GitHub-hosted metadata establishing all of:
 
 ```text
-repository full_name = jumpesan/genshin-impact-runtime
-repository_id = 1336166066
-release tag_name = v0.1.0-alpha.1
-draft = false
-prerelease = true
-immutable = true
-refs/tags/v0.1.0-alpha.1 resolves directly to exactly one full commit SHA
+canonical repository resource belongs to:
+  full_name = jumpesan/genshin-impact-runtime
+
+release under that same canonical repository:
+  tag_name = v0.1.0-alpha.1
+  draft = false
+  prerelease = true
+  immutable = true
+
+tag under that same canonical repository:
+  refs/tags/v0.1.0-alpha.1
+  resolves directly to exactly one full commit SHA
+```
+
+A numeric GitHub repository ID is not an ordinary-Web acceptance requirement in v0.2.
+
+Reason:
+
+```text
+the owned invariant is source-bound canonical repository identity,
+not transport of a specific GitHub internal numeric identifier.
 ```
 
 Release-note prose, release asset contents, search snippets, model memory, and user-supplied SHA/tag/digest values are not publication authority.
@@ -146,7 +157,7 @@ Historical A/D/R designs, prior D1 validation/schema machinery, and trusted-host
 
 ## Failure policy
 
-If nomination, publication evidence, exact tag resolution, or accepted Runtime semantic retrieval cannot be established:
+If nomination, source-bound canonical repository identity, publication evidence, exact tag resolution, or accepted Runtime semantic retrieval cannot be established:
 
 ```text
 AUTHORITY_UNAVAILABLE

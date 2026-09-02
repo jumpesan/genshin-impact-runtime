@@ -1,11 +1,10 @@
 {
   "schema": "genshin-context-release-nomination",
-  "schema_version": "0.1",
+  "schema_version": "0.2",
   "application_id": "genshin-context-app",
   "descriptor_role": "release_candidate_nomination_authority",
   "canonical_repository": {
-    "full_name": "jumpesan/genshin-impact-runtime",
-    "repository_id": 1336166066
+    "full_name": "jumpesan/genshin-impact-runtime"
   },
   "release_candidate": {
     "tag": "v0.1.0-alpha.1",
